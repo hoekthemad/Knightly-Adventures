@@ -21,6 +21,10 @@ switch ($_REQUEST['do']) {
         require 'src/ajax/actions/register.php';
         break;
     }
+    case "news": {
+        require 'src/ajax/actions/news.php';
+        break;
+    }
     default: {
         //default to false in case no action is found
         $output['status'] = false;
