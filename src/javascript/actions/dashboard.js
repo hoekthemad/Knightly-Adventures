@@ -6,7 +6,13 @@ const getNews = () => {
             console.log(res);
             result = JSON.parse(res);
             if (result['status'] == true) {
-                jQuery("#newsitem").text(result['message']);
+                jQuery("#newsitem").html(result['message']);
+                if (result['wbs'] == true) {
+                    if (jQuery("#wbs_menu").hasClass("disabled")) jQuery("#wbs_menu").removeClass("disabled");
+                }
+                else {
+                    if (!jQuery("#wbs_menu").hasClass("disabled")) jQuery("#wbs_menu").addClass("disabled");
+                }
             }
         }
     })

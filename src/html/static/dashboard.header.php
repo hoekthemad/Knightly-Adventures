@@ -25,7 +25,7 @@
         <script src="src/javascript/actions/dashboard.js"></script>
         <script>
             jQuery(document).ready(() => {
-                setInterval(getNews, 15000);
+                setInterval(getNews, 5000);
                 getNews();
             });
         </script>
@@ -110,7 +110,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Enemy</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">World Boss</a></li>
+                            <li><a class="dropdown-item disabled" id="wbs_menu" href="#">World Boss</a></li>
                         </ul>
                         </li>
                         <li class="nav-item">
