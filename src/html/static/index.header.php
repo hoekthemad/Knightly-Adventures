@@ -1,0 +1,3 @@
+<?php
+// In theory, not needed as index.php will just send from one place to another...
+?>
