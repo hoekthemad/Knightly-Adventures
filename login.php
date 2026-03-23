@@ -2,6 +2,7 @@
 require_once 'src/php/config.php';
 require_once 'src/utils/general.php';
 require_once 'src/utils/actions/login.php';
+checkValidSession();
 
 require_once 'src/html/static/login.header.php';
 
