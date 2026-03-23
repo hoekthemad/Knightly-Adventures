@@ -5,4 +5,5 @@ function checkValidSession() {
         header("Location: dashboard.php");
         exit;
     }
+    return true;
 }
