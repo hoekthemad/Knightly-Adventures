@@ -6,7 +6,7 @@ const getNews = () => {
             console.log(res);
             result = JSON.parse(res);
             if (result['status'] == true) {
-                jQuery("#newsitem").text = result['message'];
+                jQuery("#newsitem").text(result['message']);
             }
         }
     })
