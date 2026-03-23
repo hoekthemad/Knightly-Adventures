@@ -25,7 +25,7 @@ require_once 'src/utils/actions/login.php';
                 </div>
                 <button type="button" class="btn btn-primary" onclick="doLogin()">Submit</button>
             </form>
-            <p class="mt-3">Don't have an account? <a href="index.php?action=Register">Sign up here</a>.</p>
+            <p class="mt-3">Don't have an account? <a href="register.php">Sign up here</a>.</p>
         </div>
         <div class="col-sm-3"></div>
     </div>
