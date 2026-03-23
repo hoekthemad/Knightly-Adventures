@@ -26,6 +26,7 @@
         <script>
             jQuery(document).ready(() => {
                 setInterval(getNews, 15000);
+                getNews();
             });
         </script>
     </head>
