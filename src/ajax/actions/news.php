@@ -13,4 +13,4 @@ if (stristr($wbs, "spawned")) {
     $output['wbs'] = true;
 }
 $output['status'] = true;
-$output['message'] = $wbs . "<br>" . $newsItems[rand(0,2)];
+$output['message'] = $wbs . "<br>" . $newsItems[rand(0,count($newsItems)-1)];
