@@ -21,7 +21,13 @@
             alertify.defaults.theme.cancel = "ui black button";
             alertify.alert().setting('modal', true);
             alertify.confirm().setting('modal', true);
-        </script>   
+        </script>
+        <script src="src/javascript/actions/dashboard.js"></script>
+        <script>
+            jQuery(document).ready(() => {
+                setInterval(getNews, 15000);
+            });
+        </script>
     </head>
 
     <body class="container-fluid">
@@ -34,11 +40,89 @@
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
                 </div>
                 <div class="col-sm-3">
-                    <?php
-                    if (!empty($_SESSION['username'])) {
-                        echo "<h5>Welcome, {$_SESSION['username']}!</h5>";
-                    }
-                    ?>
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#"></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                <a class="nav-link" href="#">GOLD HERE (Maybe a link?)</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <div data-bs-toggle="modal" data-bs-target="#gemsModal">Gems</div>
+                                    <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Purchase Gems or Membership</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Add purchases here.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
+        </div>
+        <!-- Add notification center here. -->
+        <div class="alert alert-secondary" role="alert">
+        <?php
+        if (!empty($_SESSION['username'])) {
+            echo "<h5>Welcome, {$_SESSION['username']}!</h5>";
+        }
+        ?>
+        <div id="newsitem">
+        </div>
+        </div>
+        <!-- Add buttons for different things here. -->
+        <div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">.img?</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Village</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Fight
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Enemy</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">World Boss</a></li>
+                        </ul>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Heroes</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Items</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#">Chests</a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
