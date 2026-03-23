@@ -29,7 +29,7 @@ if ($uname && $email && $pword) {
         $salt = md5($uname.$email.strtotime(date("u")));
         $saltedPassword = $pword.$salt;
         $hash = password_hash($saltedPassword, PASSWORD_METHOD);
-        $stmt_insertUser = $connection->prepare("INSERT INTO `users` (`username`, `email`, `password`, `salt`) VALUES (?, ?, ?, ?)");
+        $stmt_insertUser = $connection->prepare("INSERT INTO `users` (`username`, `email`, `password`, `salt`, `status`) VALUES (?, ?, ?, ?, 'Active')");
         $stmt_insertUser->bind_param("ssss", $uname, $email, $hash, $salt);
         $stmt_insertUser->execute();
         $output['status'] = true;

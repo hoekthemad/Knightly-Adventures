@@ -20,3 +20,9 @@ function doLoginCheck() {
         exit;
     }
 }
+
+function doLogout() {
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}

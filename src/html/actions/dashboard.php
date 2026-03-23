@@ -1,0 +1,1 @@
+<button onclick="window.location.href='index.php?logout=true'">Logout</button>

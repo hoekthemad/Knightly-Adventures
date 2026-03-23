@@ -9,10 +9,10 @@
 
 class DbConnect {
     protected $dbinfo = [
-        'host' => 'localhost',
-        'user' => 'root',
+        'host' => '100.102.89.75',
+        'user' => 'Hoek',
         'password' => '',
-        'dbname' => 'example'
+        'dbname' => 'website'
     ];
     private static $dbConn;
     private static $instance;
