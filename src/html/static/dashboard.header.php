@@ -49,11 +49,11 @@
                             <div class="collapse navbar-collapse" id="navbarCurrency">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                <a class="nav-link"><span id="usergold">0</span> Gold</a>
+                                <a class="nav-link"><span id="usergold"></span> Gold</a>
                                 </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                <div data-bs-toggle="modal" data-bs-target="#gemsModal">0 Gems</div>
+                                <div data-bs-toggle="modal" data-bs-target="#gemsModal">? Gems</div>
                                     <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="gemModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
