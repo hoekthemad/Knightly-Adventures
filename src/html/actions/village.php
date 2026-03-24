@@ -13,7 +13,7 @@ $userVillageNextTownHall = getRulesVillageNextTownHall();
                     <h5 class="card-title">Town Hall</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Main Building</h6>
                     <p class="card-text">This building determines the max level for all other buildings.</p>
-                    <p class="card-text">Level: <?= $userVillage['TownHall'] ?></p>
+                    <p class="card-text">Level: <span id="townhalllevel"><?= $userVillage['TownHall'] ?></span></p>
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" href="#">Upgrade</a>
                     <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
                         <div class="modal-dialog">
@@ -25,13 +25,13 @@ $userVillageNextTownHall = getRulesVillageNextTownHall();
                                 <div class="modal-body">
                                     Cost to Upgrade:
                                     <span id="townhallcost">
-                                        0?
+                                        <?= $userVillageNextTownHall['BuildingCost']; ?>
                                     </span>
                                     Coins
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Upgrade</button>
+                                    <button type="button" class="btn btn-primary" onclick="upgradeBuilding('TownHall')">Upgrade</button>
                                 </div>
                             </div>
                         </div>

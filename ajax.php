@@ -18,6 +18,7 @@ switch ($_REQUEST['do']) {
     case "register": { require 'src/ajax/actions/register.php'; break; }
     case "news": { require 'src/ajax/actions/news.php'; break; }
     case "updateUser": { require 'src/ajax/actions/updateUser.php'; break; }
+    case "villageUpgrade": { require 'src/ajax/actions/villageUpgrade.php'; break; }
     default: {
         //default to false in case no action is found
     }
