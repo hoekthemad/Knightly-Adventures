@@ -12,4 +12,13 @@ require_once 'src/utils/actions/admin.php';
     <?php
     getUserList();
     ?>
+    <hr>
+    <?php
+    // Get the currently logged in user
+    $myUser = getMyUser();
+    // Draw the HTML elements, using <?= shorthand (this is the same as an echo/print)
+    ?>
+    UserID: <input class="form-control" value="<?= $myUser['uid'] ?>"><br>
+    Username: <input class="form-control" value="<?= $myUser['username'] ?>"><br>
+    Email: <input class="form-control" value="<?= $myUser['email'] ?>"><br>
 </div>

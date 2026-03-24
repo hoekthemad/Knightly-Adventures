@@ -1,5 +1,22 @@
 <?php
 
+function getMyUser() {
+    global $connection;
+    $getUsers = $connection->prepare(
+        "SELECT
+            users.uid, users.username, users.email, users.user_level,
+            user_account.CreationTimestamp, user_account.gold, user_account.diamonds, user_account.InAction, user_account.InActionTimestamp
+        FROM users
+        INNER JOIN user_account ON users.uid = user_account.UserID
+        WHERE users.uid = ?
+        "
+    );
+    $getUsers->bind_param("s", $_SESSION['uid']);
+    $getUsers->execute();
+    $result = $getUsers->get_result();
+    return $result->fetch_array();
+}
+
 function getUserList() {
     global $connection;
     $getUsers = $connection->prepare(
