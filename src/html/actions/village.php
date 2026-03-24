@@ -8,7 +8,6 @@
                     <h6 class="card-subtitle mb-2 text-muted">Main Building</h6>
                     <p class="card-text">This building determines the max level for all other buildings.</p>
                     <p class="card-text">Level: 1</p>
-                    <p class="card-text">Needed to Upgrade: 0 Gold</p>
                     <a href="#" class="card-link">Upgrade</a>
                 </div>
             </div>
@@ -57,7 +56,6 @@
                     <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                     <p class="card-text">This building determines the speed at which your heroes heal.</p>
                     <p class="card-text">Level: 0</p>
-                    <p class="card-text">Needed to Upgrade: 0 Gold</p>
                     <a href="#" class="card-link">Upgrade</a>
                 </div>
             </div>
@@ -69,7 +67,6 @@
                     <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                     <p class="card-text">...</p>
                     <p class="card-text">Level: 0</p>
-                    <p class="card-text">Needed to Upgrade: 0 Gold</p>
                     <a href="#" class="card-link">Upgrade</a>
                 </div>
             </div>
@@ -81,7 +78,6 @@
                     <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                     <p class="card-text">...</p>
                     <p class="card-text">Level: 0</p>
-                    <p class="card-text">Needed to Upgrade: 0 Gold</p>
                     <a href="#" class="card-link">Upgrade</a>
                 </div>
             </div>

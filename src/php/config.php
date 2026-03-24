@@ -24,4 +24,4 @@ try {
 
 const DEBUG_OUTPUT = true;
 const PASSWORD_METHOD = PASSWORD_BCRYPT;
-const MAX_LOGIN_ATTEMPTS = 3;
+const MAX_LOGIN_ATTEMPTS = 5;
