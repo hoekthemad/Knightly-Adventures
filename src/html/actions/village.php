@@ -39,7 +39,6 @@
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
                         <p class="card-text">Level: 0</p>
                         <p class="card-text">Bonus: 0%</p>
-                        <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
                             <div class="modal-dialog">
