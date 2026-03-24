@@ -37,7 +37,7 @@ $userCurrency = getUserCurrency();
         <div class="jumbotron jumbotron-fluid">
             <div class="row">
                 <div class="col-sm-3">
-                    <h1>Kightly Adventures v0.0.1</h1>
+                    <h1>Knightly Adventures v0.0.1</h1>
                 </div>
                 <div class="col-sm-6">
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
@@ -51,11 +51,11 @@ $userCurrency = getUserCurrency();
                             <div class="collapse navbar-collapse" id="navbarCurrency">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                <a class="nav-link"><?php $userCurrency['Gold'] ?> Gold</a>
+                                <a class="nav-link"><span id="usergold"><?= $userCurrency['Gold'] ?></span> Gold</a>
                                 </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                <div data-bs-toggle="modal" data-bs-target="#gemsModal"><?php $userCurrency['Diamonds'] ?> Gems</div>
+                                <div data-bs-toggle="modal" data-bs-target="#gemsModal"><span id="usergems"><?= $userCurrency['Diamonds'] ?></span> Gems</div>
                                     <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="gemModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
