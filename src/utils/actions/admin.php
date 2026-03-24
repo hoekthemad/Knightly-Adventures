@@ -1,22 +1,4 @@
 <?php
-
-function getMyUser() {
-    global $connection;
-    $getUsers = $connection->prepare(
-        "SELECT
-            users.uid, users.username, users.email, users.user_level,
-            user_account.CreationTimestamp, user_account.gold, user_account.diamonds, user_account.InAction, user_account.InActionTimestamp
-        FROM users
-        INNER JOIN user_account ON users.uid = user_account.UserID
-        WHERE users.uid = ?
-        "
-    );
-    $getUsers->bind_param("s", $_SESSION['uid']);
-    $getUsers->execute();
-    $result = $getUsers->get_result();
-    return $result->fetch_array();
-}
-
 function getUserList() {
     global $connection;
     $getUsers = $connection->prepare(
@@ -55,10 +37,10 @@ function getUserList() {
                     ?><th scope="row"><?= $row['uid']; ?></th><?php
                     ?><td><?= $row['username']; ?></td><?php
                     ?><td><?= $row['email']; ?></td><?php
-                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['user_level']; ?></td><?php
+                    ?><td><i id="<?= $row['uid']; ?>editlevel" class="bo bi-pencil-square" onclick="showEditField('<?= $row['uid']; ?>editlevel', '<?= $row['uid'] ?>userlevel')"></i> <div id="<?= $row['uid'] ?>userlevel"><?= $row['user_level']; ?></div></td><?php
                     ?><td><?= date("jS \of F Y h:i:s A", $row['CreationTimestamp']); ?></td><?php
-                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['gold']; ?></td><?php
-                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['diamonds']; ?></td><?php
+                    ?><td><i id="<?= $row['uid']; ?>editgold" class="bo bi-pencil-square"></i> <div id="<?= $row['uid'] ?>usergold"><?= $row['gold']; ?></div></td><?php
+                    ?><td><i id="<?= $row['uid']; ?>editdiamonds" class="bo bi-pencil-square"></i> <div id="<?= $row['uid'] ?>userdiamonds"><?= $row['diamonds']; ?></div></td><?php
                     ?><td>
                         <i class="bi bi-cursor-fill"></i> <a id="<?= $row['uid'] ?>inaction" onclick="toggleInAction(<?= $row['uid']; ?>, jQuery('#<?= $row['uid'] ?>inaction').text());"><?= $row['InAction'] == 0 ? "No" : "Yes"; ?></a>
                     </td><?php

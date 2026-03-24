@@ -1,13 +1,3 @@
-
-jQuery(document).ready(function(){
-    jQuery("#searchusers").on("keyup", function() {
-        var value = jQuery(this).val().toLowerCase();
-        jQuery("#usertable tbody tr").filter(function() {
-            jQuery(this).toggle(jQuery(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-});
-
 const toggleInAction = (uid, currentInAction) => {
     // Get new InAction
     newAction = currentInAction == "No" ? "Yes" : "No";
@@ -29,4 +19,11 @@ const toggleInAction = (uid, currentInAction) => {
             jQuery(`#${uid}inaction`).text(newAction);
         }
     })
+}
+
+const editIconClass = "bi-pencil-square";
+const saveIconClass = "bi-save2-fill";
+const showEditField = (iconField, editField) => {
+    jQuery(`#${iconField}`).removeClass(editIconClass).addClass(saveIconClass);
+    jQuery(`#${editField}`);
 }
