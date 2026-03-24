@@ -13,6 +13,18 @@
                     <a href="#" class="card-link">Upgrade</a>
                 </div>
             </div>
+            <br>
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Hospital</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
+                        <p class="card-text">This building determines the speed at which your heroes heal.</p>
+                        <p class="card-text">Level: 0</p>
+                        <a href="#" class="card-link">Upgrade</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
@@ -51,38 +63,6 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Hospital</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
-                    <p class="card-text">This building determines the speed at which your heroes heal.</p>
-                    <p class="card-text">Level: 0</p>
-                    <a href="#" class="card-link">Upgrade</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Empty Slot</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
-                    <p class="card-text">...</p>
-                    <p class="card-text">Level: 0</p>
-                    <a href="#" class="card-link">Upgrade</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Empty Slot</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
-                    <p class="card-text">...</p>
-                    <p class="card-text">Level: 0</p>
-                    <a href="#" class="card-link">Upgrade</a>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
