@@ -24,6 +24,6 @@ const toggleInAction = (uid, currentInAction) => {
 const editIconClass = "bi-pencil-square";
 const saveIconClass = "bi-save2-fill";
 const showEditField = (iconField, editField) => {
-    jQuery(`#${iconField}`).removeClass(editIconClass).addClass(saveIconClass);
+    jQuery(`#${iconField}`).toggleClass(editIconClass).toggleClass(saveIconClass);
     jQuery(`#${editField}`);
 }
