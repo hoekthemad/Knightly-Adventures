@@ -40,26 +40,25 @@
                 <div class="col-sm-6">
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="#"></a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCurrency" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCurrency" aria-controls="navbarCurrency" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarCurrency">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                <a class="nav-link">Gold</a>
+                                <a class="nav-link">0 Gold</a>
                                 </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <div data-bs-toggle="modal" data-bs-target="#gemsModal">Gems</div>
-                                    <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div data-bs-toggle="modal" data-bs-target="#gemsModal">0 Gems</div>
+                                    <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="gemModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Purchase Gems or Membership</h1>
+                                                <h1 class="modal-title fs-5" id="gemModalLabel">Purchase Gems or Membership</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -73,6 +72,13 @@
                                     </div>
                                 </a>
                                 </li>
+                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Settings
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Account Details</a></li>
+                                    <li><a class="dropdown-item" href="index.php?logout=true">Logout</a></li>
+                                </ul>
                             </ul>
                             </div>
                         </div>
@@ -82,19 +88,18 @@
         </div>
         <!-- Add notification center here. -->
         <div class="alert alert-secondary" role="alert">
-        <?php
-        if (!empty($_SESSION['username'])) {
-            echo "<h5>Welcome, {$_SESSION['username']}!</h5>";
-        }
-        ?>
-        <div id="newsitem">
-        </div>
+            <?php
+            if (!empty($_SESSION['username'])) {
+                echo "<h5>Welcome, {$_SESSION['username']}!</h5>";
+            }
+            ?>
+            <div id="newsitem">
+            </div>
         </div>
         <!-- Add buttons for different things here. -->
         <div>
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">.img?</a>
+                <div class="container-sm">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUserInput" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     </button>

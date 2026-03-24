@@ -27,7 +27,7 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="row">
                 <div class="col-sm-3">
-                    <h1>Kightly Adventure</h1>
+                    <h1>Knightly Adventure</h1>
                 </div>
                 <div class="col-sm-6">
                     <h3 class="display-4">Login</h3>
