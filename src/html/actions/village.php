@@ -1,3 +1,4 @@
+<?php require_once 'src/utils/actions/village.php'; ?>
 <div class="container">
     <br>
     <div class="row">
