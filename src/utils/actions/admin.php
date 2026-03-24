@@ -38,12 +38,12 @@ function getUserList() {
                     ?><th scope="row"><?= $row['uid']; ?></th><?php
                     ?><td><?= $row['username']; ?></td><?php
                     ?><td><?= $row['email']; ?></td><?php
-                    ?><td><?= $row['user_level']; ?></td><?php
+                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['user_level']; ?></td><?php
                     ?><td><?= date("jS \of F Y h:i:s A", $row['CreationTimestamp']); ?></td><?php
-                    ?><td><?= $row['gold']; ?></td><?php
-                    ?><td><?= $row['diamonds']; ?></td><?php
+                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['gold']; ?></td><?php
+                    ?><td><i class="bo bi-pencil-square"></i> <?= $row['diamonds']; ?></td><?php
                     ?><td>
-                        <a id="<?= $row['uid'] ?>inaction" onclick="toggleInAction(<?= $row['uid']; ?>, jQuery('#<?= $row['uid'] ?>inaction').text());"><?= $row['InAction'] == 0 ? "No" : "Yes"; ?></a>
+                        <i class="bi bi-cursor-fill"></i> <a id="<?= $row['uid'] ?>inaction" onclick="toggleInAction(<?= $row['uid']; ?>, jQuery('#<?= $row['uid'] ?>inaction').text());"><?= $row['InAction'] == 0 ? "No" : "Yes"; ?></a>
                     </td><?php
                     ?><td><?= date("jS \of F Y h:i:s A", $row['InActionTimestamp']); ?></td><?php
                 ?></tr><?php
