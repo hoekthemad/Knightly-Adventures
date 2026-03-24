@@ -49,7 +49,7 @@
                             <div class="collapse navbar-collapse" id="navbarCurrency">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                <a class="nav-link">0 Gold</a>
+                                <a class="nav-link"><span id="usergold">0</span> Gold</a>
                                 </li>
                                 <li class="nav-item">
                                 <a class="nav-link" href="#">
@@ -132,6 +132,9 @@
                             ?><li class="nav-item"><a class="nav-link" href="dashboard.php?action=admin">Admin Panel</a></li><?php
                         }
                         ?>
+                        <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php?action=_example">DB Explainer (_example)</a>
+                        </li>
                     </ul>
                     </div>
                 </div>

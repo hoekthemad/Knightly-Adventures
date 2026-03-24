@@ -9,19 +9,24 @@ jQuery(document).ready(function(){
 });
 
 const toggleInAction = (uid, currentInAction) => {
-    console.log(currentInAction);
+    // Get new InAction
     newAction = currentInAction == "No" ? "Yes" : "No";
+    // Do an AJAX call
     jQuery.ajax({
+        // The URL we are targetting
         url: "ajax.php?do=updateUser",
+        // The method (POST|GET)
         method: "post",
+        // The data we are sending
         data: {
             uid: uid,
             field: "InAction",
             value: newAction,
-            success: (res) => {
-                console.log(res)
-                jQuery(`#${uid}inaction`).text(newAction);
-            }
+        },
+        // On completion of the AJAX
+        success: (res) => {
+            // Update the text of the user rows inaction field
+            jQuery(`#${uid}inaction`).text(newAction);
         }
     })
 }
