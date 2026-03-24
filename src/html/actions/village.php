@@ -3,6 +3,11 @@
 <?php
 $userVillage = getUserVillage();
 $userVillageNextTownHall = getRulesVillageNextTownHall();
+$userVillageNextGoldFactory1 = getRulesVillageNextGoldFactory1();
+$userVillageNextGoldFactory2 = getRulesVillageNextGoldFactory2();
+$userVillageNextGoldFactory3 = getRulesVillageNextGoldFactory3();
+$userVillageNextGoldFactory4 = getRulesVillageNextGoldFactory4();
+$userVillageNextHospital = getRulesVillageNextHospital();
 ?>
 <div class="container">
     <br>
@@ -44,7 +49,7 @@ $userVillageNextTownHall = getRulesVillageNextTownHall();
                         <h5 class="card-title">Hospital</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
-                        <p class="card-text">Level: <?= $userVillage['Hospital'] ?></p>
+                        <p class="card-text">Level: <span id="hospitallevel"><?= $userVillage['Hospital'] ?></span></p>
                         <p class="card-text">Bonus: -<?= $userVillage['HospitalProd'] ?>%</p>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
@@ -55,11 +60,14 @@ $userVillageNextTownHall = getRulesVillageNextTownHall();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Cost to Upgrade: 0 Coins
+                                        Cost to Upgrade:
+                                        <span id="hospitalcost">
+                                            <?= $userVillageNextHospital['BuildingCost']; ?> Gold
+                                        </span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Upgrade</button>
+                                        <button type="button" class="btn btn-primary" onclick="upgradeBuilding('Hospital')">Upgrade</button>
                                     </div>
                                 </div>
                             </div>
