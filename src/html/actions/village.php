@@ -84,7 +84,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                     <p class="card-text">These buildings help generate passive gold income.</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Factory 1 Level: <?= $userVillage['GoldFactory1'] ?>
+                    <li class="list-group-item">Factory 1 Level: <span id="goldfactory1level"><?= $userVillage['GoldFactory1'] ?></span>
                         <br>0 Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" href="#">Upgrade</a>
@@ -96,7 +96,10 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Cost to Upgrade: 0 Coins
+                                        Cost to Upgrade:
+                                        <span id="goldfactory1cost">
+                                            <?= $userVillageNextGoldFactory1['BuildingCost']; ?> Gold
+                                        </span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
