@@ -1,8 +1,9 @@
 <?php
 
 $buildingName = !empty($_REQUEST['building']) ? $_REQUEST['building'] : false;
+$uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
 
-if ($buildingName) {
+if ($buildingName && $uid) {
     switch ($buildingName) {
         case "TownHall" : $ruleName = "Town Hall"; break;
         case "GoldFactory" : $ruleName = "Gold Factory"; break;
@@ -10,7 +11,7 @@ if ($buildingName) {
     }
 
     $query_getCurrentBuildingLevel = $connection->prepare("SELECT {$buildingName} FROM user_village WHERE UserID = ?");
-    $query_getCurrentBuildingLevel->bind_param("i", $_SESSION['uid']);
+    $query_getCurrentBuildingLevel->bind_param("i", $uid);
     $query_getCurrentBuildingLevel->execute();
     $result_getCurrentBuildingLevel = $query_getCurrentBuildingLevel->get_result();
 
@@ -24,7 +25,7 @@ if ($buildingName) {
     $result_getBuildingCost = $query_getBuildingCost->get_result();
 
     $query_getUserCurrentGold = $connection->prepare("SELECT gold FROM user_account WHERE UserID = ?");
-    $query_getUserCurrentGold->bind_param("i", $_SESSION['uid']);
+    $query_getUserCurrentGold->bind_param("i", $uid);
     $query_getUserCurrentGold->execute();
     $result_getUserCurrentGold = $query_getUserCurrentGold->get_result();
 
@@ -56,7 +57,7 @@ if ($buildingName) {
                     v.".$buildingName." = ? 
                 WHERE a.UserID = ?"
             );
-            $query_updateUserVillageGold->bind_param("isi", $newGoldLevel, $buildingLevel, $_SESSION['uid']);
+            $query_updateUserVillageGold->bind_param("isi", $newGoldLevel, $buildingLevel, $uid);
             $query_updateUserVillageGold->execute();
             $output['status'] = true;
             $output['newcost'] = $prices[1];
