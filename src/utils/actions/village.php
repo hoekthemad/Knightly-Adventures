@@ -12,8 +12,7 @@
     }
 
     function getRulesVillageNextTownHall() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextTownHallLevel = intval($userVillage['TownHall']) + 1;
         $getUserVillageTownHall = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Town Hall' AND BuildingLevel = ?");
         $getUserVillageTownHall->bind_param("i", $nextTownHallLevel);
@@ -25,8 +24,7 @@
     }
 
     function getRulesVillageNextGoldFactory1() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextGoldFactory1Level = intval($userVillage['GoldFactory1']) + 1;
         $getUserVillageGoldFactory1 = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Gold Factory' AND BuildingLevel = ?");
         $getUserVillageGoldFactory1->bind_param("i", $nextGoldFactory1Level);
@@ -38,11 +36,10 @@
     }
 
     function getRulesVillageNextGoldFactory2() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextGoldFactory2Level = intval($userVillage['GoldFactory1']) + 1;
         $getUserVillageGoldFactory2 = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Gold Factory' AND BuildingLevel = ?");
-        $getUserVillageGoldFactory2->bind_param("i", $nextGoldFactory1Level);
+        $getUserVillageGoldFactory2->bind_param("i", $nextGoldFactory2Level);
         $getUserVillageGoldFactory2->execute();
         $result = $getUserVillageGoldFactory2->get_result();
         if ($result->num_rows >= 1) {
@@ -51,11 +48,10 @@
     }
 
     function getRulesVillageNextGoldFactory3() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextGoldFactory3Level = intval($userVillage['GoldFactory1']) + 1;
         $getUserVillageGoldFactory3 = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Gold Factory' AND BuildingLevel = ?");
-        $getUserVillageGoldFactory3->bind_param("i", $nextGoldFactory1Level);
+        $getUserVillageGoldFactory3->bind_param("i", $nextGoldFactory3Level);
         $getUserVillageGoldFactory3->execute();
         $result = $getUserVillageGoldFactory3->get_result();
         if ($result->num_rows >= 1) {
@@ -64,11 +60,10 @@
     }
 
     function getRulesVillageNextGoldFactory4() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextGoldFactory4Level = intval($userVillage['GoldFactory1']) + 1;
         $getUserVillageGoldFactory4 = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Gold Factory' AND BuildingLevel = ?");
-        $getUserVillageGoldFactory4->bind_param("i", $nextGoldFactory1Level);
+        $getUserVillageGoldFactory4->bind_param("i", $nextGoldFactory4Level);
         $getUserVillageGoldFactory4->execute();
         $result = $getUserVillageGoldFactory4->get_result();
         if ($result->num_rows >= 1) {
@@ -77,11 +72,10 @@
     }
 
     function getRulesVillageNextHospital() {
-        global $connection;
-        $userVillage = getUserVillage();
+        global $connection, $userVillage;
         $nextHospitalLevel = intval($userVillage['Hospital']) + 1;
         $getUserVillageHospital = $connection->prepare("SELECT * FROM rule_village WHERE BuildingName = 'Hospital' AND BuildingLevel = ?");
-        $getUserVillageHospital->bind_param("i", $nextGoldFactory1Level);
+        $getUserVillageHospital->bind_param("i", $nextHospitalLevel);
         $getUserVillageHospital->execute();
         $result = $getUserVillageHospital->get_result();
         if ($result->num_rows >= 1) {
