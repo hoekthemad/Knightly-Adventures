@@ -6,8 +6,12 @@ $uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
 if ($buildingName && $uid) {
     switch ($buildingName) {
         case "TownHall" : $ruleName = "Town Hall"; break;
-        case "GoldFactory" : $ruleName = "Gold Factory"; break;
-        case "GemFactory" : $ruleName = "Gem Factory"; break;
+        case "GoldFactory1" :
+        case "GoldFactory2" :
+        case "GoldFactory3" :
+        case "GoldFactory4" : $ruleName = "Gold Factory"; break;
+        case "GemFactory1" : 
+        case "GemFactory2" : $ruleName = "Gem Factory"; break;
         default: $ruleName = $buildingName;
     }
 
