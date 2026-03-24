@@ -7,7 +7,8 @@ if ($buildingName && $uid) {
     switch ($buildingName) {
         case "TownHall" : $ruleName = "Town Hall"; break;
         case "GoldFactory" : $ruleName = "Gold Factory"; break;
-        case "Hospital" : $ruleName = "Hospital"; break;
+        case "GemFactory" : $ruleName = "Gem Factory"; break;
+        default: $ruleName = $buildingName;
     }
 
     $query_getCurrentBuildingLevel = $connection->prepare("SELECT {$buildingName} FROM user_village WHERE UserID = ?");
