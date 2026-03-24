@@ -24,7 +24,7 @@ if ($buildingName && $uid) {
     $buildingLevel = intval($row_getCurrentBuildingLevel[$buildingName]) + 1;
     $nextLevel = $buildingLevel + 1;
 
-    $query_getBuildingCost = $connection->prepare("SELECT BuildingCost FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
+    $query_getBuildingCost = $connection->prepare("SELECT BuildingCost, BuildingOutput FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
     $query_getBuildingCost->bind_param("iis", $buildingLevel, $nextLevel, $ruleName);
     $query_getBuildingCost->execute();
     $result_getBuildingCost = $query_getBuildingCost->get_result();
@@ -40,7 +40,9 @@ if ($buildingName && $uid) {
 
     $loopCount = 0;
     $prices = [];
+    $buildingOutput = 0;
     while ($row_getBuildingCost = $result_getBuildingCost->fetch_array()) {
+        if (empty($buildingOutput)) $buildingOutput = $row_getBuildingCost['BuildingOutput'];
         $prices[] = $row_getBuildingCost['BuildingCost'];
     }
     if (empty($prices[0])) {
@@ -66,6 +68,16 @@ if ($buildingName && $uid) {
             $output['newcost'] = (empty($prices[1]) ? "Maximum Level" : ($prices[1] . " Gold"));
             $output['newgoldbalance'] = $newGoldLevel;
             $output['newbuildinglevel'] = $buildingLevel;
+            $output['updateprod'] = false;
+
+            if (stristr($ruleName, "Factory")) {
+                $prodField = $buildingName."Prod";
+                $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
+                $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
+                $query_updateFactoryProduction->execute();
+                $output['updateprod'] = true;
+                $output['newprod'] = $buildingOutput;
+            }
         }
         else {
             $output['status'] = false;

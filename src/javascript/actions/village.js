@@ -20,6 +20,10 @@ const upgradeBuilding = (buildingName) => {
                     }
 
                     jQuery(`#${buildingName.toLowerCase()}level`).text(res['newbuildinglevel'] + maxLevelText);
+
+                    if (res['updateprod'] == true) {
+                        jQuery(`#${buildingName.toLowerCase()}prod`).text(res['newprod']);
+                    }
                 }
             }
         }
