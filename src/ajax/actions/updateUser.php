@@ -16,12 +16,14 @@ if ($field && $value && $uid) {
     if ($field == "InAction") {
         $value = $value == "Yes" ? "1" : "0";
         $update = $connection->prepare("UPDATE `user_account` SET InAction = ? WHERE `UserID` = ?");
-        $update->bind_param("ss", $value, $uid);
-        $update->execute();
-        $output['status'] = true;
     }
-    $output['status'] = false;
-    $output['error'] = "Unknown field requested.";
+    else {
+        $update = $connection->prepare("UPDATE `user_account` ua JOIN users u ON us.UserID = u.uid SET {$field} = ? WHERE u.uid = ?");
+    }
+    $update->bind_param("ss", $value, $uid);
+    $update->execute();
+    $output['status'] = true;
+    $output['newvalue'] = $value;
 } 
 // If no details, yeet a fail
 else {
