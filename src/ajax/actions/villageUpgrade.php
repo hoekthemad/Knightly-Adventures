@@ -7,7 +7,8 @@ if ($buildingName && $uid) {
     switch ($buildingName) {
         case "TownHall" : $ruleName = "Town Hall"; break;
         case "GoldFactory" : $ruleName = "Gold Factory"; break;
-        case "Hospital" : $ruleName = "Hospital"; break;
+        case "GemFactory" : $ruleName = "Gem Factory"; break;
+        default: $ruleName = $buildingName;
     }
 
     $query_getCurrentBuildingLevel = $connection->prepare("SELECT {$buildingName} FROM user_village WHERE UserID = ?");
@@ -38,15 +39,13 @@ if ($buildingName && $uid) {
     while ($row_getBuildingCost = $result_getBuildingCost->fetch_array()) {
         $prices[] = $row_getBuildingCost['BuildingCost'];
     }
-    if (empty($prices[1])) {
-        $prices[1] = 0;
+    if (empty($prices[0])) {
         $output['status'] = true;
         $output['newcost'] = "Maximum Level";
         $output['newgoldbalance'] = $userCurrentGold;
         $output['newbuildinglevel'] = $buildingLevel-1;
     }
     else {
-
         if ($userCurrentGold >= $prices[0]) {
             $newGoldLevel = $userCurrentGold - $prices[0];
             $query_updateUserVillageGold = $connection->prepare(
@@ -60,7 +59,7 @@ if ($buildingName && $uid) {
             $query_updateUserVillageGold->bind_param("isi", $newGoldLevel, $buildingLevel, $uid);
             $query_updateUserVillageGold->execute();
             $output['status'] = true;
-            $output['newcost'] = $prices[1];
+            $output['newcost'] = (empty($prices[1]) ? "Maximum Level" : ($prices[1] . " Gold"));
             $output['newgoldbalance'] = $newGoldLevel;
             $output['newbuildinglevel'] = $buildingLevel;
         }
@@ -69,8 +68,6 @@ if ($buildingName && $uid) {
             $output['message'] = "This upgrade costs too much.";
         }
     }
-
-    
 }
 else {
     $output['status'] = false;

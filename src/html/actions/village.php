@@ -25,9 +25,8 @@ $userVillageNextTownHall = getRulesVillageNextTownHall();
                                 <div class="modal-body">
                                     Cost to Upgrade:
                                     <span id="townhallcost">
-                                        <?= $userVillageNextTownHall['BuildingCost']; ?>
+                                        <?= $userVillageNextTownHall['BuildingCost']; ?> Gold
                                     </span>
-                                    Coins
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
