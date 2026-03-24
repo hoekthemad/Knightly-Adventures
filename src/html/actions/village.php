@@ -1,5 +1,9 @@
 <?php require_once 'src/utils/actions/village.php'; ?>
 <script src="src/javascript/actions/village.js"></script>
+<?php
+$userVillage = getUserVillage();
+$userVillageNextTownHall = getRulesVillageNextTownHall();
+?>
 <div class="container">
     <br>
     <div class="row">
@@ -9,7 +13,7 @@
                     <h5 class="card-title">Town Hall</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Main Building</h6>
                     <p class="card-text">This building determines the max level for all other buildings.</p>
-                    <p class="card-text">Level: 1</p>
+                    <p class="card-text">Level: <?= $userVillage['TownHall'] ?></p>
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" href="#">Upgrade</a>
                     <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
                         <div class="modal-dialog">
@@ -19,11 +23,15 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    Cost to Upgrade: 0 Coins
+                                    Cost to Upgrade:
+                                    <span id="townhallcost">
+                                        0?
+                                    </span>
+                                    Coins
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Upgrade</button>
+                                    <button type="button" class="btn btn-primary">Upgrade</button>
                                 </div>
                             </div>
                         </div>
@@ -37,8 +45,8 @@
                         <h5 class="card-title">Hospital</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
-                        <p class="card-text">Level: 0</p>
-                        <p class="card-text">Bonus: 0%</p>
+                        <p class="card-text">Level: <?= $userVillage['Hospital'] ?></p>
+                        <p class="card-text">Bonus: -<?= $userVillage['HospitalProd'] ?>%</p>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
                             <div class="modal-dialog">
@@ -69,7 +77,7 @@
                     <p class="card-text">These buildings help generate passive gold income.</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Factory 1 Level: 0
+                    <li class="list-group-item">Factory 1 Level: <?= $userVillage['GoldFactory1'] ?>
                         <br>0 Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" href="#">Upgrade</a>
@@ -90,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                    <li class="list-group-item">Factory 2 Level: 0
+                    <li class="list-group-item">Factory 2 Level: <?= $userVillage['GoldFactory2'] ?>
                         <br>0 Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory2Modal" href="#">Upgrade</a>
@@ -112,7 +120,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">Factory 3 Level: 0
+                    <li class="list-group-item">Factory 3 Level: <?= $userVillage['GoldFactory3'] ?>
                         <br>0 Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory3ModalLabel" href="#">Upgrade</a>
@@ -134,7 +142,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">Factory 4 Level: 0
+                    <li class="list-group-item">Factory 4 Level: <?= $userVillage['GoldFactory4'] ?>
                         <br>0 Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory4Modal" href="#">Upgrade</a>
@@ -170,7 +178,7 @@
                     <p class="card-text">These buildings help generate passive gem income.</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Factory 1 Level: 0
+                    <li class="list-group-item">Factory 1 Level: <?= $userVillage['GemFactory1'] ?>
                         <br>0 Gems per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory1Modal" href="#">Upgrade</a>
@@ -192,7 +200,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">Factory 2 Level: 0
+                    <li class="list-group-item">Factory 2 Level: <?= $userVillage['GemFactory2'] ?>
                         <br>0 Gems per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory2Modal" href="#">Upgrade</a>
