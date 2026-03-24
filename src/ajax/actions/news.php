@@ -3,6 +3,7 @@ $newsItems = [
     'Breaking news! I just shit my pants',
     'Important announcement, I may have alzhiemers, but at least I don\'t have alzhiemers!',
     'Jesus hates you',
+    'Ok. Which one of you cowards shit my pants?!'
 ];
 
 $worldBossSpawnMessages = [

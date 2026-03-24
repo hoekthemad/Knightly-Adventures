@@ -23,7 +23,7 @@ if ($uname && $pword) {
         $acctStatus = $row['status'];
         
         // Check to see if the account is active
-        if (!stristr($acctStatus, "Locked")) {
+        if (!stristr($acctStatus, "Locked") && !stristr($acctStatus, "Ban")) {
             // Passwords are salty, use it
             $foundPassword = $row['password'];
             $foundSalt = $row['salt'];
@@ -34,6 +34,10 @@ if ($uname && $pword) {
                 // Set session vars
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['uid'] = $row['uid'];
+
+                $stmt = $connection->prepare("UPDATE users SET `login_attempts` = 0 WHERE uid = ?");
+                $stmt->bind_param("s", $row['uid']);
+                $stmt->execute();
             }
             // If wrong password, you get the idea... YEET A FUCKING ERROR
             else {

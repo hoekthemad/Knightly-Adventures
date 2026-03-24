@@ -101,7 +101,7 @@
                     <div class="collapse navbar-collapse" id="navbarUserInput">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Village</a>
+                        <a class="nav-link" href="dashboard.php?action=village">Village</a>
                         </li>
                         <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -122,6 +122,11 @@
                         <li class="nav-item">
                         <a class="nav-link" href="#">Chests</a>
                         </li>
+                        <?php 
+                        if (isPermitted("admin")) {
+                            ?><li class="nav-item"><a class="nav-link" href="dashboard.php?action=admin">Admin Panel</a></li><?php
+                        }
+                        ?>
                     </ul>
                     </div>
                 </div>

@@ -32,6 +32,13 @@ if ($uname && $email && $pword) {
         $stmt_insertUser = $connection->prepare("INSERT INTO `users` (`username`, `email`, `password`, `salt`, `status`) VALUES (?, ?, ?, ?, 'Active')");
         $stmt_insertUser->bind_param("ssss", $uname, $email, $hash, $salt);
         $stmt_insertUser->execute();
+
+        $uid = $connection->insert_id;
+        $timestamp = strtotime(date("u"));
+
+        $stmt_insertUserAccount = $connection->prepare("INSERT INTO `user_account` (UserID, Username, CreationTimestamp) VALUES (?, ?, ?)");
+        $stmt_insertUserAccount->bind_param("sss", $uid, $uname, $timestamp);
+        $stmt_insertUserAccount->execute();
         $output['status'] = true;
     }
 } 

@@ -11,23 +11,15 @@ require_once 'src/php/config.php';
 require_once 'src/ajax/utils/general.php';
 // The output will have the status, errors and success message as required
 $output = [];
+$output['status'] = false;
 // Switch the "do" to decide what we are doing
 switch ($_REQUEST['do']) {
-    case "login": {
-        require 'src/ajax/actions/login.php';
-        break;
-    }
-    case "register": {
-        require 'src/ajax/actions/register.php';
-        break;
-    }
-    case "news": {
-        require 'src/ajax/actions/news.php';
-        break;
-    }
+    case "login": { require 'src/ajax/actions/login.php'; break; }
+    case "register": { require 'src/ajax/actions/register.php'; break; }
+    case "news": { require 'src/ajax/actions/news.php'; break; }
+    case "updateUser": { require 'src/ajax/actions/updateUser.php'; break; }
     default: {
         //default to false in case no action is found
-        $output['status'] = false;
     }
 }
 // Output the encoded result and exit
