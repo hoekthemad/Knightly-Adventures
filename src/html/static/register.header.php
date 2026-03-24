@@ -27,13 +27,13 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="row">
                 <div class="col-sm-3">
-                    <h1>Kightly Adventure</h1>
+                    <h1>Knightly Adventures</h1>
                 </div>
                 <div class="col-sm-6">
                     <h3 class="display-4">Register for an account</h3>
                 </div>
                 <div class="col-sm-3">
-                    
+                    <h5>Have an account? Sign in <a href="index.php">here</a>!</h5>
                 </div>
             </div>
         </div>
