@@ -1,4 +1,5 @@
 <?php require_once 'src/utils/actions/village.php'; ?>
+<script src="src/javascript/actions/village.js"></script>
 <div class="container">
     <br>
     <div class="row">
