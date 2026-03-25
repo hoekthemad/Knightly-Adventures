@@ -29,6 +29,9 @@ $userCurrency = getUserCurrency();
             jQuery(document).ready(() => {
                 setInterval(getNews, 5000);
                 getNews();
+
+                setInterval(claimGold, 5000);
+                claimGold();
             });
         </script>
     </head>

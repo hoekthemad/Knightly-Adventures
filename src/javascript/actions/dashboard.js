@@ -16,3 +16,15 @@ const getNews = () => {
         }
     })
 }
+
+const claimGold = () => {
+    jq.ajax({
+        url: `ajax.php?do=claimgold`,
+        method: "GET",
+        success: (res) => {
+            result = JSON.parse(res);
+            console.log(result);
+            jQuery("#usergold").text(result['gold']);
+        }
+    })
+}
