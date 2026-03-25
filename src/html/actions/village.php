@@ -85,7 +85,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Factory 1 Level: <span id="goldfactory1level"><?= $userVillage['GoldFactory1'] ?></span>
-                        <br><span id="goldfactory1prod">0</span> Gold per minute.
+                        <br><span id="goldfactory1prod"><?= $userVillage['GoldFactory1Prod'] ?></span> Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory1Modal" tabindex="-1" aria-labelledby="goldFactory1ModalLabel" aria-hidden="true">
@@ -109,7 +109,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                             </div>
                         </div>
                     <li class="list-group-item">Factory 2 Level: <?= $userVillage['GoldFactory2'] ?>
-                        <br><span id="goldfactory2prod">0</span> Gold per minute.
+                        <br><span id="goldfactory2prod"><?= $userVillage['GoldFactory2Prod'] ?></span> Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory2Modal" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory2Modal" tabindex="-1" aria-labelledby="goldFactory2Modal" aria-hidden="true">
@@ -134,7 +134,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                         </div>
                     </li>
                     <li class="list-group-item">Factory 3 Level: <?= $userVillage['GoldFactory3'] ?>
-                        <br><span id="goldfactory3prod">0</span> Gold per minute.
+                        <br><span id="goldfactory3prod"><?= $userVillage['GoldFactory3Prod'] ?></span> Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory3ModalLabel" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory3ModalLabel" tabindex="-1" aria-labelledby="goldFactory3ModalLabel" aria-hidden="true">
@@ -159,7 +159,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                         </div>
                     </li>
                     <li class="list-group-item">Factory 4 Level: <?= $userVillage['GoldFactory4'] ?>
-                        <br><span id="goldfactory4prod">0</span> Gold per minute.
+                        <br><span id="goldfactory4prod"><?= $userVillage['GoldFactory4Prod'] ?></span> Gold per minute.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory4Modal" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory4Modal" tabindex="-1" aria-labelledby="goldFactory4Modal" aria-hidden="true">

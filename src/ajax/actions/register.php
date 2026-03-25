@@ -36,8 +36,8 @@ if ($uname && $email && $pword) {
         $uid = $connection->insert_id;
         $timestamp = strtotime(date("u"));
 
-        $stmt_insertUserAccount = $connection->prepare("INSERT INTO `user_account` (UserID, Username, CreationTimestamp) VALUES (?, ?, ?)");
-        $stmt_insertUserAccount->bind_param("sss", $uid, $uname, $timestamp);
+        $stmt_insertUserAccount = $connection->prepare("INSERT INTO `user_account` (UserID, Username, CreationTimestamp, GoldLastClaim, DiamondsLastClaim) VALUES (?, ?, ?, ?, ?)");
+        $stmt_insertUserAccount->bind_param("sssss", $uid, $uname, $timestamp, $timestamp, $timestamp);
         $stmt_insertUserAccount->execute();
 
         $stmt_insertUserVillage = $connection->prepare("INSERT INTO `user_village` (UserID) VALUES (?)");
