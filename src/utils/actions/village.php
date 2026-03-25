@@ -90,7 +90,7 @@ function getBuildingMaxLevels() {
         $queryMaxBuildingLevels->execute();
         $result = $queryMaxBuildingLevels->get_result();
         while ($row = $result->fetch_array()) {
-            $_SESSION['max_building_levels'][$row['BuildingName'] = $row['BuildingLevel'];
+            $_SESSION['max_building_levels'][$row['BuildingName']] = $row['BuildingLevel'];
         }
     }
 }
