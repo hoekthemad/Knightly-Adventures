@@ -22,7 +22,7 @@ function getClaimGold($uid) {
     $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
     $amountToClaim = round(($secondsDifference * $goldMultiplier) / 60);
-    return ['timestamp'=>$lastClaimTimestampUpdate, "currency"=>$amountToClaim, "multiplier"=>$goldMultiplier];
+    return ['timestamp'=>$lastClaimTimestampUpdate, "amount"=>$amountToClaim, "multiplier"=>$goldMultiplier];
 }
 
 function claimGold($uid) {
@@ -37,8 +37,8 @@ function claimGold($uid) {
 
     $claim = getClaimGold($uid);
 
-    if ($claim['curency'] >= 1) {
-        $newGoldLevel = $userCurrentGold + intval($claim['currency']);
+    if ($claim['amount'] >= 1) {
+        $newGoldLevel = $userCurrentGold + intval($claim['amount']);
 
         $updateGold = $connection->prepare("UPDATE user_account SET gold = ? where `UserID` = ?");
         $updateGold->bind_param("ii", $newGoldLevel, $uid);
@@ -75,7 +75,7 @@ function getClaimGems($uid) {
     $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
     $amountToClaim = round(($secondsDifference * $gemMultiplier) / 1800);
-    return ['timestamp'=>$lastClaimTimestampUpdate, "currency"=>$amountToClaim, "multiplier"=>$gemMultiplier];
+    return ['timestamp'=>$lastClaimTimestampUpdate, "amount"=>$amountToClaim, "multiplier"=>$gemMultiplier];
 }
 
 function claimGems($uid) {
@@ -90,8 +90,8 @@ function claimGems($uid) {
 
     $claim = getClaimGems($uid);
 
-    if ($claim['currency'] >= 1) {
-        $newGemsLevel = $userCurrentGems + intval($claim['currency']);
+    if ($claim['amount'] >= 1) {
+        $newGemsLevel = $userCurrentGems + intval($claim['amount']);
 
         $updateGems = $connection->prepare("UPDATE user_account SET Diamonds = ? where `UserID` = ?");
         $updateGems->bind_param("ii", $newGemsLevel, $uid);
