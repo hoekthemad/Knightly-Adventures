@@ -37,15 +37,20 @@ function claimGold($uid) {
 
     $claim = getClaimGold($uid);
 
-    $newGoldLevel = $userCurrentGold + intval($claim['currency']);
+    if ($claim['curency'] >= 1) {
+        $newGoldLevel = $userCurrentGold + intval($claim['currency']);
 
-    $updateGold = $connection->prepare("UPDATE user_account SET gold = ? where `UserID` = ?");
-    $updateGold->bind_param("ii", $newGoldLevel, $uid);
-    $updateGold->execute();
-
-    $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgoldclaim = ? where `UserID` = ?");
-    $updateLastClaim->bind_param("si", $claim['timestamp'], $uid);
-    $updateLastClaim->execute();
+        $updateGold = $connection->prepare("UPDATE user_account SET gold = ? where `UserID` = ?");
+        $updateGold->bind_param("ii", $newGoldLevel, $uid);
+        $updateGold->execute();
+    
+        $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgoldclaim = ? where `UserID` = ?");
+        $updateLastClaim->bind_param("si", $claim['timestamp'], $uid);
+        $updateLastClaim->execute();
+    }
+    else {
+        $newGoldLevel = $userCurrentGold;
+    }
 
     return $newGoldLevel;
 }
@@ -85,15 +90,20 @@ function claimGems($uid) {
 
     $claim = getClaimGems($uid);
 
-    $newGemsLevel = $userCurrentGems + intval($claim['currency']);
+    if ($claim['currency'] >= 1) {
+        $newGemsLevel = $userCurrentGems + intval($claim['currency']);
 
-    $updateGems = $connection->prepare("UPDATE user_account SET Diamonds = ? where `UserID` = ?");
-    $updateGems->bind_param("ii", $newGemsLevel, $uid);
-    $updateGems->execute();
-
-    $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgemclaim = ? where `UserID` = ?");
-    $updateLastClaim->bind_param("si", $claim['timestamp'], $uid);
-    $updateLastClaim->execute();
+        $updateGems = $connection->prepare("UPDATE user_account SET Diamonds = ? where `UserID` = ?");
+        $updateGems->bind_param("ii", $newGemsLevel, $uid);
+        $updateGems->execute();
+    
+        $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgemclaim = ? where `UserID` = ?");
+        $updateLastClaim->bind_param("si", $claim['timestamp'], $uid);
+        $updateLastClaim->execute();
+    }
+    else {
+        $newGemsLevel = $userCurrentGems;
+    }
 
     return $newGemsLevel;
 }
