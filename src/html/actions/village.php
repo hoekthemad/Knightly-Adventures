@@ -1,6 +1,7 @@
 <?php require_once 'src/utils/actions/village.php'; ?>
 <script src="src/javascript/actions/village.js"></script>
 <?php
+getBuildingMaxLevels();
 $userVillage = getUserVillage();
 $userVillageNextTownHall = getRulesVillageNextTownHall();
 $userVillageNextGoldFactory1 = getRulesVillageNextGoldFactory1();
@@ -19,6 +20,9 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                     <h6 class="card-subtitle mb-2 text-muted">Main Building</h6>
                     <p class="card-text">This building determines the max level for all other buildings.</p>
                     <p class="card-text">Level: <span id="townhalllevel"><?= $userVillage['TownHall'] ?></span></p>
+                    <?php
+                    if ($userVillage['TownHall'] < $_SESSION['max_building_levels']['Town Hall']) {
+                    ?>
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" href="#">Upgrade</a>
                     <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
                         <div class="modal-dialog">
@@ -40,6 +44,9 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                             </div>
                         </div>
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <br>
