@@ -26,7 +26,7 @@ if ($uname && $email && $pword) {
     // Otherwise lets add the user
     else {
         // Passwords are salty, salt that bitch like fish (made up of username + email + unix timestamp wrapped into an md5)
-        $salt = md5($uname.$email.strtotime(date("u")));
+        $salt = md5($uname.$email.strtotime(date("Y-m-d H:i:s")));
         $saltedPassword = $pword.$salt;
         $hash = password_hash($saltedPassword, PASSWORD_METHOD);
         $stmt_insertUser = $connection->prepare("INSERT INTO `users` (`username`, `email`, `password`, `salt`, `status`) VALUES (?, ?, ?, ?, 'Active')");
@@ -40,8 +40,8 @@ if ($uname && $email && $pword) {
         $stmt_insertUserAccount->bind_param("sssss", $uid, $uname, $timestamp, $timestamp, $timestamp);
         $stmt_insertUserAccount->execute();
 
-        $stmt_insertUserVillage = $connection->prepare("INSERT INTO `user_village` (UserID) VALUES (?)");
-        $stmt_insertUserVillage->bind_param("s", $uid);
+        $stmt_insertUserVillage = $connection->prepare("INSERT INTO `user_village` (UserID, lastgoldclaim, lastgemclaim) VALUES (?, ?, ?)");
+        $stmt_insertUserVillage->bind_param("sss", $uid, $timestamp, $timestamp);
         $stmt_insertUserVillage->execute();
 
         $heroslot = 1;

@@ -71,6 +71,25 @@ if ($buildingName && $uid) {
             $output['updateprod'] = false;
 
             if (stristr($ruleName, "Factory")) {
+                if (stristr($ruleName, "Gold")) {
+                    $output['claimgold'] = true;
+                    $toClaim = getClaimGold($uid);
+                    $updateTimestamp = $toClaim['timestamp'];
+                    $amountToClaim = $toClaim['currency'];
+                    $villageUpdateField = "lastgoldclaim";
+                    $userUpdateField = "gold";
+                    $newGoldLevel = $newGoldLevel + intval($amountToClaim);
+                    
+                    $updateGold = $connection->prepare("UPDATE user_account SET gold = ? where `UserID` = ?");
+                    $updateGold->bind_param("ii", $newGoldLevel, $uid);
+                    $updateGold->execute();
+
+                    $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgoldclaim = ? where `UserID` = ?");
+                    $updateLastClaim->bind_param("si", $toClaim['timestamp'], $uid);
+                    $updateLastClaim->execute();
+                    $output['newgoldbalance'] = $newGoldLevel;
+                }
+                
                 $prodField = $buildingName."Prod";
                 $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
                 $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
