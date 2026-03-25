@@ -65,10 +65,12 @@ function getClaimGems($uid) {
     $lastClaimTimestamp = intval($row['lgc']);
     $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
 
-    $secondsToClaim = $currentTimestamp-$lastClaimTimestamp;
+    $secondsToClaim = $currentTimestamp - $lastClaimTimestamp;
+    $secondsDifference = floor($secondsToClaim / 1800) * 1800;
+    $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
-    $amountToClaim = round(($secondsToClaim * $gemMultiplier) / 3600);
-    return ['timestamp'=>$currentTimestamp, "currency"=>$amountToClaim, "multiplier"=>$gemMultiplier];
+    $amountToClaim = round(($secondsDifference * $gemMultiplier) / 1800);
+    return ['timestamp'=>$lastClaimTimestampUpdate, "currency"=>$amountToClaim, "multiplier"=>$gemMultiplier];
 }
 
 function claimGems($uid) {
