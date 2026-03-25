@@ -24,71 +24,77 @@ if ($buildingName && $uid) {
     $buildingLevel = intval($row_getCurrentBuildingLevel[$buildingName]) + 1;
     $nextLevel = $buildingLevel + 1;
 
-    $query_getBuildingCost = $connection->prepare("SELECT BuildingCost, BuildingOutput FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
-    $query_getBuildingCost->bind_param("iis", $buildingLevel, $nextLevel, $ruleName);
-    $query_getBuildingCost->execute();
-    $result_getBuildingCost = $query_getBuildingCost->get_result();
+    $query_getTownHallLevel = $connection->prepare("SELECT TownHall FROM user_village WHERE UserID = ?");
+    $query_getTownHallLevel->bind_param("i", $uid);
+    $query_getTownHallLevel->execute();
+    $result_getTownHallLevel = $query_getTownHallLevel->get_result();
+    $row_getCurrentTownHallLevel = $result_getTownHallLevel->fetch_array();
+    $townhallLevel = intval($row_getCurrentTownHallLevel['TownHall']) + 1;
 
-    $query_getUserCurrentGold = $connection->prepare("SELECT gold FROM user_account WHERE UserID = ?");
-    $query_getUserCurrentGold->bind_param("i", $uid);
-    $query_getUserCurrentGold->execute();
-    $result_getUserCurrentGold = $query_getUserCurrentGold->get_result();
+    if ($townhallLevel < $nextLevel && $buildingName !== 'TownHall') {
+        $output['status'] = false;
+        $output['message'] = "Town Hall isn't high enough.";
+    } else {
 
-    $row_getUserCurrentGold = $result_getUserCurrentGold->fetch_array();
-    
-    $userCurrentGold = intval($row_getUserCurrentGold['gold']);
+        $query_getBuildingCost = $connection->prepare("SELECT BuildingCost, BuildingOutput FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
+        $query_getBuildingCost->bind_param("iis", $buildingLevel, $nextLevel, $ruleName);
+        $query_getBuildingCost->execute();
+        $result_getBuildingCost = $query_getBuildingCost->get_result();
 
-    $loopCount = 0;
-    $prices = [];
-    $buildingOutput = 0;
-    while ($row_getBuildingCost = $result_getBuildingCost->fetch_array()) {
-        if (empty($buildingOutput)) $buildingOutput = $row_getBuildingCost['BuildingOutput'];
-        $prices[] = $row_getBuildingCost['BuildingCost'];
-    }
-    if (empty($prices[0])) {
-        $output['status'] = true;
-        $output['newcost'] = "Maximum Level";
-        $output['newgoldbalance'] = $userCurrentGold;
-        $output['newbuildinglevel'] = $buildingLevel-1;
-    }
-    else {
-        if ($userCurrentGold >= $prices[0]) {
-            $newGoldLevel = $userCurrentGold - $prices[0];
-            $query_updateUserVillageGold = $connection->prepare(
-                "UPDATE `user_account` a 
-                JOIN `user_village` v ON (a.`UserID` = v.`UserID`) 
-                SET 
-                    a.`gold` = ?, 
-                    v.".$buildingName." = ? 
-                WHERE a.UserID = ?"
-            );
-            $query_updateUserVillageGold->bind_param("isi", $newGoldLevel, $buildingLevel, $uid);
-            $query_updateUserVillageGold->execute();
+        $query_getUserCurrentGold = $connection->prepare("SELECT gold FROM user_account WHERE UserID = ?");
+        $query_getUserCurrentGold->bind_param("i", $uid);
+        $query_getUserCurrentGold->execute();
+        $result_getUserCurrentGold = $query_getUserCurrentGold->get_result();
+
+        $row_getUserCurrentGold = $result_getUserCurrentGold->fetch_array();
+        
+        $userCurrentGold = intval($row_getUserCurrentGold['gold']);
+
+        $loopCount = 0;
+        $prices = [];
+        $buildingOutput = 0;
+        while ($row_getBuildingCost = $result_getBuildingCost->fetch_array()) {
+            if (empty($buildingOutput)) $buildingOutput = $row_getBuildingCost['BuildingOutput'];
+            $prices[] = $row_getBuildingCost['BuildingCost'];
+        }
+        if (empty($prices[0])) {
             $output['status'] = true;
-            $output['newcost'] = (empty($prices[1]) ? "Maximum Level" : ($prices[1] . " Gold"));
-            $output['newgoldbalance'] = $newGoldLevel;
-            $output['newbuildinglevel'] = $buildingLevel;
-            $output['updateprod'] = false;
-
-            if (stristr($ruleName, "Factory")) {
-                if (stristr($ruleName, "Gold")) {
-                    $output['claimgold'] = true;
-                    $newBalance = claimGold($uid);
-
-                    $output['newgoldbalance'] = $newBalance;
-                }
-                
-                $prodField = $buildingName."Prod";
-                $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
-                $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
-                $query_updateFactoryProduction->execute();
-                $output['updateprod'] = true;
-                $output['newprod'] = $buildingOutput;
-            }
+            $output['newcost'] = "Maximum Level";
+            $output['newgoldbalance'] = $userCurrentGold;
+            $output['newbuildinglevel'] = $buildingLevel-1;
         }
         else {
-            $output['status'] = false;
-            $output['message'] = "This upgrade costs too much.";
+            if ($userCurrentGold >= $prices[0]) {
+                $newGoldLevel = $userCurrentGold - $prices[0];
+                $query_updateUserVillageGold = $connection->prepare(
+                    "UPDATE `user_account` a 
+                    JOIN `user_village` v ON (a.`UserID` = v.`UserID`) 
+                    SET 
+                        a.`gold` = ?, 
+                        v.".$buildingName." = ? 
+                    WHERE a.UserID = ?"
+                );
+                $query_updateUserVillageGold->bind_param("isi", $newGoldLevel, $buildingLevel, $uid);
+                $query_updateUserVillageGold->execute();
+                $output['status'] = true;
+                $output['newcost'] = (empty($prices[1]) ? "Maximum Level" : ($prices[1] . " Gold"));
+                $output['newgoldbalance'] = $newGoldLevel;
+                $output['newbuildinglevel'] = $buildingLevel;
+                $output['updateprod'] = false;
+
+                if (stristr($ruleName, "Factory") || $ruleName === "Hospital") {                    
+                    $prodField = $buildingName."Prod";
+                    $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
+                    $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
+                    $query_updateFactoryProduction->execute();
+                    $output['updateprod'] = true;
+                    $output['newprod'] = $buildingOutput;
+                }
+            }
+            else {
+                $output['status'] = false;
+                $output['message'] = "This upgrade costs too much.";
+            }
         }
     }
 }

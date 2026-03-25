@@ -17,10 +17,12 @@ function getClaimGold($uid) {
     $lastClaimTimestamp = intval($row['lgc']);
     $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
 
-    $secondsToClaim = $currentTimestamp-$lastClaimTimestamp;
+    $secondsToClaim = $currentTimestamp - $lastClaimTimestamp;
+    $secondsDifference = floor($secondsToClaim / 60) * 60;
+    $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
-    $amountToClaim = round(($secondsToClaim * $goldMultiplier) / 60);
-    return ['timestamp'=>$currentTimestamp, "currency"=>$amountToClaim, "multiplier"=>$goldMultiplier];
+    $amountToClaim = round(($secondsDifference * $goldMultiplier) / 60);
+    return ['timestamp'=>$lastClaimTimestampUpdate, "currency"=>$amountToClaim, "multiplier"=>$goldMultiplier];
 }
 
 function claimGold($uid) {
@@ -65,6 +67,31 @@ function getClaimGems($uid) {
 
     $secondsToClaim = $currentTimestamp-$lastClaimTimestamp;
 
-    $amountToClaim = round(($secondsToClaim * $gemMultiplier) / 60);
+    $amountToClaim = round(($secondsToClaim * $gemMultiplier) / 3600);
     return ['timestamp'=>$currentTimestamp, "currency"=>$amountToClaim, "multiplier"=>$gemMultiplier];
+}
+
+function claimGems($uid) {
+    global $connection;
+
+    $query_getUserCurrentGems = $connection->prepare("SELECT Diamonds FROM user_account WHERE UserID = ?");
+    $query_getUserCurrentGems->bind_param("i", $uid);
+    $query_getUserCurrentGems->execute();
+    $result_getUserCurrentGems = $query_getUserCurrentGems->get_result();
+    $row_getUserCurrentGems = $result_getUserCurrentGems->fetch_array();
+    $userCurrentGems = intval($row_getUserCurrentGems['Diamonds']);
+
+    $claim = getClaimGems($uid);
+
+    $newGemsLevel = $userCurrentGems + intval($claim['currency']);
+
+    $updateGems = $connection->prepare("UPDATE user_account SET Diamonds = ? where `UserID` = ?");
+    $updateGems->bind_param("ii", $newGemsLevel, $uid);
+    $updateGems->execute();
+
+    $updateLastClaim = $connection->prepare("UPDATE user_village SET lastgemclaim = ? where `UserID` = ?");
+    $updateLastClaim->bind_param("si", $claim['timestamp'], $uid);
+    $updateLastClaim->execute();
+
+    return $newGemsLevel;
 }

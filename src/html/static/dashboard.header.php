@@ -30,7 +30,7 @@ $userCurrency = getUserCurrency();
                 setInterval(getNews, 5000);
                 getNews();
 
-                setInterval(claimGold, 5000);
+                setInterval(claimGold, 10000);
                 claimGold();
             });
         </script>
