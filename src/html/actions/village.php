@@ -50,7 +50,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                         <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
                         <p class="card-text">Level: <span id="hospitallevel"><?= $userVillage['Hospital'] ?></span></p>
-                        <p class="card-text">Bonus: -<?= $userVillage['HospitalProd'] ?>%</p>
+                        <p class="card-text">Bonus: -<span id="hospitalprod"><?= $userVillage['HospitalProd'] ?></span>%</p>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
                             <div class="modal-dialog">
