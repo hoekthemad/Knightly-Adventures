@@ -108,7 +108,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="goldfactory1cost">
-                                            <?= $userVillageNextGoldFactory1['BuildingCost']; ?> Gold
+                                            <?= $userVillageNextGoldFactory1['BuildingCost']." ".$userVillageNextGolfFactory1['BuildingCostType']; ?>
+                                        </span>
+                                        <br>
+                                        Next Level Bonus:
+                                        <span id="goldfactory1bonus">
+                                            <?= $userVillageNextGoldFactory1['BuildingOutput']." Gold per Minute."; ?>
                                         </span>
                                     </div>
                                     <div class="modal-footer">
@@ -132,7 +137,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="goldfactory2cost">
-                                            <?= $userVillageNextGoldFactory2['BuildingCost']; ?> Gold
+                                            <?= $userVillageNextGoldFactory2['BuildingCost']." ".$userVillageNextGoldFactory2['BuildingCostType']; ?>
+                                        </span>
+                                        <br>
+                                        Next Level Bonus:
+                                        <span id="goldfactory2bonus">
+                                            <?= $userVillageNextGoldFactory2['BuildingOutput']." Gold per Minute."; ?>
                                         </span>
                                     </div>
                                     <div class="modal-footer">
@@ -157,7 +167,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="goldfactory3cost">
-                                            <?= $userVillageNextGoldFactory3['BuildingCost']; ?> Gold
+                                            <?= $userVillageNextGoldFactory3['BuildingCost']." ".$userVillageNextGoldFactory3['BuildingCostType']; ?>
+                                        </span>
+                                        <br>
+                                        Next Level Bonus:
+                                        <span id="goldfactory3bonus">
+                                            <?= $userVillageNextGoldFactory3['BuildingOutput']." Gold per Minute."; ?>
                                         </span>
                                     </div>
                                     <div class="modal-footer">
@@ -182,7 +197,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="goldfactory4cost">
-                                            <?= $userVillageNextGoldFactory4['BuildingCost']; ?> Gold
+                                            <?= $userVillageNextGoldFactory4['BuildingCost']." ".$userVillageNextGoldFactory4['BuildingCostType']; ?>
+                                        </span>
+                                        <br>
+                                        Next Level Bonus:
+                                        <span id="goldfactory4bonus">
+                                            <?= $userVillageNextGoldFactory4['BuildingOutput']." Gold per Minute."; ?>
                                         </span>
                                     </div>
                                     <div class="modal-footer">

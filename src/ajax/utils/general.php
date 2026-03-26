@@ -55,6 +55,26 @@ function claimGold($uid) {
     return $newGoldLevel;
 }
 
+function spendGold($uid, $amount) {
+    global $connection;
+
+    $query_getUserCurrentGold = $connection->prepare("SELECT gold FROM user_account WHERE UserID = ?");
+    $query_getUserCurrentGold->bind_param("i", $uid);
+    $query_getUserCurrentGold->execute();
+    $result_getUserCurrentGold = $query_getUserCurrentGold->get_result();
+    $row_getUserCurrentGold = $result_getUserCurrentGold->fetch_array();
+
+    $newGoldLevel = intval($row_getUserCurrentGold['gold']) - $amount;
+
+    if ($newGoldLevel >= 1) {
+
+        $updateGold = $connection->prepare("UPDATE user_account SET gold = ? where `UserID` = ?");
+        $updateGold->bind_param("ii", $newGoldLevel, $uid);
+        $updateGold->execute();
+
+    }
+}
+
 function getClaimGems($uid) {
     global $connection;
     $query_getGemFactories = $connection->prepare("SELECT GemFactory1Prod g1, GemFactory2Prod g2, lastgemclaim lgc FROM user_village WHERE UserID = ?");
@@ -106,6 +126,26 @@ function claimGems($uid) {
     }
 
     return $newGemsLevel;
+}
+
+function spendGems($uid, $amount) {
+    global $connection;
+
+    $query_getUserCurrentGems = $connection->prepare("SELECT Diamonds FROM user_account WHERE UserID = ?");
+    $query_getUserCurrentGems->bind_param("i", $uid);
+    $query_getUserCurrentGems->execute();
+    $result_getUserCurrentGems = $query_getUserCurrentGems->get_result();
+    $row_getUserCurrentGems = $result_getUserCurrentGems->fetch_array();
+
+    $newGemsLevel = intval($row_getUserCurrentGems['Diamonds']) - $amount;
+
+    if ($newGemsLevel >= 1) {
+
+        $updateGems = $connection->prepare("UPDATE user_account SET Diamonds = ? where `UserID` = ?");
+        $updateGems->bind_param("ii", $newGemsLevel, $uid);
+        $updateGems->execute();
+
+    }
 }
 
 function updateClaimTimestamp($uid, $type, $timestampOverride = false) {
