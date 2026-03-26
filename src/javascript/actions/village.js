@@ -17,6 +17,7 @@ const upgradeBuilding = (buildingName) => {
                     let maxLevelText = "";
                     if (res['newcost'] == "Maximum Level") {
                         maxLevelText = ` (${res['newcost']})`;
+                        jQuery(`#${buildingName}ModalLink`).hide();
                     }
 
                     jQuery(`#${buildingName.toLowerCase()}level`).text(res['newbuildinglevel'] + maxLevelText);

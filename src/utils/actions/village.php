@@ -86,11 +86,11 @@
 function getBuildingMaxLevels() {
     global $connection;
     if (empty($_SESSION['max_building_levels'])) {
-        $queryMaxBuildingLevels = $connection->prepare("SELECT DISTINCT BuildingName, BuildingLevel FROM rule_village GROUP BY BuildingName ORDER BY BuildingLevel DESC ");
+        $queryMaxBuildingLevels = $connection->prepare("SELECT DISTINCT BuildingName, COUNT(BuildingLevel) maxlevel FROM rule_village GROUP BY BuildingName ORDER BY BuildingLevel DESC ");
         $queryMaxBuildingLevels->execute();
         $result = $queryMaxBuildingLevels->get_result();
         while ($row = $result->fetch_array()) {
-            $_SESSION['max_building_levels'][$row['BuildingName']] = $row['BuildingLevel'];
+            $_SESSION['max_building_levels'][$row['BuildingName']] = $row['BuildingName'] == "Town Hall" ? (intval($row['maxlevel'])+1) : $row['maxlevel'];
         }
     }
 }
