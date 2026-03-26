@@ -3,10 +3,10 @@
 <?php
 getBuildingMaxLevels();
 $userVillage = getUserVillage();
-$userVillageNextGoldFactory1 = getRulesVillageNextGoldFactory1();
-$userVillageNextGoldFactory2 = getRulesVillageNextGoldFactory2();
-$userVillageNextGoldFactory3 = getRulesVillageNextGoldFactory3();
-$userVillageNextGoldFactory4 = getRulesVillageNextGoldFactory4();
+$userVillageNextGoldFactory1 = getRulesVillageNextGoldFactory("1");
+$userVillageNextGoldFactory2 = getRulesVillageNextGoldFactory("2");
+$userVillageNextGoldFactory3 = getRulesVillageNextGoldFactory("3");
+$userVillageNextGoldFactory4 = getRulesVillageNextGoldFactory("4");
 $userVillageNextHospital = getRulesVillageNextHospital();
 ?>
 <div class="container">
