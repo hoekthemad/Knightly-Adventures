@@ -4,11 +4,13 @@
 getBuildingMaxLevels();
 
 $userVillage = getUserVillage();
-$userVillageNextGoldFactory1 = getRulesVillageNextGoldFactory1();
-$userVillageNextGoldFactory2 = getRulesVillageNextGoldFactory2();
-$userVillageNextGoldFactory3 = getRulesVillageNextGoldFactory3();
-$userVillageNextGoldFactory4 = getRulesVillageNextGoldFactory4();
-$userVillageNextHospital = getRulesVillageNextHospital();
+$userVillageNextGoldFactory1 = getRulesVillageNextLevel("GoldFactory1", "Gold Factory");
+$userVillageNextGoldFactory2 = getRulesVillageNextLevel("GoldFactory2", "Gold Factory");
+$userVillageNextGoldFactory3 = getRulesVillageNextLevel("GoldFactory3", "Gold Factory");
+$userVillageNextGoldFactory4 = getRulesVillageNextLevel("GoldFactory4", "Gold Factory");
+$userVillageNextGemFactory1 = getRulesVillageNextLevel("GemFactory1", "Gem Factory");
+$userVillageNextGemFactory2 = getRulesVillageNextLevel("GemFactory2", "Gem Factory");
+$userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
 ?>
 <div class="container">
     <br>
@@ -22,7 +24,7 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                     <p class="card-text">Level: <span id="townhalllevel"><?= $userVillage['TownHall'] ?></span></p>
                     <?php
                     if ($userVillage['TownHall'] < $_SESSION['max_building_levels']['Town Hall']) {
-                        $userVillageNextTownHall = getRulesVillageNextTownHall();
+                        $userVillageNextTownHall = getRulesVillageNextLevel("TownHall", "TownHall");
                     ?>
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" id="TownHallModalLink" href="#">Upgrade</a>
                     <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
@@ -202,8 +204,8 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                     <p class="card-text">These buildings help generate passive gem income.</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Factory 1 Level: <?= $userVillage['GemFactory1'] ?>
-                        <br>0 Gems per 30 minutes.
+                    <li class="list-group-item">Factory 1 Level: <span id="gemfactory1level"><?= $userVillage['GemFactory1'] ?></span>
+                        <br><span id="gemfactory1prod"><?= $userVillage['GemFactory1Prod'] ?></span> Gems per 30 minutes.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory1Modal" href="#">Upgrade</a>
                         <div class="modal fade" id="gemFactory1Modal" tabindex="-1" aria-labelledby="gemFactory1Modal" aria-hidden="true">
@@ -214,18 +216,21 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Cost to Upgrade: 0 Coins
+                                        Cost to Upgrade:
+                                        <span id="gemfactory1cost">
+                                            <?= $userVillageNextGemFactory1['BuildingCost']; ?> Gold (Maybe gems...)
+                                        </span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Upgrade</button>
+                                        <button type="button" class="btn btn-primary" onclick="upgradeBuilding('GemFactory1')">Upgrade</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">Factory 2 Level: <?= $userVillage['GemFactory2'] ?>
-                        <br>0 Gems per 30 minutes.
+                    <li class="list-group-item">Factory 2 Level: <span id="gemfactory2level"><?= $userVillage['GemFactory2'] ?></span>
+                        <br><span id="gemfactory2prod"><?= $userVillage['gemfactory2Prod'] ?></span> Gems per 30 minutes.
                         <br>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory2Modal" href="#">Upgrade</a>
                         <div class="modal fade" id="gemFactory2Modal" tabindex="-1" aria-labelledby="gemFactory2Modal" aria-hidden="true">
@@ -236,11 +241,14 @@ $userVillageNextHospital = getRulesVillageNextHospital();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Cost to Upgrade: 0 Coins
+                                        Cost to Upgrade:
+                                        <span id="gemfactory2cost">
+                                            <?= $userVillageNextGemFactory2['BuildingCost']; ?> Gold (Maybe gems...)
+                                        </span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Upgrade</button>
+                                        <button type="button" class="btn btn-primary" onclick="upgradeBuilding('GemFactory2')">Upgrade</button>
                                     </div>
                                 </div>
                             </div>

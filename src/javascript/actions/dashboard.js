@@ -28,3 +28,15 @@ const claimGold = () => {
         }
     })
 }
+
+const claimGems = () => {
+    jq.ajax({
+        url: `ajax.php?do=claimgems`,
+        method: "GET",
+        success: (res) => {
+            result = JSON.parse(res);
+            console.log(result);
+            jQuery("#usergems").text(result['gems']);
+        }
+    })
+}

@@ -32,6 +32,9 @@ $userCurrency = getUserCurrency();
 
                 setInterval(claimGold, 10000);
                 claimGold();
+
+                setInterval(claimGems, 60000);
+                claimGems();
             });
         </script>
     </head>
