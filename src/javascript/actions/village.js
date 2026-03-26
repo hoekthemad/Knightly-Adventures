@@ -24,7 +24,7 @@ const upgradeBuilding = (buildingName) => {
 
                     if (res['updateprod'] == true) {
                         jQuery(`#${buildingName.toLowerCase()}prod`).text(res['newprod']);
-                        jQuery(`#${buildingName.toLowerCase()}bonus`).text(res['newprod']);
+                        jQuery(`#${buildingName.toLowerCase()}bonus`).text(res['nextnewprod']);
                     }
                 }
             }
