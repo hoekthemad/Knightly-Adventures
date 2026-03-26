@@ -24,7 +24,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                     <p class="card-text">Level: <span id="townhalllevel"><?= $userVillage['TownHall'] ?></span></p>
                     <?php
                     if ($userVillage['TownHall'] < $_SESSION['max_building_levels']['Town Hall']) {
-                        $userVillageNextTownHall = getRulesVillageNextLevel("TownHall", "TownHall");
+                        $userVillageNextTownHall = getRulesVillageNextLevel("TownHall", "Town Hall");
                     ?>
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" id="TownHallModalLink" href="#">Upgrade</a>
                     <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
