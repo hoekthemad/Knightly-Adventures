@@ -113,7 +113,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory1bonus">
-                                            <?= $userVillageNextGoldFactory1['BuildingOutput']; ?> Gold per Minute.
+                                            <?= $userVillageNextGoldFactory1['BuildingOutput']." ".$userVillageNextGolfFactory1['BuildingCostType']; ?> per Minute.
                                         </span>
                                     </div>
                                     <div class="modal-footer">

@@ -98,7 +98,19 @@ if ($buildingName && $uid) {
                     $query_updateFactoryProduction->execute();
                     $output['updateprod'] = true;
                     $output['newprod'] = $buildingOutput;
-                    $output['nextnewprod'] = getBuildingProduction($ruleName, $nextLevel);
+
+                    $factoryString = "";
+                    if (stristr($ruleName, "Gold")) {
+                        $factoryString = " Gold per Minute";
+                    }
+                    else if (stristr($ruleName, "Gem")) {
+                        $factoryString = " Gems per 30 Minutes";
+                    }
+                    else if ($ruleName === "Hospital") {
+                        $factoryString = " Time Reduction";
+                    }
+
+                    $output['nextnewprod'] = getBuildingProduction($ruleName, $nextLevel).$factoryString;
                 }
             }
             else {
