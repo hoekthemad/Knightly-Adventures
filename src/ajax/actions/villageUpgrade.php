@@ -98,6 +98,7 @@ if ($buildingName && $uid) {
                     $query_updateFactoryProduction->execute();
                     $output['updateprod'] = true;
                     $output['newprod'] = $buildingOutput;
+                    $output['nextnewprod'] = getBuildingProduction($ruleName, $nextLevel);
                 }
             }
             else {
