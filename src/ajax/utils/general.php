@@ -125,3 +125,25 @@ function updateClaimTimestamp($uid, $type, $timestampOverride = false) {
     $query->bind_param("si", $timestamp, $uid);
     $query->execute();
 }
+
+function getBuildingCost($name, $level) {
+    global $connection;
+    $query = $connection->prepare("SELECT BuildingCost FROM rule_village WHERE BuildingName = ? AND BuildingLevel = ?");
+    $query->bind_param("si", $name, $level);
+    $query->execute();
+    $res = $query->get_result();
+    $row = $res->fetch_array();
+
+    return $row['BuildingCost'];
+}
+
+function getBuildingProduction($name, $level) {
+    global $connection;
+    $query = $connection->prepare("SELECT BuildingOutput FROM rule_village WHERE BuildingName = ? AND BuildingLevel = ?");
+    $query->bind_param("si", $name, $level);
+    $query->execute();
+    $res = $query->get_result();
+    $row = $res->fetch_array();
+
+    return $row['BuildingOutput'];
+}
