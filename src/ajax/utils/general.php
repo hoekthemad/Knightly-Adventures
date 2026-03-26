@@ -22,7 +22,7 @@ function getClaimGold($uid) {
     $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
     $amountToClaim = round(($secondsDifference * $goldMultiplier) / 60);
-    return ['timestamp'=>$lastClaimTimestampUpdate, "amount"=>$amountToClaim, "multiplier"=>$goldMultiplier];
+    return ['timestamp'=>$currentTimestamp, "amount"=>$amountToClaim, "multiplier"=>$goldMultiplier];
 }
 
 function claimGold($uid) {
@@ -75,7 +75,7 @@ function getClaimGems($uid) {
     $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
     $amountToClaim = round(($secondsDifference * $gemMultiplier) / 1800);
-    return ['timestamp'=>$lastClaimTimestampUpdate, "amount"=>$amountToClaim, "multiplier"=>$gemMultiplier];
+    return ['timestamp'=>$currentTimestamp, "amount"=>$amountToClaim, "multiplier"=>$gemMultiplier];
 }
 
 function claimGems($uid) {
@@ -106,4 +106,22 @@ function claimGems($uid) {
     }
 
     return $newGemsLevel;
+}
+
+function updateClaimTimestamp($uid, $type, $timestampOverride = false) {
+    switch ($type) {
+        case "gem" : $field = "lastgemclaim"; break;
+        case "gold" : $field = "lastgoldclaim"; break;
+        default : return false;
+    }
+
+    global $connection;
+
+    $timestamp = intval(strtotime(date("Y-m-d H:i:s")));
+    if ($timestampOverride != false) {
+        $timestamp = $timestampOverride;
+    }
+    $query = $connection->prepare("UPDATE user_village SET {$field} = ? WHERE UserID = ?");
+    $query->bind_param("si", $timestamp, $uid);
+    $query->execute();
 }

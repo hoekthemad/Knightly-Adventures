@@ -21,9 +21,22 @@ const toggleInAction = (uid, currentInAction) => {
     })
 }
 
+const updateField = (uid, field, value) => {
+
+}
+
 const editIconClass = "bi-pencil-square";
 const saveIconClass = "bi-save2-fill";
-const showEditField = (iconField, editField) => {
+const showEditField = (iconField, editField, fieldname, uid) => {
     jQuery(`#${iconField}`).toggleClass(editIconClass).toggleClass(saveIconClass);
-    jQuery(`#${editField}`);
+    
+    if (jQuery(`#${iconField}`).hasClass(editIconClass)) {
+        jQuery(`#${iconField}`).prop("onclick", `updateField(${uid}, '${fieldname}', '')`);
+
+        currentValue = jQuery(`#${editField}`).text();
+        jQuery(`#${editField}`).innerHTML(`<input class="form-control" id="${fieldname}field${uid}" value="${currentValue}" />`);
+    }
+    else {
+        jQuery(`#${iconField}`).prop("onclick", "");
+    }
 }

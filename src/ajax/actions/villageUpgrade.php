@@ -81,8 +81,17 @@ if ($buildingName && $uid) {
                 $output['newgoldbalance'] = $newGoldLevel;
                 $output['newbuildinglevel'] = $buildingLevel;
                 $output['updateprod'] = false;
+                $output['updategems'] = false;
 
-                if (stristr($ruleName, "Factory") || $ruleName === "Hospital") {                    
+                if (stristr($ruleName, "Factory") || $ruleName === "Hospital") {
+                    if ($buildingLevel == 1) {
+                        if (stristr($ruleName, "Gold")) {
+                            updateClaimTimestamp($uid, "gold");
+                        }
+                        else if (stristr($ruleName, "Gem")) {
+                            updateClaimTimestamp($uid, "gem");
+                        }
+                    }
                     $prodField = $buildingName."Prod";
                     $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
                     $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
