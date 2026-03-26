@@ -48,7 +48,7 @@ $userCurrency = getUserCurrency();
                 <div class="col-sm-6">
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCurrency" aria-controls="navbarCurrency" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@ $userCurrency = getUserCurrency();
                                     </div>
                                 </a>
                                 </li>
-                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Settings
                                 </a>
                                 <ul class="dropdown-menu">
