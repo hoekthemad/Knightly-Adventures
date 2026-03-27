@@ -108,12 +108,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="goldfactory1cost">
-                                            <?= $userVillageNextGoldFactory1['BuildingCost']." ".$userVillageNextGolfFactory1['BuildingCostType']; ?>
+                                            <?= $userVillageNextGoldFactory1['BuildingCost']." ".$userVillageNextGoldFactory1['BuildingCostType']; ?>
                                         </span>
                                         <br>
                                         Next Level:
                                         <span id="goldfactory1bonus">
-                                            <?= $userVillageNextGoldFactory1['BuildingOutput']." ".$userVillageNextGolfFactory1['BuildingCostType']; ?> per Minute.
+                                            <?= $userVillageNextGoldFactory1['BuildingOutput']." ".$userVillageNextGoldFactory1['BuildingCostType']." ".$userVillageNextGoldFactory1['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
                                         <span id="goldfactory1townhalllevel"></span>
@@ -144,7 +144,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory2bonus">
-                                            <?= $userVillageNextGoldFactory2['BuildingOutput']." ".$userVillageNextGolfFactory2['BuildingCostType']; ?> per Minute.
+                                            <?= $userVillageNextGoldFactory2['BuildingOutput']." ".$userVillageNextGoldFactory2['BuildingCostType']." ".$userVillageNextGoldFactory2['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
                                         <span id="goldfactory2townhalllevel"></span>
@@ -176,7 +176,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory3bonus">
-                                            <?= $userVillageNextGoldFactory3['BuildingOutput']." ".$userVillageNextGolfFactory3['BuildingCostType']; ?> per Minute.
+                                            <?= $userVillageNextGoldFactory3['BuildingOutput']." ".$userVillageNextGoldFactory3['BuildingCostType']." ".$userVillageNextGoldFactory3['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
                                         <span id="goldfactory3townhalllevel"></span>
@@ -208,7 +208,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory4bonus">
-                                            <?= $userVillageNextGoldFactory4['BuildingOutput']." ".$userVillageNextGolfFactory4['BuildingCostType']; ?> per Minute.
+                                            <?= $userVillageNextGoldFactory4['BuildingOutput']." ".$userVillageNextGoldFactory4['BuildingCostType']." ".$userVillageNextGoldFactory4['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
                                         <span id="goldfactory4townhalllevel"></span>
