@@ -130,7 +130,7 @@ $userCurrency = getUserCurrency();
                         <a class="nav-link" href="#">Heroes</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Items</a>
+                        <a class="nav-link" href="dashboard.php?action=items">Items</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="dashboard.php?action=chest">Chests</a>
