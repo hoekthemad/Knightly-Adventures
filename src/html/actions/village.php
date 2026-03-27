@@ -60,7 +60,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                         <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
                         <p class="card-text">Level: <span id="hospitallevel"><?= $userVillage['Hospital'] ?></span></p>
-                        <p class="card-text">Bonus: -<span id="hospitalprod"><?= $userVillage['HospitalProd'] ?></span>%</p>
+                        <p class="card-text">Bonus: <span id="hospitalprod"><?= $userVillage['HospitalProd'] ?></span>% Time Reduction</p>
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" id="HosptialModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
                             <div class="modal-dialog">
@@ -72,8 +72,15 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="hospitalcost">
-                                            <?= $userVillageNextHospital['BuildingCost']; ?> Gold
+                                            <?= $userVillageNextHospital['BuildingCost']." ".$userVillageNextHospital['BuildingCostType']; ?>
                                         </span>
+                                        <br>
+                                        Next Level:
+                                        <span id="hospitalbonus">
+                                            <?= $userVillageNextHospital['BuildingOutput'].$userVillageNextHospital['BuildingOutputDesc']." ".$userVillageNextHospital['BuildingOutputTime']; ?>
+                                        </span>
+                                        <br>
+                                        <span id="hospitaltownhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
