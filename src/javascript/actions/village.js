@@ -26,6 +26,16 @@ const upgradeBuilding = (buildingName) => {
                         jQuery(`#${buildingName.toLowerCase()}prod`).text(res['newprod']);
                         jQuery(`#${buildingName.toLowerCase()}bonus`).text(res['nextnewprod']);
                     }
+
+                    if (res['upgradetownhall'] == true) {
+                        jQuery(`#goldfactory1townhalllevel`).text("");
+                        jQuery(`#goldfactory2townhalllevel`).text("");
+                        jQuery(`#goldfactory3townhalllevel`).text("");
+                        jQuery(`#goldfactory4townhalllevel`).text("");
+                        jQuery(`#gemsfactory1townhalllevel`).text("");
+                        jQuery(`#gemsfactory2townhalllevel`).text("");
+                        jQuery(`#hospitaltownhalllevel`).text("");
+                    }
                 }
                 else {
                     if (res['townhalllevel'] >= 1) {

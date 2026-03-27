@@ -84,7 +84,10 @@ if ($buildingName && $uid) {
                 $output['updateprod'] = false;
                 $output['updategems'] = false;
 
-                if (stristr($ruleName, "Factory") || $ruleName === "Hospital") {
+                if ($buildingName === "TownHall") {
+                    $output['upgradetownhall'] = true;
+                }
+                else if (stristr($ruleName, "Factory") || $ruleName === "Hospital") {
                     if ($buildingLevel == 1) {
                         if (stristr($ruleName, "Gold")) {
                             updateClaimTimestamp($uid, "gold");

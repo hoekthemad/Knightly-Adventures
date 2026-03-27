@@ -61,7 +61,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                         <p class="card-text">This building determines the speed at which your heroes heal.</p>
                         <p class="card-text">Level: <span id="hospitallevel"><?= $userVillage['Hospital'] ?></span></p>
                         <p class="card-text">Bonus: -<span id="hospitalprod"><?= $userVillage['HospitalProd'] ?></span>%</p>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" href="#">Upgrade</a>
+                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" id="HosptialModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -233,9 +233,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Factory 1 Level: <span id="gemfactory1level"><?= $userVillage['GemFactory1'] ?></span>
-                        <br><span id="gemfactory1prod"><?= $userVillage['GemFactory1Prod'] ?></span> Gems per 30 minutes.
                         <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory1Modal" href="#">Upgrade</a>
+                        <span id="gemfactory1prod">
+                            <?= $userVillage['GemFactory1Prod']." ".$userVillageNextGemFactory1['BuildingCostType']." ".$userVillageNextGemFactory1['BuildingOutputTime']; ?>
+                        </span>
+                        <br>
+                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory1Modal" id="GemFactory1ModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="gemFactory1Modal" tabindex="-1" aria-labelledby="gemFactory1Modal" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -246,8 +249,15 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="gemfactory1cost">
-                                            <?= $userVillageNextGemFactory1['BuildingCost']; ?> Gold (Maybe gems...)
+                                            <?= $userVillageNextGemFactory1['BuildingCost']." ".$userVillageNextGemFactory1['BuildingCostType']; ?>
                                         </span>
+                                        <br>
+                                        Next Level:
+                                        <span id=gemfactory1bonus">
+                                            <?= $userVillageNextGemFactory1['BuildingOutput']." ".$userVillageNextGemFactory1['BuildingCostType']." ".$userVillageNextGemFactory1['BuildingOutputTime']; ?>
+                                        </span>
+                                        <br>
+                                        <span id="gemfactory1townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -258,9 +268,12 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                         </div>
                     </li>
                     <li class="list-group-item">Factory 2 Level: <span id="gemfactory2level"><?= $userVillage['GemFactory2'] ?></span>
-                        <br><span id="gemfactory2prod"><?= $userVillage['gemfactory2Prod'] ?></span> Gems per 30 minutes.
                         <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory2Modal" href="#">Upgrade</a>
+                        <span id="gemfactory2prod">
+                            <?= $userVillage['GemFactory2Prod']." ".$userVillageNextGemFactory2['BuildingCostType']." ".$userVillageNextGemFactory2['BuildingOutputTime']; ?>
+                        </span>
+                        <br>
+                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#gemFactory2Modal" id="GemFactory2ModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="gemFactory2Modal" tabindex="-1" aria-labelledby="gemFactory2Modal" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -271,8 +284,15 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                     <div class="modal-body">
                                         Cost to Upgrade:
                                         <span id="gemfactory2cost">
-                                            <?= $userVillageNextGemFactory2['BuildingCost']; ?> Gold (Maybe gems...)
+                                            <?= $userVillageNextGemFactory2['BuildingCost']." ".$userVillageNextGemFactory2['BuildingCostType']; ?>
                                         </span>
+                                        <br>
+                                        Next Level:
+                                        <span id="gemfactory2bonus">
+                                            <?= $userVillageNextGemFactory2['BuildingOutput']." ".$userVillageNextGemFactory2['BuildingCostType']." ".$userVillageNextGemFactory2['BuildingOutputTime']; ?>
+                                        </span>
+                                        <br>
+                                        <span id="gemfactory2townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
