@@ -27,6 +27,12 @@ const upgradeBuilding = (buildingName) => {
                         jQuery(`#${buildingName.toLowerCase()}bonus`).text(res['nextnewprod']);
                     }
                 }
+                else {
+                    if (res['townhalllevel'] >= 1) {
+                        const maxTownHallText = "You can only level buildings up to level " + (res['townhalllevel'] - 1) + ". Please upgrade your Town Hall first.";
+                        jQuery(`#${buildingName.toLowerCase()}townhalllevel`).text(maxTownHallText);
+                    }
+                }
             }
         }
     )

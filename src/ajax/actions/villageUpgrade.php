@@ -34,6 +34,7 @@ if ($buildingName && $uid) {
     if ($townhallLevel < $nextLevel && $buildingName !== 'TownHall') {
         $output['status'] = false;
         $output['message'] = "Town Hall isn't high enough.";
+        $output['townhalllevel'] = $townhallLevel;
     } else {
 
         $query_getBuildingCost = $connection->prepare("SELECT BuildingCost, BuildingOutput FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
@@ -110,7 +111,14 @@ if ($buildingName && $uid) {
                         $factoryString = " Time Reduction";
                     }
 
-                    $output['nextnewprod'] = getBuildingProduction($ruleName, $nextLevel).$factoryString;
+                    $getNextProdOutput = getBuildingProduction($ruleName, $nextLevel);
+
+                    if (empty($getNextProdOutput)) {
+                        $output['nextnewprod'] = "Maximum Level";
+                    }
+                    else {
+                        $output['nextnewprod'] = getBuildingProduction($ruleName, $nextLevel).$factoryString;
+                    }
                 }
             }
             else {

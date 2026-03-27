@@ -97,7 +97,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                     <li class="list-group-item">Factory 1 Level: <span id="goldfactory1level"><?= $userVillage['GoldFactory1'] ?></span>
                         <br><span id="goldfactory1prod"><?= $userVillage['GoldFactory1Prod'] ?></span> Gold per minute.
                         <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" href="#">Upgrade</a>
+                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" id="GoldFactory1ModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory1Modal" tabindex="-1" aria-labelledby="goldFactory1ModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -115,6 +115,8 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <span id="goldfactory1bonus">
                                             <?= $userVillageNextGoldFactory1['BuildingOutput']." ".$userVillageNextGolfFactory1['BuildingCostType']; ?> per Minute.
                                         </span>
+                                        <br>
+                                        <span id="goldfactory1townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -142,8 +144,10 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory2bonus">
-                                            <?= $userVillageNextGoldFactory2['BuildingOutput']; ?> Gold per Minute.
+                                            <?= $userVillageNextGoldFactory2['BuildingOutput']." ".$userVillageNextGolfFactory2['BuildingCostType']; ?> per Minute.
                                         </span>
+                                        <br>
+                                        <span id="goldfactory2townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -172,8 +176,10 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory3bonus">
-                                            <?= $userVillageNextGoldFactory3['BuildingOutput']; ?> Gold per Minute.
+                                            <?= $userVillageNextGoldFactory3['BuildingOutput']." ".$userVillageNextGolfFactory3['BuildingCostType']; ?> per Minute.
                                         </span>
+                                        <br>
+                                        <span id="goldfactory3townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -202,8 +208,10 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         <br>
                                         Next Level:
                                         <span id="goldfactory4bonus">
-                                            <?= $userVillageNextGoldFactory4['BuildingOutput']; ?> Gold per Minute.
+                                            <?= $userVillageNextGoldFactory4['BuildingOutput']." ".$userVillageNextGolfFactory4['BuildingCostType']; ?> per Minute.
                                         </span>
+                                        <br>
+                                        <span id="goldfactory4townhalllevel"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
