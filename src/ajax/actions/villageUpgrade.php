@@ -35,7 +35,9 @@ if ($buildingName && $uid) {
         $output['status'] = false;
         $output['message'] = "Town Hall isn't high enough.";
         $output['townhalllevel'] = $townhallLevel;
-    } else {
+    }
+
+    else {
 
         $query_getBuildingCost = $connection->prepare("SELECT BuildingCost, BuildingOutput FROM rule_village WHERE (BuildingLevel = ? OR BuildingLevel = ?) AND BuildingName = ? ORDER BY BuildingLevel ASC");
         $query_getBuildingCost->bind_param("iis", $buildingLevel, $nextLevel, $ruleName);
@@ -111,7 +113,7 @@ if ($buildingName && $uid) {
                         $factoryString = " Gems per 30 Minutes";
                     }
                     else if ($ruleName === "Hospital") {
-                        $factoryString = " Time Reduction";
+                        $factoryString = "% Time Reduction";
                     }
 
                     $getNextProdOutput = getBuildingProduction($ruleName, $nextLevel);
