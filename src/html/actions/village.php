@@ -260,7 +260,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                         </span>
                                         <br>
                                         Next Level:
-                                        <span id=gemfactory1bonus">
+                                        <span id="gemfactory1bonus">
                                             <?= $userVillageNextGemFactory1['BuildingOutput']." ".$userVillageNextGemFactory1['BuildingCostType']." ".$userVillageNextGemFactory1['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
