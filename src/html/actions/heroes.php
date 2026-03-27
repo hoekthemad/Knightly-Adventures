@@ -14,10 +14,11 @@
                 <div class="card-header">
                     Hero Name
                 </div>
+                <!-- Add attack bonus to attack and defense bonus to defense as well... -->
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">HP: <?= $heroInfo1['Health'] ?>/?<br>Level: ?<br>Reawakening: ?<br>Experence: ?/?</li>
-                    <li class="list-group-item">Element: ?<br>Attack: ?<br>Defense: ?</li>
-                    <li class="list-group-item">Weapon: ?<br>Armor: ?</li>
+                    <li class="list-group-item">HP: <?= $heroInfo1['Health'] ?>/<?= $heroInfo1['MaxHealth'] ?><br>Level: <?= $heroInfo1['Level'] ?><br>Reawakening: <?= $heroInfo1['Reawaken'] ?><br>Experence: <?= $heroInfo1['Experience'] ?>/Next Level?</li>
+                    <li class="list-group-item">Element: <?= $heroInfo1['Element'] ?><br>Attack: <?= $heroInfo1['Attack'] ?><br>Defense: <?= $heroInfo1['Defense'] ?></li>
+                    <li class="list-group-item">Armor: <?= $heroInfo1['Armor'] ?><br>Weapon: <?= $heroInfo1['Weapon'] ?></li>
                 </ul>
             </div>
         </div>

@@ -9,9 +9,6 @@
 
         $result = $getUserHero->get_result();
 
-        // Testing return with this one. Delete and fix.
-        return $getUserHero;
-
         if ($result->num_rows >= 1) {
             return $result->fetch_array();
         }
