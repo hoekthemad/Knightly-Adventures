@@ -6,6 +6,6 @@
         <h3>Your Items</h3>
     </div>
     <?php
-    getUserItems($uid);
+    getUserItems();
     ?>
 </div>

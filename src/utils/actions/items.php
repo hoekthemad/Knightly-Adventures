@@ -1,11 +1,12 @@
 <?php
-function getUserItems($uid) {
+function getUserItems() {
     global $connection;
 
     $getItems = $connection->prepare("SELECT * FROM user_items WHERE UserID = ?");
     $getItems->bind_param("i", $uid);
     $getItems->execute();
     $resultItems = $getItems->get_result();
+    var_dump($_SESSION);
 
     if ($resultItems->num_rows >= 1) {
         var_dump($resultItems);
