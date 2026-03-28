@@ -45,23 +45,50 @@ if ($resultChestItems->num_rows >= 1) {
         $resultItemNameArray = $resultItemName->fetch_array();
 
         array_push($itemNameLoopArray, $resultItemNameArray['ItemName']);
-        array_push($itemIDLoopArray, $itemAmountArray[$randonNumber]);
-        array_push($itemAmountLoopArray, $itemWeightArray[$randonNumber]);
+        array_push($itemIDLoopArray, $itemIDArray[$randonNumber]);
+        array_push($itemAmountLoopArray, $itemAmountArray[$randonNumber]);
 
     }
 
     $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
+    $winningItem = 24;
+
+    $output['winitemname'] = $itemNameLoopArray[$winningItem];
+    $output['winitemamount'] = $itemAmountLoopArray[$winningItem];
 
     $typeTEMP = 'Coins';
     $amountTEMP = 0;
     $nullTEMP = null;
 
     $setChestLog = $connection->prepare("INSERT INTO logs_chests (UserID, Timestamp, Cost, CostType, ChestID, WinAmount, WinRarity, winItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $setChestLog->bind_param("isisiiss", $uid, $currentTimestamp, $amountTEMP, $typeTEMP, $chestID, $itemAmountLoopArray[24], $nullTEMP, $itemNameLoopArray[24]);
+    $setChestLog->bind_param("isisiiss", $uid, $currentTimestamp, $amountTEMP, $typeTEMP, $chestID, $itemAmountLoopArray[$winningItem], $nullTEMP, $itemNameLoopArray[$winningItem]);
     $setChestLog->execute();
 
     // Add it to the user's items still.
+    $getUserItem = $connection->prepare("SELECT * FROM user_items WHERE ItemID = ?");
+    $getUserItem->bind_param("i", $itemIDLoopArray[$winningItem]);
+    $getUserItem->execute();
+    $resultUserItem = $getUserItem->get_result();
+    $resultUserItemAssoc = $resultUserItem->fetch_assoc();
 
+    $output ['test3'] = $resultUserItemAssoc;
+
+    if ($resultUserItemAssoc['ItemID']) {
+        $userItemAmount = $resultUserItemAssoc['Amount'] + $itemAmountLoopArray[$winningItem];
+        $userItemTotal = $resultUserItemAssoc['Total'] + $itemAmountLoopArray[$winningItem];
+
+        $giveUserItems = $connection->prepare("UPDATE user_items SET Amount=?, Total=? WHERE UserID=? AND ItemID=?");
+        $giveUserItems->bind_param("iiii", $userItemAmount, $userItemTotal, $uid, $itemIDLoopArray[$winningItem]);
+        $giveUserItems->execute();
+    }
+    
+    else {
+
+        $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Rarity, Amount, Total) VALUES (?, ?, ?, ?, ?)");
+        $giveUserItem->bind_param("iisii", $uid, $itemIDLoopArray[$winningItem], $nullTEMP, $itemAmountLoopArray[$winningItem], $itemAmountLoopArray[$winningItem]);
+        $giveUserItem->execute();
+
+    }
 
 
 }

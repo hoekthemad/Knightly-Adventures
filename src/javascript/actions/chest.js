@@ -11,7 +11,7 @@ const openChest = (chestID) => {
                 res = JSON.parse(response);
 
                 if (res['status'] == true) {
-                    jQuery(`#result`).text('Some text.');
+                    jQuery(`#result`).text(res['winitemamount'] + " " + res['winitemname']);
                 }
             }
         }
