@@ -14,6 +14,7 @@ $output = [];
 $output['status'] = false;
 // Switch the "do" to decide what we are doing
 switch ($_REQUEST['do']) {
+    case "chestOpening": { require 'src/ajax/actions/chestOpening.php'; break; }
     case "claimgold": { require 'src/ajax/actions/claimgold.php'; break; }
     case "claimgems": { require 'src/ajax/actions/claimgems.php'; break; }
     case "login": { require 'src/ajax/actions/login.php'; break; }
