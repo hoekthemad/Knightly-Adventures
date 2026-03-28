@@ -5,9 +5,9 @@
     <br>
     <div class="row">
         <div class="container mt-5">
-            <button onclick="openChest('Test')">Open Case</button>
+            <button onclick="openChest(1)">Open Case</button>
             <br>
-            <div id="result"></div>
+            <span id="result"></span>
         </div>
     </div>
 </div>

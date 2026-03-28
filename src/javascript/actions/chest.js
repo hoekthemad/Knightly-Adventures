@@ -1,17 +1,17 @@
-const openChest = (chestName) => {
+const openChest = (chestID) => {
     jQuery.ajax(
         {
             url: "ajax.php?do=chestOpening",
             method: "post",
             data: {
-                chest: chestName
+                chest: chestID
             },
             success: (response) => {
                 console.log(response);
                 res = JSON.parse(response);
 
-                if (res['status'] === true) {
-                    jQuery(`#result`).text("Text.");
+                if (res['status'] == true) {
+                    jQuery(`#result`).text('Some text.');
                 }
             }
         }
