@@ -11,13 +11,14 @@ async function openChest(chestID) {
 
     if (res['status'] == true) {
         jQuery(`#caseresult1`).text('Spinning in 3... 2... 1...');
+        jQuery(`#caseresult2`).text('');
         await delay(4000);
 
         let timeDelay = 200;
 
         for (let i = 0; i < 25; i++) {
 
-            jQuery(`#caseresult1`).text(res['itemamount' + i] + " " + res['itemname' + i]);
+            jQuery(`#caseresult1`).text(res[`itemspin${i}`]);
 
 
             await delay(timeDelay);
@@ -28,26 +29,28 @@ async function openChest(chestID) {
             else if (i < 13) {
                 timeDelay += 50
             }
-            else if (i < 17) {
+            else if (i < 18) {
                 timeDelay += 100
             }
-            else if (i < 21) {
+            else if (i < 22) {
                 timeDelay += 150
             }
             else {
                 timeDelay += 300
             }
 
-            if (i == 23) {
+            if (i == 24) {
                 jQuery(`#caseresult1`).text("You win:");
-                jQuery(`#caseresult2`).text(res['itemamount' + i] + " " + res['itemname' + i]);
+
+                if (res['rarity']) {
+                    jQuery(`#caseresult2`).text(res['winitemamount'] + " " + res['rarity'] + " " + res['winitemname']);
+                }
+                else {
+                    jQuery(`#caseresult2`).text(res['winitemamount'] + " " + res['winitemname']);
+                }
             }
 
         }
-
-
-
-        jQuery(`#caseresult`).text(res['winitemamount'] + " " + res['winitemname']);
     }
 }
 

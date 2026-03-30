@@ -11,6 +11,40 @@ $resultChestItems = $getChestItems->get_result();
 
 if ($resultChestItems->num_rows >= 1) {
 
+    //
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+if ($resultChestItems->num_rows >= 1) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $output['status'] = true;
 
     $itemIDArray = [];
@@ -51,8 +85,7 @@ if ($resultChestItems->num_rows >= 1) {
                 array_push($itemIDLoopArray, $itemIDArray[$i2]);
                 array_push($itemAmountLoopArray, $itemAmountArray[$i2]);
 
-                $output['itemname'.$i] = $resultItemNameArray['ItemName'];
-                $output['itemamount'.$i] = $itemAmountArray[$i2];
+                $output['itemspin'.$i] = $itemAmountArray[$i2]." ".$resultItemNameArray['ItemName'];
 
             }
         }
