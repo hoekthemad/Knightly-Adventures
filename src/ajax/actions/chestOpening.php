@@ -97,6 +97,13 @@ if ($resultChestItems->num_rows >= 1) {
                         $winningItemName = $resultItemInfoArray['ItemName'];
                         $winningItemAmount = $itemAmountArray[$i2];
 
+                        if ($rarityValue) {
+                            $output['winningitem'] = $winningItemAmount." ".$winningItemRarity." ".$winningItemName;
+                        }
+                        else {
+                            $output['winningitem'] = $winningItemAmount." ".$winningItemName;
+                        }
+
                     }
 
                     if ($rarityValue) {
