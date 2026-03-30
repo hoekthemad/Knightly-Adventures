@@ -10,6 +10,16 @@ async function openChest(chestID) {
     });
 
     if (res['status'] == true) {
+
+        jQuery(`#caseresult1`).text('Spinning in 3... 2... 1...');
+        jQuery(`#caseresult2`).text('');
+
+
+
+
+
+/*
+
         jQuery(`#caseresult1`).text('Spinning in 3... 2... 1...');
         jQuery(`#caseresult2`).text('');
         await delay(4000);
@@ -51,6 +61,13 @@ async function openChest(chestID) {
             }
 
         }
+*/
+    }
+    else {
+
+        jQuery(`#caseresult1`).text(res['message1']);
+        jQuery(`#caseresult2`).text(res['message2']);
+
     }
 }
 

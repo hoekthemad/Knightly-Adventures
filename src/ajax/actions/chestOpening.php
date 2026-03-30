@@ -11,144 +11,183 @@ $resultChestItems = $getChestItems->get_result();
 
 if ($resultChestItems->num_rows >= 1) {
 
-    //
+    $chestCost = 1000000;
+    $chestCostType = 'Diamonds';
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-if ($resultChestItems->num_rows >= 1) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $output['status'] = true;
-
-    $itemIDArray = [];
-    $itemAmountArray = [];
-    $itemWeightArray = [];
-    $weightTotal = 0;
-
-    $loopCount1 = 1;
-    while ($row = $resultChestItems->fetch_assoc()) {
-        $weightTotal += $row['weight'];
-        array_push($itemIDArray, $row['ItemID']);
-        array_push($itemAmountArray, $row['Amount']);
-        array_push($itemWeightArray, $row['Weight']);
-        $weightTotal += $row['Weight'];
-        $loopCount1 += 1;
+    if ($chestID == 1) {
+        $chestCost = 100;
+        $chestCostType = 'Gold';
     }
 
-    $itemNameLoopArray = [];
-    $itemIDLoopArray = [];
-    $itemAmountLoopArray = [];
+    $getUserAccount = $connection->prepare("SELECT * FROM user_account WHERE UserID = ?");
+    $getUserAccount->bind_param("i", $uid);
+    $getUserAccount->execute();
+    $resultUserAccount = $getUserAccount->get_result();
+    $resultUserAccountAssoc = $resultUserAccount->fetch_assoc();
 
-    for ($i = 0; $i < 30; $i++) {
-        for ($i2 = 0; $i2 < count($itemIDArray); $i2++) {
+    if ($resultUserAccountAssoc[$chestCostType] < $chestCost) {
+        $output['status'] = false;
+        $output['message1'] = "Cannot open chest!";
+        $output['message2'] = "You have $resultUserAccountAssoc[$chestCostType] $chestCostType out of the needed $chestCost $chestCostType!";
+    }
+    else {
+        $output['status'] = true;
+
+        $resultUserAccountAssoc[$chestCostType] -= $chestCost;
+        $giveUserCurrency = $connection->prepare("UPDATE user_account SET $chestCostType = ? WHERE UserID = ?");
+        $giveUserCurrency->bind_param("ii", $resultUserAccountAssoc[$chestCostType], $uid);
+        $giveUserCurrency->execute();
+
+        $itemIDArray = [];
+        $itemAmountArray = [];
+        $itemWeightArray = [];
+        $weightTotal = 0;
+
+        $loopCount1 = 1;
+        while ($row = $resultChestItems->fetch_assoc()) {
+            $weightTotal += $row['weight'];
+            array_push($itemIDArray, $row['ItemID']);
+            array_push($itemAmountArray, $row['Amount']);
+            array_push($itemWeightArray, $row['Weight']);
+            $weightTotal += $row['Weight'];
+            $loopCount1++;
+        }
+
+        $winningItemNumber = 4;
+
+        $winningItemID = 0;
+        $winningItemName = null;
+        $winningItemRarity = null;
+        $winningItemAmount = 0;
+
+        for ($i = 0; $i < ($winningItemNumber + 4); $i++) {
 
             $randomNumber = mt_rand(0, $weightTotal);
             $sumNumber = 0;
-            $sumNumber += $itemWeightArray[$i2];
 
-            if ($randomNumber <= $sumNumber) {
+            for ($i2 = 0; $i2 < count($itemIDArray); $i2++) {
 
-                $getItemName = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
-                $getItemName->bind_param("i", $itemIDArray[$i2]);
-                $getItemName->execute();
-                $resultItemName = $getItemName->get_result();
-                $resultItemNameArray = $resultItemName->fetch_array();
+                $sumNumber += $itemWeightArray[$i2];
 
-                array_push($itemNameLoopArray, $resultItemNameArray['ItemName']);
-                array_push($itemIDLoopArray, $itemIDArray[$i2]);
-                array_push($itemAmountLoopArray, $itemAmountArray[$i2]);
+                if ($randomNumber <= $sumNumber) {
 
-                $output['itemspin'.$i] = $itemAmountArray[$i2]." ".$resultItemNameArray['ItemName'];
+                    $getItemInfo = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
+                    $getItemInfo->bind_param("i", $itemIDArray[$i2]);
+                    $getItemInfo->execute();
+                    $resultItemInfo = $getItemInfo->get_result();
+                    $resultItemInfoArray = $resultItemInfo->fetch_assoc();
 
+                    $rarityValue = null;
+                    if ($resultItemInfoArray['ItemType'] === "Weapon" || $resultItemInfoArray['ItemType'] === "Armor") {
+                        $randonRarityNumber = mt_rand(0, 100);
+
+                        $getItemRarity = $connection->prepare("SELECT * FROM rule_rarity WHERE Percent > ? ORDER BY Percent ASC");
+                        $getItemRarity->bind_param("i", $randonRarityNumber);
+                        $getItemRarity->execute();
+                        $resultItemRarity = $getItemRarity->get_result();
+                        $resultItemRarityAssoc = $resultItemRarity->fetch_assoc();
+
+                        $rarityValue = $resultItemRarityAssoc['Rarity'];
+                    }
+
+                    if ($i === $winningItemNumber) {
+
+                        $winningItemID = $itemIDArray[$i2];
+                        $winningItemRarity = $rarityValue;
+                        $winningItemName = $resultItemInfoArray['ItemName'];
+                        $winningItemAmount = $itemAmountArray[$i2];
+
+                    }
+
+                    if ($rarityValue) {
+                        $output['itemspin'.$i] = $itemAmountArray[$i2]." ".$rarityValue." ".$resultItemInfoArray['ItemName'];
+                    }
+                    else {
+                        $output['itemspin'.$i] = $itemAmountArray[$i2]." ".$resultItemInfoArray['ItemName'];
+                    }
+
+                    $i2 = count($itemIDArray);
+
+                }
+            }
+        }
+
+        $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
+
+        $setChestLog = $connection->prepare("INSERT INTO logs_chests (UserID, Timestamp, Cost, CostType, ChestID, WinAmount, WinRarity, winItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $setChestLog->bind_param("isisiiss", $uid, $currentTimestamp, $chestCost, $chestCostType, $chestID, $winningItemAmount, $winningItemRarity, $winningItemName);
+        $setChestLog->execute();
+
+        if ($winningItemID <= 2) {
+
+            $updateGemName = "Gold";
+            if ($winningItemID === 2) {
+                $updateGemName = "Diamonds";
+            }
+
+            $getUserAccount2 = $connection->prepare("SELECT * FROM user_account WHERE UserID = ?");
+            $getUserAccount2->bind_param("i", $uid);
+            $getUserAccount2->execute();
+            $resultUserAccount2 = $getUserAccount2->get_result();
+            $resultUserAccountAssoc2 = $resultUserAccount2->fetch_assoc();
+
+            $updateCurrencyValue = $resultUserAccountAssoc2[$updateGemName] + $winningItemAmount;
+
+            $giveUserCurrency = $connection->prepare("UPDATE user_account SET $updateGemName = ? WHERE UserID = ?");
+            $giveUserCurrency->bind_param("ii", $updateCurrencyValue, $uid);
+            $giveUserCurrency->execute();
+        }
+        else {
+
+            $resultUserItemsWinningItemAssoc = null;
+
+            if ($winningItemID >= 10000) {
+
+                $getUserItemsWinningItem = $connection->prepare("SELECT * FROM user_items WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
+                $getUserItemsWinningItem->bind_param("iis", $uid, $winningItemID, $winningItemRarity);
+                $getUserItemsWinningItem->execute();
+                $resultUserItemsWinningItem = $getUserItemsWinningItem->get_result();
+                $resultUserItemsWinningItemAssoc = $resultUserItemsWinningItem->fetch_assoc();
+
+                if ($resultUserItemsWinningItemAssoc['ItemID']) {
+                    $userItemAmount = $resultUserItemsWinningItemAssoc['Amount'] + $winningItemAmount;
+                    $userItemTotal = $resultUserItemsWinningItemAssoc['Total'] + $winningItemAmount;
+
+                    $giveUserItems = $connection->prepare("UPDATE user_items SET Amount = ?, Total = ? WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
+                    $giveUserItems->bind_param("iiiis", $userItemAmount, $userItemTotal, $uid, $winningItemID, $winningItemRarity);
+                    $giveUserItems->execute();
+                }
+
+                else {
+                    $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Rarity, Amount, Total) VALUES (?, ?, ?, ?, ?)");
+                    $giveUserItem->bind_param("iisii", $uid, $winningItemID, $winningItemRarity, $winningItemAmount, $winningItemAmount);
+                    $giveUserItem->execute();
+                }
+
+            }
+            else {
+
+                $getUserItemsWinningItem = $connection->prepare("SELECT * FROM user_items WHERE UserID = ? AND ItemID = ?");
+                $getUserItemsWinningItem->bind_param("ii", $uid, $winningItemID);
+                $getUserItemsWinningItem->execute();
+                $resultUserItemsWinningItem = $getUserItemsWinningItem->get_result();
+                $resultUserItemsWinningItemAssoc = $resultUserItemsWinningItem->fetch_assoc();
+
+                if ($resultUserItemsWinningItemAssoc['ItemID']) {
+                    $userItemAmount = $resultUserItemsWinningItemAssoc['Amount'] + $winningItemAmount;
+                    $userItemTotal = $resultUserItemsWinningItemAssoc['Total'] + $winningItemAmount;
+
+                    $giveUserItems = $connection->prepare("UPDATE user_items SET Amount = ?, Total = ? WHERE UserID = ? AND ItemID = ?");
+                    $giveUserItems->bind_param("iiii", $userItemAmount, $userItemTotal, $uid, $winningItemID);
+                    $giveUserItems->execute();
+                }
+
+                else {
+                    $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Amount, Total) VALUES (?, ?, ?, ?, ?)");
+                    $giveUserItem->bind_param("iiii", $uid, $winningItemID, $winningItemAmount, $winningItemAmount);
+                    $giveUserItem->execute();
+                }
             }
         }
     }
-
-    $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
-    $winningItem = 24;
-
-    $output['winitemname'] = $itemNameLoopArray[$winningItem];
-    $output['winitemid'] = $itemIDLoopArray[$winningItem];
-    $output['winitemamount'] = $itemAmountLoopArray[$winningItem];
-
-    $rarityValue = null;
-
-    if ($itemIDLoopArray[$winningItem] > 10000 && $itemIDLoopArray[$winningItem] < 30000) {
-        $randonRarityNumber = mt_rand(0, 100);
-
-        $getItemRarity = $connection->prepare("SELECT * FROM rule_rarity WHERE Percent > ? ORDER BY Percent ASC");
-        $getItemRarity->bind_param("i", $randonRarityNumber);
-        $getItemRarity->execute();
-        $resultItemRarity = $getItemRarity->get_result();
-        $resultItemRarityAssoc = $resultItemRarity->fetch_assoc();
-
-        $rarityValue = $resultItemRarityAssoc['Rarity'];
-        $output['rarity'] = $rarityValue;
-    }
-
-
-
-
-
-    $typeTEMP = 'Coins';
-    $amountTEMP = 0;
-
-
-
-
-
-    $setChestLog = $connection->prepare("INSERT INTO logs_chests (UserID, Timestamp, Cost, CostType, ChestID, WinAmount, WinRarity, winItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $setChestLog->bind_param("isisiiss", $uid, $currentTimestamp, $amountTEMP, $typeTEMP, $chestID, $itemAmountLoopArray[$winningItem], $rarityValue, $itemNameLoopArray[$winningItem]);
-    $setChestLog->execute();
-
-    $getUserItem = $connection->prepare("SELECT * FROM user_items WHERE ItemID = ? AND Rarity = ?");
-    $getUserItem->bind_param("is", $itemIDLoopArray[$winningItem], $rarityValue);
-    $getUserItem->execute();
-    $resultUserItem = $getUserItem->get_result();
-    $resultUserItemAssoc = $resultUserItem->fetch_assoc();
-
-    if ($resultUserItemAssoc['ItemID']) {
-        $userItemAmount = $resultUserItemAssoc['Amount'] + $itemAmountLoopArray[$winningItem];
-        $userItemTotal = $resultUserItemAssoc['Total'] + $itemAmountLoopArray[$winningItem];
-
-        $giveUserItems = $connection->prepare("UPDATE user_items SET Amount = ?, Total = ? WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
-        $giveUserItems->bind_param("iiiis", $userItemAmount, $userItemTotal, $uid, $itemIDLoopArray[$winningItem], $rarityValue);
-        $giveUserItems->execute();
-    }
-    
-    else {
-
-        $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Rarity, Amount, Total) VALUES (?, ?, ?, ?, ?)");
-        $giveUserItem->bind_param("iisii", $uid, $itemIDLoopArray[$winningItem], $rarityValue, $itemAmountLoopArray[$winningItem], $itemAmountLoopArray[$winningItem]);
-        $giveUserItem->execute();
-
-    }
-
 }
