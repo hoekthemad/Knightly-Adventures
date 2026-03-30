@@ -4,10 +4,18 @@
 <div class="container">
     <br>
     <div class="row">
-        <div class="container mt-5">
-            <button onclick="openChest(1)">Open Case</button>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div>
+                <span id="caseresult1">Spin me!</span>
+                <br>
+                <span id="caseresult2"></span>
+            </div>
             <br>
-            <span id="result"></span>
+            <button onclick="openChest(1)">Open Case</button>
+        </div>
+        <div class="col-md-4">
         </div>
     </div>
 </div>

@@ -3,8 +3,6 @@
 $chestID = !empty($_REQUEST['chest']) ? $_REQUEST['chest'] : false;
 $uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
 
-$output['chestid'] = $chestID;
-
 $getChestItems = $connection->prepare("SELECT * FROM rule_chests WHERE ChestID = ?");
 $getChestItems->bind_param("i", $chestID);
 $getChestItems->execute();
@@ -48,6 +46,9 @@ if ($resultChestItems->num_rows >= 1) {
         array_push($itemIDLoopArray, $itemIDArray[$randonNumber]);
         array_push($itemAmountLoopArray, $itemAmountArray[$randonNumber]);
 
+        $output['itemname'.$i] = $resultItemNameArray['ItemName'];
+        $output['itemamount'.$i] = $itemAmountArray[$randonNumber];
+
     }
 
     $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
@@ -70,8 +71,6 @@ if ($resultChestItems->num_rows >= 1) {
     $getUserItem->execute();
     $resultUserItem = $getUserItem->get_result();
     $resultUserItemAssoc = $resultUserItem->fetch_assoc();
-
-    $output ['test3'] = $resultUserItemAssoc;
 
     if ($resultUserItemAssoc['ItemID']) {
         $userItemAmount = $resultUserItemAssoc['Amount'] + $itemAmountLoopArray[$winningItem];
