@@ -10,12 +10,12 @@ async function openChest(chestID) {
     });
 
     if (res['status'] == true) {
-        jQuery(`#caseresult`).text('Spinning in 3... 2... 1...');
+        jQuery(`#caseresult1`).text('Spinning in 3... 2... 1...');
         await delay(4000);
 
         let timeDelay = 200;
 
-        for (let i = 0; i < 24; i++) {
+        for (let i = 0; i < 25; i++) {
 
             jQuery(`#caseresult1`).text(res['itemamount' + i] + " " + res['itemname' + i]);
 
