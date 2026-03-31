@@ -15,7 +15,7 @@ if ($resultChestItems->num_rows >= 1) {
     $chestCostType = 'Diamonds';
 
     if ($chestID == 1) {
-        $chestCost = 100;
+        $chestCost = 20;
         $chestCostType = 'Gold';
     }
 
@@ -53,14 +53,14 @@ if ($resultChestItems->num_rows >= 1) {
             $loopCount1++;
         }
 
-        $winningItemNumber = 4;
+        $winningItemNumber = 14;
 
         $winningItemID = 0;
         $winningItemName = null;
         $winningItemRarity = null;
         $winningItemAmount = 0;
 
-        for ($i = 0; $i < ($winningItemNumber + 4); $i++) {
+        for ($i = 0; $i < ($winningItemNumber + 2); $i++) {
 
             $randomNumber = mt_rand(0, $weightTotal);
             $sumNumber = 0;

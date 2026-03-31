@@ -11,29 +11,54 @@ async function openChest(chestID) {
 
     if (res['status'] == true) {
 
-        jQuery(`#caseresult1`).text('Spinning in 3... 2... 1...');
-        jQuery(`#caseresult2`).text('');
+        const button = document.getElementById(`chest${chestID}button`);
+        button.disabled = true;
+
+        jQuery(`#chest${chestID}result1`).text('Spinning in 3... 2... 1...');
+        jQuery(`#chest${chestID}result2`).text('');
+        jQuery(`#chest${chestID}result4`).text('');
         await delay(4000);
+        jQuery(`#chest${chestID}result1`).text('');
 
-        let timeDelay = 750;
 
-        for (let i = 0; i < 5; i++) {
+        let timeDelay = 250;
+        const winningNumber = 14;
 
-            jQuery(`#caseresult1`).text(res['itemspin' + i]);
+        for (let i = 2; i < (winningNumber + 1); i++) {
 
-            delay(timeDelay);
+            jQuery(`#chest${chestID}result2`).text(res['itemspin' + (i - 2)]);
+            jQuery(`#chest${chestID}result3`).text(res['itemspin' + (i - 1)]);
+            jQuery(`#chest${chestID}result4`).text('> ' + res['itemspin' + i] + ' <');
+            jQuery(`#chest${chestID}result5`).text(res['itemspin' + (i + 1)]);
+            jQuery(`#chest${chestID}result6`).text(res['itemspin' + (i + 2)]);
 
-            if (i === 4) {
-                jQuery(`#caseresult1`).text("You win:");
-                jQuery(`#caseresult2`).text(res['winningitem']);
+            await delay(timeDelay);
+
+            if (i < 7) {
+                timeDelay += 25
+            }
+            else if (i < 11) {
+                timeDelay += 100
+            }
+            else {
+                timeDelay += 250
+            }
+
+            if (i === winningNumber) {
+                jQuery(`#chest${chestID}result1`).text("You win:");
+                jQuery(`#chest${chestID}result2`).text('');
+                jQuery(`#chest${chestID}result3`).text('');
+                jQuery(`#chest${chestID}result5`).text('');
+                jQuery(`#chest${chestID}result6`).text('');
             }
 
         }
+        button.disabled = false;
     }
     else {
 
-        jQuery(`#caseresult1`).text(res['message1']);
-        jQuery(`#caseresult2`).text(res['message2']);
+        jQuery(`#chest${chestID}result1`).text(res['message1']);
+        jQuery(`#chest${chestID}result2`).text(res['message2']);
 
     }
 }
