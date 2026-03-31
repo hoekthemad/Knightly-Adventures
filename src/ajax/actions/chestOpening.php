@@ -13,10 +13,19 @@ if ($resultChestItems->num_rows >= 1) {
 
     $chestCost = 1000000;
     $chestCostType = 'Diamonds';
+    $chestCostTypeFriendlyName = 'Gems';
 
-    if ($chestID == 1) {
-        $chestCost = 20;
-        $chestCostType = 'Gold';
+    $getChestCost = $connection->prepare("SELECT * FROM rule_chests_cost WHERE ChestID = ?");
+    $getChestCost->bind_param("i", $chestID);
+    $getChestCost->execute();
+    $resultChestCost = $getChestCost->get_result();
+    $resultChestCostAssoc = $resultChestCost->fetch_assoc();
+
+    $output['TESTING'] = $resultChestCostAssoc;
+
+    if ($resultChestCostAssoc) {
+        $chestCost = $resultChestCostAssoc['ChestCost'];
+        $ChestCostType = $resultChestCostAssoc['ChestCostType'];
     }
 
     $getUserAccount = $connection->prepare("SELECT * FROM user_account WHERE UserID = ?");
@@ -28,7 +37,7 @@ if ($resultChestItems->num_rows >= 1) {
     if ($resultUserAccountAssoc[$chestCostType] < $chestCost) {
         $output['status'] = false;
         $output['message1'] = "Cannot open chest!";
-        $output['message2'] = "You have $resultUserAccountAssoc[$chestCostType] $chestCostType out of the needed $chestCost $chestCostType!";
+        $output['message2'] = "You have $resultUserAccountAssoc[$chestCostType] $chestCostTypeFriendlyName out of the needed $chestCost $chestCostTypeFriendlyName!";
     }
     else {
         $output['status'] = true;

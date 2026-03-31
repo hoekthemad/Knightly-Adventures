@@ -17,7 +17,10 @@ async function openChest(chestID) {
         button2.disabled = true;
 
         jQuery(`#chest${chestID}result1`).text('Spinning in 3... 2... 1...');
+        jQuery(`#chest${chestID}result2`).text('');
         jQuery(`#chest${chestID}result3`).text('');
+        jQuery(`#chest${chestID}result4`).text('');
+        jQuery(`#chest${chestID}result5`).text('');
         await delay(4000);
 
 
@@ -59,6 +62,9 @@ async function openChest(chestID) {
 
         jQuery(`#chest${chestID}result1`).text(res['message1']);
         jQuery(`#chest${chestID}result2`).text(res['message2']);
+        jQuery(`#chest${chestID}result3`).text('');
+        jQuery(`#chest${chestID}result4`).text('');
+        jQuery(`#chest${chestID}result5`).text('');
 
     }
 }

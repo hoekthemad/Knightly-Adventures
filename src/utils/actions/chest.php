@@ -9,7 +9,11 @@
     
         $result = $getChestCost->get_result();
         if ($result->num_rows >= 1) {
-            return $result->fetch_assoc();
+            $resultAssoc = $result->fetch_assoc();
+            if ($resultAssoc['ChestCostType'] === 'Diamonds') {
+                $resultAssoc['ChestCostType'] = 'Gems';
+            }
+            return $resultAssoc;
         }
     }
 
@@ -45,12 +49,14 @@
 
             }
 
+            $itemArray = [];
+
             for ($i = 0; $i < count($rewardsItemID); $i++) {
                 $itemPercent = round($rewardsItemWeight[$i] * 100 / $totalWeight, 2);
-                ?>
-                <li><?= $rewardsItemAmount[$i] ?> <?= $rewardsItemName[$i] ?>: <?= $itemPercent ?>%</li>
-                <?php
+                array_push($itemArray, $rewardsItemAmount[$i]." ".$rewardsItemName[$i].": ".$itemPercent."%");
             }
+
+            return $itemArray;
 
         }
     }
