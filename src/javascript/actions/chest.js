@@ -11,14 +11,13 @@ async function openChest(chestID) {
 
     if (res['status'] == true) {
 
-        const button = document.getElementById(`chest${chestID}button`);
+        const button = document.getElementById(`chestclaim${chestID}button`);
         button.disabled = true;
 
         jQuery(`#chest${chestID}result1`).text('Spinning in 3... 2... 1...');
         jQuery(`#chest${chestID}result2`).text('');
         jQuery(`#chest${chestID}result4`).text('');
         await delay(4000);
-        jQuery(`#chest${chestID}result1`).text('');
 
 
         let timeDelay = 250;
@@ -26,11 +25,11 @@ async function openChest(chestID) {
 
         for (let i = 2; i < (winningNumber + 1); i++) {
 
-            jQuery(`#chest${chestID}result2`).text(res['itemspin' + (i - 2)]);
-            jQuery(`#chest${chestID}result3`).text(res['itemspin' + (i - 1)]);
-            jQuery(`#chest${chestID}result4`).text('> ' + res['itemspin' + i] + ' <');
-            jQuery(`#chest${chestID}result5`).text(res['itemspin' + (i + 1)]);
-            jQuery(`#chest${chestID}result6`).text(res['itemspin' + (i + 2)]);
+            jQuery(`#chest${chestID}result1`).text(res['itemspin' + (i - 2)]);
+            jQuery(`#chest${chestID}result2`).text(res['itemspin' + (i - 1)]);
+            jQuery(`#chest${chestID}result3`).text('> ' + res['itemspin' + i] + ' <');
+            jQuery(`#chest${chestID}result4`).text(res['itemspin' + (i + 1)]);
+            jQuery(`#chest${chestID}result5`).text(res['itemspin' + (i + 2)]);
 
             await delay(timeDelay);
 
@@ -47,9 +46,8 @@ async function openChest(chestID) {
             if (i === winningNumber) {
                 jQuery(`#chest${chestID}result1`).text("You win:");
                 jQuery(`#chest${chestID}result2`).text('');
-                jQuery(`#chest${chestID}result3`).text('');
-                jQuery(`#chest${chestID}result5`).text('');
-                jQuery(`#chest${chestID}result6`).text('');
+                jQuery(`#chest${chestID}result4`).text('');
+                jQuery(`#chest${chestID}result5`).text('')
             }
 
         }

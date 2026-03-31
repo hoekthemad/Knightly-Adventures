@@ -13,8 +13,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Starting Chest</h1>
                             </div>
                             <div class="modal-body">
                                 <div>
@@ -27,16 +26,16 @@
                                     <span id="chest1result4"></span>
                                     <br>
                                     <span id="chest1result5"></span>
-                                    <br>
-                                    <span id="chest1result6"></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Claim</button>
+                                <button id="chestclaim1button" type="button" class="btn btn-primary" data-bs-dismiss="modal">Claim</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <br>
+                Odds
                 <br>
                 Cost to open:
                 <br>
