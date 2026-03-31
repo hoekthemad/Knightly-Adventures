@@ -11,12 +11,13 @@ async function openChest(chestID) {
 
     if (res['status'] == true) {
 
-        const button = document.getElementById(`chestclaim${chestID}button`);
-        button.disabled = true;
+        const button1 = document.getElementById(`chestclaim${chestID}button`);
+        const button2 = document.getElementById(`chestclose${chestID}button`);
+        button1.disabled = true;
+        button2.disabled = true;
 
         jQuery(`#chest${chestID}result1`).text('Spinning in 3... 2... 1...');
-        jQuery(`#chest${chestID}result2`).text('');
-        jQuery(`#chest${chestID}result4`).text('');
+        jQuery(`#chest${chestID}result3`).text('');
         await delay(4000);
 
 
@@ -51,7 +52,8 @@ async function openChest(chestID) {
             }
 
         }
-        button.disabled = false;
+        button1.disabled = false;
+        button2.disabled = false;
     }
     else {
 
