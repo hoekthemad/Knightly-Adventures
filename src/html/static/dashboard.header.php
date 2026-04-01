@@ -42,55 +42,30 @@ $userCurrency = getUserCurrency();
     <body class="container-fluid">
         <div class="jumbotron jumbotron-fluid">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <h1>Knightly Adventures v0.0.1</h1>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
                 </div>
                 <div class="col-sm-3">
-                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                        <div class="container-fluid">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCurrency" aria-controls="navbarCurrency" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarCurrency">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                <a class="nav-link"><span id="usergold"><?= $userCurrency['Gold'] ?></span> Gold</a>
-                                </li>
-                                <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                <div data-bs-toggle="modal" data-bs-target="#gemsModal"><span id="usergems"><?= $userCurrency['Diamonds'] ?></span> Gems</div>
-                                    <div class="modal fade" id="gemsModal" tabindex="-1" aria-labelledby="gemModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="gemModalLabel">Purchase Gems or Membership</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Add purchases here.
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                </li>
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Settings
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Account Details</a></li>
-                                    <li><a class="dropdown-item" href="index.php?logout=true">Logout</a></li>
-                                </ul>
-                            </ul>
-                            </div>
-                        </div>
-                    </nav>
+                    <div>
+                        Gold: <span id="usergold"><?= $userCurrency['Gold'] ?></span>
+                    </div>
+                    <div>
+                        Gems: <span id="usergems"><?= $userCurrency['Diamonds'] ?></span>
+                    </div>
+                    <div>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Settings
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Account Details</a></li>
+                            <li><a class="dropdown-item" href="#">Purchase Gems</a></li>
+                            <li><a class="dropdown-item" href="#">Purchase Membership</a></li>
+                            <li><a class="dropdown-item" href="index.php?logout=true">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
