@@ -69,7 +69,7 @@ if ($resultChestItems->num_rows >= 1) {
         $winningItemRarity = null;
         $winningItemAmount = 0;
 
-        for ($i = 0; $i < ($winningItemNumber + 2); $i++) {
+        for ($i = 0; $i < ($winningItemNumber + 3); $i++) {
 
             $randomNumber = mt_rand(0, $weightTotal);
             $sumNumber = 0;
