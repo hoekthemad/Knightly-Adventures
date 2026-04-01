@@ -43,6 +43,65 @@ function getUserItems() {
                         <td>
                             <?= $row['Total']; ?>
                         </td>
+                        <td>
+                            <?php
+                                if ($resultItemNameArray['ItemType'] === 'Material') {
+                                ?>
+                                <button id="craft<?= $resultItemNameArray['ItemID'] ?>" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#craft<?= $resultItemNameArray['ItemID'] ?>modal">
+                                    Craft
+                                </button>
+                                <div class="modal fade" id="craft<?= $resultItemNameArray['ItemID'] ?>modal" tabindex="-1" aria-labelledby="craft<?= $resultItemNameArray['ItemID'] ?>modallabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="craft<?= $resultItemNameArray['ItemID'] ?>modallabel"><?= $resultItemNameArray['ItemName'] ?></h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php
+
+                                            $getCraftRecipies = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
+                                            $getCraftRecipies->bind_param("i", $row['ItemID']);
+                                            $getCraftRecipies->execute();
+                                            $resultCraftRecipies = $getCraftRecipies->get_result();
+
+                                            if ($resultCraftRecipies->num_rows >= 1) {
+                                                while ($row2 = $resultCraftRecipies->fetch_assoc()) {
+
+                                                    $getCraftRecipies = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
+                                                    $getCraftRecipies->bind_param("i", $row['ItemID']);
+                                                    $getCraftRecipies->execute();
+                                                    $resultCraftRecipies = $getCraftRecipies->get_result();
+
+
+
+
+
+                                                    ?>
+                                                    <div>
+                                                        <button type="button" class="btn btn-primary" onclick="">
+                                                            Text
+                                                        </button>
+                                                        Name of item...
+                                                        <br>
+                                                        <?= $row2['ItemID'] ?>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+
+                                            ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <?php
+                                }
+                            ?>
+                        </td>
                     </tr>
                     <?php
                 }

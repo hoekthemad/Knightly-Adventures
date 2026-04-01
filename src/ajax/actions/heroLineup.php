@@ -1,27 +1,36 @@
 <?php
 
-$output['FUCK_YOU'] = "I FUCKING HATE IT HERE!";
-
 $heroNumber = !empty($_REQUEST['hero']) ? $_REQUEST['hero'] : false;
 $slotNumber = !empty($_REQUEST['slot']) ? $_REQUEST['slot'] : false;
 $uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
 
+$getLineupSlot = $connection->prepare("SELECT * FROM user_heroes WHERE UserID = ? AND InSlot = ?");
+$getLineupSlot->bind_param("ii", $uid, $slotNumber);
+$getLineupSlot->execute();
+
+$resultLineupSlot = $getLineupSlot->get_result();
+
 $output['status'] = true;
-$output['hero'] = $heroNumber;
-$output['slot'] = $slotNumber;
+$output['heronumber'] = $heroNumber;
+$output['slotnumber'] = $slotNumber;
 
+if ($resultLineupSlot->num_rows >= 1) {
 
+    $resultLineupSlotArray = $resultLineupSlot->fetch_array();
 
+    $updateCurrentLineupSlot = $connection->prepare("UPDATE user_heroes SET InSlot = 0 WHERE UserID = ? AND HeroNumber = ?");
+    $updateCurrentLineupSlot->bind_param("ii", $uid, $resultLineupSlotArray['HeroNumber']);
+    $updateCurrentLineupSlot->execute();
 
-
-/*
-$getChestItems = $connection->prepare("SELECT * FROM rule_chests WHERE ChestID = ?");
-$getChestItems->bind_param("i", $chestID);
-$getChestItems->execute();
-
-$resultChestItems = $getChestItems->get_result();
-
-if ($resultChestItems->num_rows >= 1) {
+    $updateNewLineupSlot = $connection->prepare("UPDATE user_heroes SET InSlot = ? WHERE UserID = ? AND HeroNumber = ?");
+    $updateNewLineupSlot->bind_param("iii", $slotNumber, $uid, $heroNumber);
+    $updateNewLineupSlot->execute();
 
 }
-*/
+else {
+
+    $updateNewLineupSlot = $connection->prepare("UPDATE user_heroes SET InSlot = ? WHERE UserID = ? AND HeroNumber = ?");
+    $updateNewLineupSlot->bind_param("iii", $slotNumber, $uid, $heroNumber);
+    $updateNewLineupSlot->execute();
+
+}

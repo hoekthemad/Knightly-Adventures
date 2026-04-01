@@ -14,10 +14,5 @@ async function setHeroLineup(heroNumber, slotNumber) {
 
     if (res['status'] == true) {
 
-        console.log('FUCKING FINALLY!');
-
-    }
-    else {
-        console.log('Fuck.');
     }
 }
