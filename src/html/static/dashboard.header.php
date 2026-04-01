@@ -42,13 +42,13 @@ $userCurrency = getUserCurrency();
     <body class="container-fluid">
         <div class="jumbotron jumbotron-fluid">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-5">
                     <h1>Knightly Adventures v0.0.1</h1>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-4">
                     <h3 class="display-4"><?= !empty($currPage) ? " - {$currPage}" : ""; ?></h3>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-3">
                     <div>
                         Gold: <span id="usergold"><?= $userCurrency['Gold'] ?></span>
                     </div>
@@ -84,41 +84,41 @@ $userCurrency = getUserCurrency();
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-sm">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUserInput" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarUserInput">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php?action=village">Village</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Fight
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Enemy</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item disabled" id="wbs_menu" href="#">World Boss</a></li>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="dashboard.php?action=village">Village</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Fight
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Enemy</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item disabled" id="wbs_menu" href="#">World Boss</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="dashboard.php?action=heroes">Heroes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="dashboard.php?action=items">Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="dashboard.php?action=chest">Chests</a>
+                            </li>
+                            <?php 
+                            if (isPermitted("admin")) {
+                                ?><li class="nav-item"><a class="nav-link" href="dashboard.php?action=admin">Admin Panel</a></li><?php
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="dashboard.php?action=_example">DB Explainer (_example)</a>
+                            </li>
                         </ul>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php?action=heroes">Heroes</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php?action=items">Items</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php?action=chest">Chests</a>
-                        </li>
-                        <?php 
-                        if (isPermitted("admin")) {
-                            ?><li class="nav-item"><a class="nav-link" href="dashboard.php?action=admin">Admin Panel</a></li><?php
-                        }
-                        ?>
-                        <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php?action=_example">DB Explainer (_example)</a>
-                        </li>
-                    </ul>
                     </div>
                 </div>
             </nav>
