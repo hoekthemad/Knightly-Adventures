@@ -23,7 +23,10 @@ switch ($_REQUEST['do']) {
     case "updateUser": { require 'src/ajax/actions/updateUser.php'; break; }
     case "villageUpgrade": { require 'src/ajax/actions/villageUpgrade.php'; break; }
     default: {
-        //default to false in case no action is found
+        $fPath = "src/ajax/actions/{$_REQUEST['do']}.php";
+        if (file_exists($fPath)) {
+            require $fPath;
+        }
     }
 }
 // Output the encoded result and exit
