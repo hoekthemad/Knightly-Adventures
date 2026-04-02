@@ -104,19 +104,35 @@ function getBuildingList($specifyBuilding = false) {
         $desc = $row['bd'];
         $outdesc = $row['bod'];
         $maxallowed = $row['mc'];
-        
-        $retval[strtolower(str_replace([" "], [""], $name))] = [
-            'spacedname' => $name,
-            'trimmedname' => str_replace([" "], [""], $name),
-            'jsname' => strtolower(str_replace([" "], [""], $name)),
-            'uservillagename' => str_replace([" "], [""], $name),
-            'maxlevel' => $level,
-            'type' => $type,
-            'desc' => $desc,
-            'outputdesc' => $outdesc,
-            'hasProdBonus' => buildingHasBonusProduction($name),
-            'maxCount' => $maxallowed
-        ];
+
+        if ($specifyBuilding) {
+            $retval = [
+                'spacedname' => $name,
+                'trimmedname' => str_replace([" "], [""], $name),
+                'jsname' => strtolower(str_replace([" "], [""], $name)),
+                'uservillagename' => str_replace([" "], [""], $name),
+                'maxlevel' => $level,
+                'type' => $type,
+                'desc' => $desc,
+                'outputdesc' => $outdesc,
+                'hasProdBonus' => buildingHasBonusProduction($name),
+                'maxCount' => $maxallowed
+            ];
+        }
+        else {
+            $retval[strtolower(str_replace([" "], [""], $name))] = [
+                'spacedname' => $name,
+                'trimmedname' => str_replace([" "], [""], $name),
+                'jsname' => strtolower(str_replace([" "], [""], $name)),
+                'uservillagename' => str_replace([" "], [""], $name),
+                'maxlevel' => $level,
+                'type' => $type,
+                'desc' => $desc,
+                'outputdesc' => $outdesc,
+                'hasProdBonus' => buildingHasBonusProduction($name),
+                'maxCount' => $maxallowed
+            ];
+        }
     }
 
     return $retval;

@@ -10,9 +10,9 @@ $gemFactoryList = getBuildingList("Gem Factory");
     <div class="row">
         <!-- #region Town Hall and Hospital -->
         <div class="col-sm-4">
-            <?php drawItemContainer($townHallList['townhall']) ?>
+            <?php drawItemContainer($townHallList) ?>
             <br />
-            <?php drawItemContainer($hospitalList['hospital']) ?>
+            <?php drawItemContainer($hospitalList) ?>
         </div>
         <!-- #endregion -->
         <!-- #region Gold Factories -->
@@ -20,8 +20,8 @@ $gemFactoryList = getBuildingList("Gem Factory");
             <!-- <pre><code><?php var_dump($goldFactoryList); ?></code></pre> -->
             <?php 
             $goldFactoryCount = 0;
-            while ($goldFactoryCount < $goldFactoryList['goldfactory']['maxCount']) {
-                drawItemContainer($goldFactoryList['goldfactory'], $goldFactoryCount+1);
+            while ($goldFactoryCount < $goldFactoryList['maxCount']) {
+                drawItemContainer($goldFactoryList, $goldFactoryCount+1);
                 $goldFactoryCount++;
                 ?>
                 <br />
@@ -35,8 +35,8 @@ $gemFactoryList = getBuildingList("Gem Factory");
             <!-- <pre><code><?php var_dump($gemFactoryList); ?></code></pre> -->
             <?php 
             $gemFactoryCount = 0;
-            while ($gemFactoryCount < $gemFactoryList['gemfactory']['maxCount']) {
-                drawItemContainer($gemFactoryList['gemfactory'], $gemFactoryCount+1);
+            while ($gemFactoryCount < $gemFactoryList['maxCount']) {
+                drawItemContainer($gemFactoryList, $gemFactoryCount+1);
                 $gemFactoryCount++;
                 ?>
                 <br />
