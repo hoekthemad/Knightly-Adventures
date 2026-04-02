@@ -102,6 +102,7 @@ if ($buildingName && $uid) {
                     $query_updateFactoryProduction = $connection->prepare("UPDATE user_village SET ".$prodField." = ? WHERE UserID = ?");
                     $query_updateFactoryProduction->bind_param("si", $buildingOutput, $uid);
                     $query_updateFactoryProduction->execute();
+
                     $output['updateprod'] = true;
                     $output['newprod'] = $buildingOutput;
 
@@ -110,7 +111,7 @@ if ($buildingName && $uid) {
                         $factoryString = " Gold per Minute";
                     }
                     else if (stristr($ruleName, "Gem")) {
-                        $factoryString = " Gems per 30 Minutes";
+                        $factoryString = " Gems per Hour";
                     }
                     else if ($ruleName === "Hospital") {
                         $factoryString = "% Time Reduction";

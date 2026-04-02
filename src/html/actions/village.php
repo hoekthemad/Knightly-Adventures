@@ -2,106 +2,161 @@
 <script src="src/javascript/actions/village.js"></script>
 <?php
 getBuildingMaxLevels();
-
 $userVillage = getUserVillage();
-$userVillageNextGoldFactory1 = getRulesVillageNextLevel("GoldFactory1", "Gold Factory");
-$userVillageNextGoldFactory2 = getRulesVillageNextLevel("GoldFactory2", "Gold Factory");
-$userVillageNextGoldFactory3 = getRulesVillageNextLevel("GoldFactory3", "Gold Factory");
-$userVillageNextGoldFactory4 = getRulesVillageNextLevel("GoldFactory4", "Gold Factory");
-$userVillageNextGemFactory1 = getRulesVillageNextLevel("GemFactory1", "Gem Factory");
-$userVillageNextGemFactory2 = getRulesVillageNextLevel("GemFactory2", "Gem Factory");
-$userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
+
+$buildingNameNoSpaceLowerCase = ["townhall", "hospital", "goldfactory"];
+$buildingNameNoSpace = ["TownHall", "Hospital", "GoldFactory"];
+$buildingNameSpace = ["Town Hall", "Hospital", "Gold Factory"];
+
+$row1Count = 2;
+$row2Count = 3;
+$row3Count = 4;
+
+$goldFactoryNumber = 4;
+$gemFactoryNumber = 2;
 ?>
 <div class="container">
     <br>
     <div class="row">
         <div class="col-md-4">
-            <div class="card" style="width: 14rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Town Hall</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Main Building</h6>
-                    <p class="card-text">This building determines the max level for all other buildings.</p>
-                    <p class="card-text">Level: <span id="townhalllevel"><?= $userVillage['TownHall'] ?></span></p>
-                    <?php
-                    if ($userVillage['TownHall'] < $_SESSION['max_building_levels']['Town Hall']) {
-                        $userVillageNextTownHall = getRulesVillageNextLevel("TownHall", "Town Hall");
-                    ?>
-                    <a class="card-link" data-bs-toggle="modal" data-bs-target="#townHallModal" id="TownHallModalLink" href="#">Upgrade</a>
-                    <div class="modal fade" id="townHallModal" tabindex="-1" aria-labelledby="townHallModal" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="townHallModal">Upgrade Town Hall</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Cost to Upgrade:
-                                    <span id="townhallcost">
-                                        <?= $userVillageNextTownHall['BuildingCost']; ?> Gold
+            <?php
+            for ($i = 0; $i < $row1Count; $i++) {
+                $getBuildingInfo = $connection->prepare("SELECT * FROM rule_village_desc WHERE BuildingName = ?");
+                $getBuildingInfo->bind_param("s", $buildingNameSpace[$i]);
+                $getBuildingInfo->execute();
+                $resultBuildingInfo = $getBuildingInfo->get_result();
+                $resultBuildingInfoassoc = $resultBuildingInfo->fetch_assoc();
+                ?>
+                <div class="card" style="width: 14rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <?= $buildingNameSpace[$i] ?>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <?= $resultBuildingInfoassoc['BuildingType'] ?>
+                        </h6>
+                        <p class="card-text">
+                            <?= $resultBuildingInfoassoc['BuildingDesc'] ?>
+                        </p>
+                        <p class="card-text">
+                            <span id="<?= $buildingNameNoSpaceLowerCase[$i]; ?>level">
+                                Level: <?= $userVillage[$buildingNameNoSpace[$i]]; ?>
+                            </span>
+                            <?php
+                            if ($resultBuildingInfoassoc['BuildingOutputDesc']) {
+                                ?>
+                                <p class="card-text">
+                                    Bonus:
+                                    <span id="<?= $buildingNameNoSpaceLowerCase[$i]; ?>prod">
+                                        <?= $userVillage[$buildingNameNoSpace[$i].'Prod'] ?><?= $resultBuildingInfoassoc['BuildingOutputDesc'] ?>
                                     </span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" onclick="upgradeBuilding('TownHall')">Upgrade</button>
+                                </p>
+                                <?php
+                            }
+                            ?>
+                        </p>
+                        <?php
+                        if ($userVillage[$buildingNameNoSpace[$i]] < $_SESSION['max_building_levels'][$buildingNameSpace[$i]]) {
+                            $userVillageNext = getRulesVillageNextLevel($buildingNameNoSpace[$i], $buildingNameSpace[$i]);
+                            ?>
+                            <a class="card-link" data-bs-toggle="modal" data-bs-target="#<?= $buildingNameNoSpace[$i]; ?>Modal" id="<?= $buildingNameNoSpace[$i]; ?>ModalLink" href="#">
+                                Upgrade
+                            </a>
+                            <div class="modal fade" id="<?= $buildingNameNoSpace[$i]; ?>Modal" tabindex="-1" aria-labelledby="<?= $buildingNameNoSpace[$i]; ?>Modal" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="<?= $buildingNameNoSpace[$i] ?>Modal">Upgrade <?= $buildingNameSpace[$i]; ?></h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Cost to Upgrade:
+                                            <span id="<?= $buildingNameNoSpaceLowerCase[$i]; ?>cost">
+                                                <?= $userVillageNext['BuildingCost']; ?> <?= $userVillageNext['BuildingCostType']; ?>
+                                            </span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="upgradeBuilding('<?= $buildingNameNoSpace[$i]; ?>')">Upgrade</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <?php
-                    }
-                    ?>
-                </div>
-            </div>
-            <br>
-            <div class="card" style="width: 14rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Hospital</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Support Building</h6>
-                    <p class="card-text">This building determines the speed at which your heroes heal.</p>
-                    <p class="card-text">Level: <span id="hospitallevel"><?= $userVillage['Hospital'] ?></span></p>
-                    <p class="card-text">Bonus: <span id="hospitalprod"><?= $userVillage['HospitalProd'] ?></span>% Time Reduction</p>
-                    <a class="card-link" data-bs-toggle="modal" data-bs-target="#hospitalModal" id="HosptialModalLink" href="#">Upgrade</a>
-                    <div class="modal fade" id="hospitalModal" tabindex="-1" aria-labelledby="hospitalModal" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="hospitalModal">Upgrade Hospital</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Cost to Upgrade:
-                                    <span id="hospitalcost">
-                                        <?= $userVillageNextHospital['BuildingCost']." ".$userVillageNextHospital['BuildingCostType']; ?>
-                                    </span>
-                                    <br>
-                                    Next Level:
-                                    <span id="hospitalbonus">
-                                        <?= $userVillageNextHospital['BuildingOutput'].$userVillageNextHospital['BuildingOutputDesc']." ".$userVillageNextHospital['BuildingOutputTime']; ?>
-                                    </span>
-                                    <br>
-                                    <span id="hospitaltownhalllevel"></span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" onclick="upgradeBuilding('Hospital')">Upgrade</button>
-                                </div>
-                            </div>
-                        </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
-            </div>
+                <br>
+                <?php
+            }
+            ?>
         </div>
         <div class="col-md-4">
-            <div class="card" style="width: 14rem;">
+            <?php
+            for ($i = $row1Count; $i < $row2Count; $i++) {
+                $getBuildingInfo = $connection->prepare("SELECT * FROM rule_village_desc WHERE BuildingName = ?");
+                $getBuildingInfo->bind_param("s", $buildingNameSpace[$i]);
+                $getBuildingInfo->execute();
+                $resultBuildingInfo = $getBuildingInfo->get_result();
+                $resultBuildingInfoassoc = $resultBuildingInfo->fetch_assoc();
+                ?>
+                <div class="card" style="width: 14rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Gold Factories</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Production Building</h6>
-                    <p class="card-text">These buildings help generate passive gold income.</p>
+                    <h5 class="card-title">
+                        <?= $buildingNameSpace[$i] ?>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <?= $resultBuildingInfoassoc['BuildingType'] ?>
+                    </h6>
+                    <p class="card-text">
+                        <?= $resultBuildingInfoassoc['BuildingDesc'] ?>
+                    </p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Factory 1 Level: <span id="goldfactory1level"><?= $userVillage['GoldFactory1'] ?></span>
-                        <br><span id="goldfactory1prod"><?= $userVillage['GoldFactory1Prod'] ?></span> Gold per minute.
-                        <br>
+                    <?php
+                    for ($i2 = 1; $i2 < ($goldFactoryNumber + 1); $i2++) {
+                        ?>
+                        <li class="list-group-item">
+                            Factory <?= $i2; ?> Level: 
+                            <span id="<?= $buildingNameNoSpaceLowerCase; ?><?= $i2; ?>level">
+                                <?= $userVillage[$buildingNameNoSpace[$i].$i2]; ?>
+                            </span>
+                            <br>
+                            <span id="<?= $buildingNameNoSpaceLowerCase[$i].$i2; ?>prod">
+                                <?= $userVillage[$buildingNameNoSpace[$i].$i2.'Prod']; ?> <?= $resultBuildingInfoassoc['BuildingOutputTime']; ?>
+                            </span>
+                            <br>
+                            <!-- Set up invis button... -->
+                            <?php
+                                if ($userVillage[$buildingNameNoSpace[$i]] < $_SESSION['max_building_levels'][$buildingNameSpace[$i]]) {
+                                    $userVillageNext = getRulesVillageNextLevel($buildingNameNoSpace[$i], $buildingNameSpace[$i]);
+                                    ?>
+                                    <!-- -->
+                                    <?php
+                                }
+                            ?>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+                <br>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--
+<div class="container">
+    <br>
+    <div class="row">
+
                         <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory1Modal" id="GoldFactory1ModalLink" href="#">Upgrade</a>
                         <div class="modal fade" id="goldFactory1Modal" tabindex="-1" aria-labelledby="goldFactory1ModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -121,7 +176,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                             <?= $userVillageNextGoldFactory1['BuildingOutput']." ".$userVillageNextGoldFactory1['BuildingCostType']." ".$userVillageNextGoldFactory1['BuildingOutputTime']; ?>
                                         </span>
                                         <br>
-                                        <span id="goldfactory1townhalllevel"></span>
+                                        <span id="goldfactory1level"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -130,105 +185,7 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
                                 </div>
                             </div>
                         </div>
-                    <li class="list-group-item">Factory 2 Level: <span id="goldfactory2level"><?= $userVillage['GoldFactory2'] ?></span>
-                        <br><span id="goldfactory2prod"><?= $userVillage['GoldFactory2Prod'] ?></span> Gold per minute.
-                        <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory2Modal" href="#">Upgrade</a>
-                        <div class="modal fade" id="goldFactory2Modal" tabindex="-1" aria-labelledby="goldFactory2Modal" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="goldFactory2Modal">Upgrade Gold Factory 2</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Cost to Upgrade:
-                                        <span id="goldfactory2cost">
-                                            <?= $userVillageNextGoldFactory2['BuildingCost']." ".$userVillageNextGoldFactory2['BuildingCostType']; ?>
-                                        </span>
-                                        <br>
-                                        Next Level:
-                                        <span id="goldfactory2bonus">
-                                            <?= $userVillageNextGoldFactory2['BuildingOutput']." ".$userVillageNextGoldFactory2['BuildingCostType']." ".$userVillageNextGoldFactory2['BuildingOutputTime']; ?>
-                                        </span>
-                                        <br>
-                                        <span id="goldfactory2townhalllevel"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"  onclick="upgradeBuilding('GoldFactory2')">Upgrade</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">Factory 3 Level: <span id="goldfactory3level"><?= $userVillage['GoldFactory3'] ?></span>
-                        <br><span id="goldfactory3prod"><?= $userVillage['GoldFactory3Prod'] ?></span> Gold per minute.
-                        <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory3ModalLabel" href="#">Upgrade</a>
-                        <div class="modal fade" id="goldFactory3ModalLabel" tabindex="-1" aria-labelledby="goldFactory3ModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="goldFactory3ModalLabel">Upgrade Gold Factory 3</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Cost to Upgrade:
-                                        <span id="goldfactory3cost">
-                                            <?= $userVillageNextGoldFactory3['BuildingCost']." ".$userVillageNextGoldFactory3['BuildingCostType']; ?>
-                                        </span>
-                                        <br>
-                                        Next Level:
-                                        <span id="goldfactory3bonus">
-                                            <?= $userVillageNextGoldFactory3['BuildingOutput']." ".$userVillageNextGoldFactory3['BuildingCostType']." ".$userVillageNextGoldFactory3['BuildingOutputTime']; ?>
-                                        </span>
-                                        <br>
-                                        <span id="goldfactory3townhalllevel"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="upgradeBuilding('GoldFactory3')">Upgrade</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">Factory 4 Level: <span id="goldfactory4level"><?= $userVillage['GoldFactory4'] ?></span>
-                        <br><span id="goldfactory4prod"><?= $userVillage['GoldFactory4Prod'] ?></span> Gold per minute.
-                        <br>
-                        <a class="card-link" data-bs-toggle="modal" data-bs-target="#goldFactory4Modal" href="#">Upgrade</a>
-                        <div class="modal fade" id="goldFactory4Modal" tabindex="-1" aria-labelledby="goldFactory4Modal" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="goldFactory4Modal">Upgrade Gold Factory 4</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Cost to Upgrade:
-                                        <span id="goldfactory4cost">
-                                            <?= $userVillageNextGoldFactory4['BuildingCost']." ".$userVillageNextGoldFactory4['BuildingCostType']; ?>
-                                        </span>
-                                        <br>
-                                        Next Level:
-                                        <span id="goldfactory4bonus">
-                                            <?= $userVillageNextGoldFactory4['BuildingOutput']." ".$userVillageNextGoldFactory4['BuildingCostType']." ".$userVillageNextGoldFactory4['BuildingOutputTime']; ?>
-                                        </span>
-                                        <br>
-                                        <span id="goldfactory4townhalllevel"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="upgradeBuilding('GoldFactory4')">Upgrade</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
         <div class="col-md-4">
             <div class="card" style="width: 14rem;">
                 <div class="card-body">
@@ -316,3 +273,4 @@ $userVillageNextHospital = getRulesVillageNextLevel("Hospital", "Hospital");
         
     </div>
 </div>
+-->

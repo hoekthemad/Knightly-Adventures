@@ -91,10 +91,10 @@ function getClaimGems($uid) {
     $currentTimestamp = intval(strtotime(date("Y-m-d H:i:s")));
 
     $secondsToClaim = $currentTimestamp - $lastClaimTimestamp;
-    $secondsDifference = floor($secondsToClaim / 1800) * 1800;
+    $secondsDifference = floor($secondsToClaim / 3600) * 3600;
     $lastClaimTimestampUpdate = $lastClaimTimestamp + $secondsDifference;
 
-    $amountToClaim = round(($secondsDifference * $gemMultiplier) / 1800);
+    $amountToClaim = round(($secondsDifference * $gemMultiplier) / 3600);
     return ['timestamp'=>$currentTimestamp, "amount"=>$amountToClaim, "multiplier"=>$gemMultiplier];
 }
 
