@@ -12,7 +12,12 @@ if (empty($pageName)) {
     require_once 'src/html/actions/dashboard.php';
 }
 else {
-    require_once 'src/html/actions/'.$pageName.'.php';
+    if (isset($_REQUEST['version'])) {
+        require_once 'src/html/actions/'.$pageName.$_REQUEST['version'].'.php';
+    }
+    else {
+        require_once 'src/html/actions/'.$pageName.'.php';
+    }
 }
 
 
