@@ -155,8 +155,6 @@ if ($resultChestItems->num_rows >= 1) {
         }
         else {
 
-            $resultUserItemsWinningItemAssoc = null;
-
             if ($winningItemID >= 10000) {
 
                 $getUserItemsWinningItem = $connection->prepare("SELECT * FROM user_items WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
