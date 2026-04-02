@@ -10,7 +10,7 @@
         $result = $getUserHero->get_result();
 
         if ($result->num_rows >= 1) {
-            return $result->fetch_array();
+            return $result->fetch_assoc();
         }
     }
 
