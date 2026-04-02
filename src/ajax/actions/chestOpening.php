@@ -197,7 +197,7 @@ if ($resultChestItems->num_rows >= 1) {
                 }
 
                 else {
-                    $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Amount, Total) VALUES (?, ?, ?, ?, ?)");
+                    $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Amount, Total) VALUES (?, ?, ?, ?)");
                     $giveUserItem->bind_param("iiii", $uid, $winningItemID, $winningItemAmount, $winningItemAmount);
                     $giveUserItem->execute();
                 }
