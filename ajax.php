@@ -14,14 +14,7 @@ $output = [];
 $output['status'] = false;
 // Switch the "do" to decide what we are doing
 switch ($_REQUEST['do']) {
-    case "chestOpening": { require 'src/ajax/actions/chestOpening.php'; break; }
-    case "claimgold": { require 'src/ajax/actions/claimgold.php'; break; }
-    case "claimgems": { require 'src/ajax/actions/claimgems.php'; break; }
-    case "login": { require 'src/ajax/actions/login.php'; break; }
-    case "register": { require 'src/ajax/actions/register.php'; break; }
-    case "news": { require 'src/ajax/actions/news.php'; break; }
-    case "updateUser": { require 'src/ajax/actions/updateUser.php'; break; }
-    case "villageUpgrade": { require 'src/ajax/actions/villageUpgrade.php'; break; }
+    case "upgradeBuildingv2": { require 'src/ajax/actions/villageUpgrade.php'; break; }
     default: {
         $fPath = "src/ajax/actions/{$_REQUEST['do']}.php";
         if (file_exists($fPath)) {
