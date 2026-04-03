@@ -117,6 +117,8 @@ if ($buildingName && $uid) {
                         $factoryString = "% Time Reduction";
                     }
 
+                    $output['factorystring'] = $factoryString;
+
                     $getNextProdOutput = getBuildingProduction($ruleName, $nextLevel);
 
                     if (empty($getNextProdOutput)) {

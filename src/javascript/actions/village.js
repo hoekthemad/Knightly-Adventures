@@ -70,10 +70,10 @@ const upgradeBuilding = (buildingName) => {
                         jQuery(`#${buildingName.toLowerCase()}modallink`).hide();
                     }
 
-                    jQuery(`#${buildingName.toLowerCase()}level`).text(res['newbuildinglevel'] + maxLevelText);
+                    jQuery(`#${buildingName.toLowerCase()}level`).text('Level: ' + res['newbuildinglevel'] + maxLevelText);
 
                     if (res['updateprod'] == true) {
-                        jQuery(`#${buildingName.toLowerCase()}prod`).text(res['newprod']);
+                        jQuery(`#${buildingName.toLowerCase()}prod`).text(res['newprod'] + res['factorystring']);
                         jQuery(`#${buildingName.toLowerCase()}bonus`).text(res['nextnewprod']);
                     }
 
