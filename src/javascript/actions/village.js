@@ -1,4 +1,4 @@
-const upgradeBuilding = (buildingName) => {
+const upgradeBuilding1 = (buildingName) => {
     jQuery.ajax(
         {
             url: "ajax.php?do=villageUpgrade",
@@ -48,7 +48,7 @@ const upgradeBuilding = (buildingName) => {
     )
 }
 
-const upgradeBuildingv2 = (buildingName) => {
+const upgradeBuilding = (buildingName) => {
     jQuery.ajax(
         {
             url: "ajax.php?do=villageUpgrade",

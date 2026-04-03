@@ -201,7 +201,7 @@ function drawUpgradeModal($for, $currBuildLevel, $nameExtra = "") {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="upgradeBuildingv2('<?= $for['trimmedname'].$nameExtra ?>')">Upgrade</button>
+                    <button type="button" class="btn btn-primary" onclick="upgradeBuilding('<?= $for['trimmedname'].$nameExtra ?>')">Upgrade</button>
                 </div>
             </div>
         </div>
