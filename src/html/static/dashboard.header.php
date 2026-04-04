@@ -96,7 +96,7 @@ $userCurrency = getUserCurrency();
                                     Fight
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Enemy</a></li>
+                                    <li><a class="dropdown-item" href="dashboard.php?action=fightenemy">Enemy</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item disabled" id="wbs_menu" href="#">World Boss</a></li>
                                 </ul>
