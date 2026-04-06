@@ -16,7 +16,7 @@
                     $heroInfo = getHeroInformation($i);
                     $heroNextLevel = getHeroNextLevelExp($heroInfo['Experience']);
                     $heroAttack = $heroInfo['Attack'] + $heroInfo['BonusAttack'];
-                    $heroDefense = $heroInf['Defense'] + $heroInfo['BonusDefense'];
+                    $heroDefense = $heroInfo['Defense'] + $heroInfo['BonusDefense'];
 
                     $getHeroArmor = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
                     $getHeroArmor->bind_param("i", $heroInfo['Armor']);

@@ -20,13 +20,12 @@ if ($resultUserEquipedAssoc[$itemType]) {
     $resultUserItemsAssoc = $resultUserItems->fetch_assoc();
 
     $output['status'] = true;
-    $output['resultUserItemsAssoc'] = $resultUserItemsAssoc;
 
     if ($itemID >= 10000) {
 
-        $rremoveHeroItem = $connection->prepare("UPDATE user_heroes SET $itemType = null, {$itemType}Rarity = null WHERE UserID = ? AND HeroNumber = ?");
-        $rremoveHeroItem->bind_param("ii", $uid, $heroNumber);
-        $rremoveHeroItem->execute();
+        $removeHeroItem = $connection->prepare("UPDATE user_heroes SET $itemType = null, {$itemType}Rarity = null WHERE UserID = ? AND HeroNumber = ?");
+        $removeHeroItem->bind_param("ii", $uid, $heroNumber);
+        $removeHeroItem->execute();
 
         if ($resultUserItemsAssoc['ItemID']) {
             $userItemAmount = $resultUserItemsAssoc['Amount'] + 1;
@@ -34,6 +33,17 @@ if ($resultUserEquipedAssoc[$itemType]) {
             $giveUserItems = $connection->prepare("UPDATE user_items SET Amount = ? WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
             $giveUserItems->bind_param("iiis", $userItemAmount, $uid, $itemID, $itemRarity);
             $giveUserItems->execute();
+        }
+
+        if ($itemType === 'Armor') {
+            $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusDefense = 0 WHERE UserID = ? AND HeroNumber = ?");
+            $updateUserBonus->bind_param("ii", $uid, $heroNumber);
+            $updateUserBonus->execute();
+        }
+        else if ($itemType === 'Weapon') {
+            $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusAttack = 0 WHERE UserID = ? AND HeroNumber = ?");
+            $updateUserBonus->bind_param("ii", $uid, $heroNumber);
+            $updateUserBonus->execute();
         }
 
     }

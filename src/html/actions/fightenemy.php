@@ -41,6 +41,20 @@
                 <span id="startfightbutton">
                 </span>
                 <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-5">
+                        <span id="herocardfightcard">
+                        </span>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-5">
+                        <span id="enemycardfightcard">
+                        </span>
+                    </div>
+                </div>
+                <br>
                 <span id="startfight">
                 </span>
             </div>

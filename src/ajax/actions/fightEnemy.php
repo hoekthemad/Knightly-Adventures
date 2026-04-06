@@ -13,6 +13,7 @@ if ($resultUserHeroes->num_rows >= 1) {
     $loopCount = 0;
     while ($row = $resultUserHeroes->fetch_assoc()) {
 
+        $output['heroname'.$loopCount] = $row['Name'];
         $output['heroelement'.$loopCount] = $row['Element'];
         $output['heroinslot'.$loopCount] = $row['InSlot'];
         $output['herohealth'.$loopCount] = $row['Health'];
@@ -43,9 +44,11 @@ if ($resultUserHeroes->num_rows >= 1) {
         if ($resultEnemyInfo->num_rows >= 1) {
             $resultEnemyInfoAssoc = $resultEnemyInfo->fetch_assoc();
 
+            $output['enemyname'.($i)] = $resultEnemyInfoAssoc['Name'];
             $output['enemyinslot'.($i)] = $i;
             $output['enemyelement'.($i)] = $resultEnemyInfoAssoc['Element'];
             $output['enemyhealth'.($i)] = $resultEnemyInfoAssoc['Health'];
+            $output['enemyhealthmax'.($i)] = $resultEnemyInfoAssoc['Health'];
             $output['enemyattack'.($i)] = $resultEnemyInfoAssoc['Attack'];
             $output['enemydefense'.($i)] = $resultEnemyInfoAssoc['Defense'];
 
@@ -59,6 +62,16 @@ if ($resultUserHeroes->num_rows >= 1) {
     }
 
     $output['enemycount'] = $loopCount2;
+
+    $getUserStage = $connection->prepare("SELECT * FROM user_account WHERE UserID = ?");
+    $getUserStage->bind_param("i", $uid);
+    $getUserStage->execute();
+    $resultUserStage = $getUserStage->get_result();
+    $resultUserStageAssoc = $resultUserStage->fetch_assoc();
+
+    $output['userlevel'] = $resultUserStageAssoc['Level'];
+    $output['userexperience'] = $resultUserStageAssoc['Experience'];
+    $output['maxuserstage'] = $resultUserStageAssoc['QuestStage'];
 
     $output['status'] = true;
 

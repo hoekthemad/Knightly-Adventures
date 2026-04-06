@@ -34,11 +34,6 @@ if ($resultItemAmountAssoc['Amount'] >= 1) {
             $oldItemID = $resultHeroAssoc[$itemType];
             $oldItemRarity = $resultHeroAssoc[$itemType.'Rarity'];
 
-            $output['oldItemID'] = $oldItemID;
-            $output['oldItemRarity'] = $oldItemRarity;
-
-            // Get the amount of items they have of the old one then add it back to the inventory.
-
             $getOldItemAmount = $connection->prepare("SELECT * FROM user_items WHERE UserID = ? AND ItemID = ?");
             $getOldItemAmount->bind_param("ii", $uid, $oldItemID);
             $getOldItemAmount->execute();
@@ -49,12 +44,21 @@ if ($resultItemAmountAssoc['Amount'] >= 1) {
 
                 $oldItemAmount = $resultOldItemAmountAssoc['Amount'] + 1;
 
-                $output['olditemamount'] = $oldItemAmount;
-
                 $setOldItemAmount = $connection->prepare("UPDATE user_items SET Amount = ? WHERE UserID = ? AND ItemID = ? AND Rarity = ?");
                 $setOldItemAmount->bind_param("iiis", $oldItemAmount, $uid, $oldItemID, $oldItemRarity);
                 $setOldItemAmount->execute();
 
+            }
+
+            if ($itemType === 'Armor') {
+            $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusDefense = 0 WHERE UserID = ? AND HeroNumber = ?");
+            $updateUserBonus->bind_param("iiis", $uid, $heroNumber);
+            $updateUserBonus->execute();
+            }
+            else if ($itemType === 'Weapon') {
+                $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusAttack = 0 WHERE UserID = ? AND HeroNumber = ?");
+                $updateUserBonus->bind_param("iiis", $uid, $heroNumber);
+                $updateUserBonus->execute();
             }
 
         }
@@ -76,6 +80,33 @@ if ($resultItemAmountAssoc['Amount'] >= 1) {
         $setHeroItem = $connection->prepare("UPDATE user_heroes SET $itemType = ?, {$itemType}Rarity = ? WHERE UserID = ? AND HeroNumber = ?");
         $setHeroItem->bind_param("isii", $itemID, $rarityValue, $uid, $heroNumber);
         $setHeroItem->execute();
+
+        $getItemBonus = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
+        $getItemBonus->bind_param("i", $itemID);
+        $getItemBonus->execute();
+        $resultItemBonus= $getItemBonus->get_result();
+        $resultItemBonusAssoc = $resultItemBonus->fetch_assoc();
+
+        $getItemRarityBonus = $connection->prepare("SELECT * FROM rule_rarity WHERE Rarity = ?");
+        $getItemRarityBonus->bind_param("s", $rarityValue);
+        $getItemRarityBonus->execute();
+        $resultItemRarityBonus= $getItemRarityBonus->get_result();
+        $resultItemRarityBonusAssoc = $resultItemRarityBonus->fetch_assoc();
+
+        if ($itemType === 'Armor') {
+            $updateBonus = round($resultItemBonusAssoc['DefenseBonus'] * $resultItemRarityBonusAssoc['Bonus']);
+
+            $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusDefense = ? WHERE UserID = ? AND HeroNumber = ?");
+            $updateUserBonus->bind_param("iii", $updateBonus, $uid, $heroNumber);
+            $updateUserBonus->execute();
+        }
+        else if ($itemType === 'Weapon') {
+            $updateBonus = round($resultItemBonusAssoc['AttackBonus'] * $resultItemRarityBonusAssoc['Bonus']);
+
+            $updateUserBonus = $connection->prepare("UPDATE user_heroes SET BonusAttack = ? WHERE UserID = ? AND HeroNumber = ?");
+            $updateUserBonus->bind_param("iii", $updateBonus, $uid, $heroNumber);
+            $updateUserBonus->execute();
+        }
     }
 }
 

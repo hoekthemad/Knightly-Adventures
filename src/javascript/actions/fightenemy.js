@@ -23,7 +23,7 @@ async function fightEnemyStage(userStage) {
         }
 
         for (let i = 0; i < res['herocount']; i++) {
-            jQuery(`#herocard${i}`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="hero' + i + 'name"></span></h5><h6 class="card-subtitle mb-2 text-muted"><span id="hero' + i + 'inslot"></span></h6><p class="card-text"><span id="hero' + i + 'level"></span><br><span id="hero' + i + 'health"></span><br><span id="hero' + i + 'attack"></span><br><span id="hero' + i + 'defense"></span><br><span id="hero' + i + 'element"></span></p></div></div>');
+            jQuery(`#herocard${i}`).html('<div class="card" style="width: 7rem;"><div class="card-body"><h5 class="card-title"><span id="hero' + i + 'name"></span></h5><h6 class="card-subtitle mb-2 text-muted"><span id="hero' + i + 'inslot"></span></h6><p class="card-text"><span id="hero' + i + 'level"></span><br><span id="hero' + i + 'health"></span><br><span id="hero' + i + 'attack"></span><br><span id="hero' + i + 'defense"></span><br><span id="hero' + i + 'element"></span></p></div></div>');
             jQuery(`#hero${i}name`).text(res['heroname' + i]);
             jQuery(`#hero${i}inslot`).text('Slot: ' + res['heroinslot' + i] + ' / ' + res['herocount']);
             jQuery(`#hero${i}level`).text('L: ' + res['heroreawaken' + i] + ' - ' + res['herolevel' + i]);
@@ -45,7 +45,7 @@ async function fightEnemyStage(userStage) {
         }
 
         for (let i2 = 0; i2 < res['enemycount']; i2++) {
-            jQuery(`#enemycard${i2}`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="enemy' + i2 + 'name"></span></h5><h6 class="card-subtitle mb-2 text-muted"><span id="enemy' + i2 + 'inslot"></span></h6><p class="card-text"><span id="enemy' + i2 + 'level"></span><br><span id="enemy' + i2 + 'health"></span><br><span id="enemy' + i2 + 'attack"></span><br><span id="enemy' + i2 + 'defense"></span><br><span id="enemy' + i2 + 'element"></span></p></div></div>');
+            jQuery(`#enemycard${i2}`).html('<div class="card" style="width: 7rem;"><div class="card-body"><h5 class="card-title"><span id="enemy' + i2 + 'name"></span></h5><h6 class="card-subtitle mb-2 text-muted"><span id="enemy' + i2 + 'inslot"></span></h6><p class="card-text"><span id="enemy' + i2 + 'level"></span><br><span id="enemy' + i2 + 'health"></span><br><span id="enemy' + i2 + 'attack"></span><br><span id="enemy' + i2 + 'defense"></span><br><span id="enemy' + i2 + 'element"></span></p></div></div>');
             jQuery(`#enemy${i2}name`).text(res['enemyname' + i2]);
             jQuery(`#enemy${i2}inslot`).text('Slot: ' + res['enemyinslot' + i2] + ' / ' + res['enemycount']);
             jQuery(`#enemy${i2}level`).text('L: ' + res['enemyreawaken' + i2] + ' - ' + res['enemylevel' + i2]);
@@ -55,7 +55,7 @@ async function fightEnemyStage(userStage) {
             jQuery(`#enemy${i2}defense`).text('D: ' + res['enemydefense' + i2]);
         }
 
-        jQuery('#startfightbutton').html('<button type="button" class="btn btn-primary" onclick="fightEnemy(' + userStage + ')">Fight Stage ' + userStage + '</button>');
+        jQuery('#startfightbutton').html('<button id="fightstart" type="button" class="btn btn-primary" onclick="fightEnemy(' + userStage + ')">Fight Stage ' + userStage + '</button>');
 
     }
 }
@@ -73,11 +73,58 @@ async function fightEnemy(userStage) {
 
     if (res['status'] == true) {
 
-        console.log('Start the fight... at some point.');
+        for(let i = 0; i < res['maxuserstage']; i++) {
+            let button = document.getElementById(`fight${(i + 1)}`);
+            button.disabled = true;
+        }
+
+        const buttonMain = document.getElementById(`fightstart`);
+        buttonMain.disabled = true;
+
+        let heroSelector = 0;
+        let enemySelector = 0;
+
+        jQuery(`#herocardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="heronamefightcard"></span></h5><p class="card-text"><span id="herohealthfightcard"></span><br><span id="heroattackfightcard"></span><br><span id="herodefensefightcard"></span><br><span id="heroelementfightcard"></span></p></div></div>');
+
+        jQuery(`#heronamefightcard`).text(res['heroname' + heroSelector]);
+        jQuery(`#herohealthfightcard`).text('H: ' + res['herohealth' + heroSelector] + ' / ' + res['herohealthmax' + heroSelector]);
+        jQuery(`#heroattackfightcard`).text('A: ' + res['heroattack' + heroSelector]);
+        jQuery(`#herodefensefightcard`).text('D: ' + res['herodefense' + heroSelector]);
+
+        jQuery(`#enemycardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="enemynamefightcard"></span></h5><p class="card-text"><span id="enemyhealthfightcard"></span><br><span id="enemyattackfightcard"></span><br><span id="enemydefensefightcard"></span><br><span id="enemyelementfightcard"></span></p></div></div>');
+
+        jQuery(`#enemynamefightcard`).text(res['enemyname' + enemySelector]);
+        jQuery(`#enemyhealthfightcard`).text('H: ' + res['enemyhealth' + enemySelector] + ' / ' + res['enemyhealthmax' + enemySelector]);
+        jQuery(`#enemyattackfightcard`).text('A: ' + res['enemyattack' + enemySelector]);
+        jQuery(`#enemydefensefightcard`).text('D: ' + res['enemydefense' + enemySelector]);
+
+
+        fightEnemyUpdate(heroSelector, enemySelector);
 
     }
 }
 
 function delay(seconds) {
     return new Promise(resolve => setTimeout(resolve, seconds));
+}
+
+async function fightEnemyUpdate(heroSelector, enemySelector) {
+    const data = await jQuery.ajax({
+        url: "ajax.php?do=fightEnemyUpdate",
+        method: "post",
+        data: {
+            hero: heroSelector,
+            enemy: enemySelector
+        },
+        success: (response) => {
+            console.log(response);
+            res = JSON.parse(response);
+        }
+    });
+
+    if (res['status'] == true) {
+
+        console.log('Successful!');
+
+    }
 }

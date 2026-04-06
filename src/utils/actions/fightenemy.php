@@ -35,7 +35,7 @@ function getUserStages() {
                             <?= $row['Stage']; ?>
                         </td>
                         <td>
-                            <button id="fight<?= $row['stage']; ?>" type="button" class="btn btn-primary" onclick="fightEnemyStage(<?= $row['Stage']; ?>)">
+                            <button id="fight<?= $row['Stage']; ?>" type="button" class="btn btn-primary" onclick="fightEnemyStage(<?= $row['Stage']; ?>)">
                                 Fight
                             </button>
                         </td>
