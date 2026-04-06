@@ -10,9 +10,6 @@ $resultUserHeroes = $getUserHeroes->get_result();
 
 if ($resultUserHeroes->num_rows >= 1) {
 
-// while each row, get hero name, health, attack, defense
-// Get enemy too you dipshit
-
     $loopCount = 0;
     while ($row = $resultUserHeroes->fetch_assoc()) {
 
@@ -68,9 +65,6 @@ if ($resultUserHeroes->num_rows >= 1) {
     }
 
     $output['enemycount'] = $loopCount2;
-
-
-
 
     $output['status'] = true;
 
