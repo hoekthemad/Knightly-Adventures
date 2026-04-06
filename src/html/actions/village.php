@@ -7,6 +7,7 @@ $gemFactoryList = getBuildingList("Gem Factory");
 ?>
 <script src="src/javascript/actions/village.js"></script>
 <div class="container">
+    <br>
     <div class="row">
         <!-- #region Town Hall and Hospital -->
         <div class="col-sm-4">
