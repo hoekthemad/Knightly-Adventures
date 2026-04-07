@@ -98,8 +98,28 @@ async function fightEnemy(userStage) {
         jQuery(`#enemyattackfightcard`).text('A: ' + res['enemyattack' + enemySelector]);
         jQuery(`#enemydefensefightcard`).text('D: ' + res['enemydefense' + enemySelector]);
 
+        let combatStringArray = ["Starting fight!"];
 
-        fightEnemyUpdate(heroSelector, enemySelector);
+        jQuery(`#startfight`).text(combatStringArray[0]);
+
+        await delay(3000);
+
+        for (let i = 0; i < 10; i++) {
+
+            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
+            console.log(heroAttacksEnemy);
+            combatStringArray.push(`${heroAttacksEnemy}`);
+
+            // Bulid the combat outlog.
+            let combatString = "";
+            for (let i2 = 0; i2 < combatStringArray.length; i2++) {
+                combatString = combatString + "<div>" + combatStringArray[i2] + "</div>";
+            }
+            jQuery(`#startfight`).html(combatString);
+
+            await delay(10000);
+
+        }
 
     }
 }
@@ -108,13 +128,17 @@ function delay(seconds) {
     return new Promise(resolve => setTimeout(resolve, seconds));
 }
 
-async function fightEnemyUpdate(heroSelector, enemySelector) {
+async function fightEnemyUpdate(whoAttack, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
     const data = await jQuery.ajax({
         url: "ajax.php?do=fightEnemyUpdate",
         method: "post",
         data: {
-            hero: heroSelector,
-            enemy: enemySelector
+            attack: whoAttack,
+            attackerl: attackerLevel,
+            attackera: attackerAttack,
+            defenderl: defenderLevel,
+            defenderh: defenderHealth,
+            defenderd: defenderDefense
         },
         success: (response) => {
             console.log(response);
@@ -124,7 +148,7 @@ async function fightEnemyUpdate(heroSelector, enemySelector) {
 
     if (res['status'] == true) {
 
-        console.log('Successful!');
+        return res['finaldamage'];
 
     }
 }

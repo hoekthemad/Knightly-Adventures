@@ -14,6 +14,8 @@ if ($resultUserHeroes->num_rows >= 1) {
     while ($row = $resultUserHeroes->fetch_assoc()) {
 
         $output['heroname'.$loopCount] = $row['Name'];
+        $output['heroreawaken'.$loopCount] = $row['Reawaken'];
+        $output['herolevel'.$loopCount] = $row['Level'];
         $output['heroelement'.$loopCount] = $row['Element'];
         $output['heroinslot'.$loopCount] = $row['InSlot'];
         $output['herohealth'.$loopCount] = $row['Health'];
@@ -46,6 +48,8 @@ if ($resultUserHeroes->num_rows >= 1) {
 
             $output['enemyname'.($i)] = $resultEnemyInfoAssoc['Name'];
             $output['enemyinslot'.($i)] = $i;
+            $output['enemyreawaken'.($i)] = $resultEnemyInfoAssoc['Reawaken'];
+            $output['enemylevel'.($i)] = $resultEnemyInfoAssoc['Level'];
             $output['enemyelement'.($i)] = $resultEnemyInfoAssoc['Element'];
             $output['enemyhealth'.($i)] = $resultEnemyInfoAssoc['Health'];
             $output['enemyhealthmax'.($i)] = $resultEnemyInfoAssoc['Health'];
