@@ -17,7 +17,7 @@ if ($resultUserHeroes->num_rows >= 1) {
         $output['heroreawaken'.$loopCount] = $row['Reawaken'];
         $output['herolevel'.$loopCount] = $row['Level'];
         $output['heroelement'.$loopCount] = $row['Element'];
-        $output['heroinslot'.$loopCount] = $row['InSlot'];
+        $output['heroinslot'.$loopCount] = $loopCount + 1;
         $output['herohealth'.$loopCount] = $row['Health'];
         $output['herohealthmax'.$loopCount] = $row['HealthMax'];
         $output['heroattack'.$loopCount] = $row['Attack'] + $row['BonusAttack'];
@@ -35,7 +35,7 @@ if ($resultUserHeroes->num_rows >= 1) {
     $resultEnemy = $getEnemy->get_result();
     $resultEnemyAssoc = $resultEnemy->fetch_assoc();
 
-    $loopCount2;
+    $loopCount2 = 0;
     for ($i = 0; $i < 6; $i++) {
 
         $getEnemyInfo = $connection->prepare("SELECT * FROM rule_enemy WHERE EnemyID = ?");
@@ -61,7 +61,7 @@ if ($resultUserHeroes->num_rows >= 1) {
 
         }
         else {
-            $i = 7;
+            $i = 6;
         }
 
     }

@@ -3,12 +3,19 @@
 $whoAttack = !empty($_REQUEST['attack']) ? $_REQUEST['attack'] : false;
 $heroNumber = !empty($_REQUEST['hero']) ? $_REQUEST['hero'] : false;
 $enemyID = !empty($_REQUEST['enemy']) ? $_REQUEST['enemy'] : false;
+$heroSelector = !empty($_REQUEST['herosel']) ? $_REQUEST['herosel'] : false;
+$enemySelector = !empty($_REQUEST['enemysel']) ? $_REQUEST['enemysel'] : false;
+$heroLineupCount = !empty($_REQUEST['herocount']) ? $_REQUEST['herocount'] : false;
+$enemyLineupCount = !empty($_REQUEST['enemycount']) ? $_REQUEST['enemycount'] : false;
 $attackerLevel = !empty($_REQUEST['attackerl']) ? $_REQUEST['attackerl'] : false;
 $attackerAttack = !empty($_REQUEST['attackera']) ? $_REQUEST['attackera'] : false;
 $defenderLevel = !empty($_REQUEST['defenderl']) ? $_REQUEST['defenderl'] : false;
 $defenderHealth = !empty($_REQUEST['defenderh']) ? $_REQUEST['defenderh'] : false;
 $defenderDefense = !empty($_REQUEST['defenderd']) ? $_REQUEST['defenderd'] : false;
 $uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
+
+$output['heroSelector'] = $heroSelector;
+$output['enemySelector'] = $enemySelector;
 
 $baseMultiplier = 1.23;
 $levelDifferenceModifier = 1 + (($attackerLevel - $defenderLevel) / 32.23);
@@ -73,12 +80,15 @@ if ($whoAttack === 'hero') {
                         /// For some reason, this is only giving 2 instead of four..?
                         if (($resultLevelChartAssoc['Level'] - $resultMainHeroAssoc['Level']) > 1) {
                             // Get inbetween levels of experience.
-                            $getLevelChart2 = $connection->prepare("SELECT * FROM rule_levels WHERE Level > ? AND Experience < ? ORDER BY Experience ASC");
-                            $getLevelChart2->bind_param("ii", $resultMainHeroAssoc['Level'], $newEXPValue);
+                            $getLevelChart2 = $connection->prepare("SELECT * FROM rule_levels WHERE Level > ? AND Level <= ? ORDER BY Experience ASC");
+                            $getLevelChart2->bind_param("ii", $resultMainHeroAssoc['Level'], $resultLevelChartAssoc['Level']);
                             $getLevelChart2->execute();
                             $resultLevelChart2 = $getLevelChart2->get_result();
+                            $lc = 1;
                             while ($row = $resultLevelChart2->fetch_assoc()) {
+                                $output['lc'.$lc] = $row;
                                 $gainPoints += $row['AwardPoints'];
+                                $lc++;
                             }
                         }
                         else {
@@ -149,6 +159,13 @@ if ($whoAttack === 'hero') {
             }
 
             // Award EXP to other heroes in party.
+        }
+
+
+        if ($enemySelector === ($enemyLineupCount - 1)) {
+
+            $output['last_enemy'] = true;
+
         }
     }
 }

@@ -112,7 +112,7 @@ async function fightEnemy(userStage) {
         for (let i = 0; i < roundCount; i++) {
 
             // Hero attacks enemy.
-            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['heroinslot' + heroSelector], res['enemyid' + enemySelector], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
+            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['heroinslot' + heroSelector], res['enemyid' + enemySelector], heroSelector, enemySelector, res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
             combatStringArray.push(`You did ${heroAttacksEnemy} damage!`);
 
             res['enemyhealth' + enemySelector] -= heroAttacksEnemy;
@@ -137,12 +137,12 @@ async function fightEnemy(userStage) {
                 // Award EXP
                 if (res2['levelupmainheroleveldifference']) {
                     if (res2['levelupmainheroleveldifference'] === 1) {
-                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} level!`);
-                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " level!</div>" + combatString;
+                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} level and gained ${res2['levelupmainherohpgain']} HP!`);
+                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " level and gained " + res2['levelupmainherohpgain'] + " HP!</div>" + combatString;
                     }
                     else {
-                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} levels!`);
-                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " levels!</div>" + combatString;
+                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} levels and gained ${res2['levelupmainherohpgain']} HP!`);
+                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " levels and gained " + res2['levelupmainherohpgain'] + " HP!</div>" + combatString;
                     }
                     jQuery(`#startfight`).html(combatString);
                     await delay(delaytimer);
@@ -208,18 +208,18 @@ async function fightEnemy(userStage) {
     }
 }
 
-function delay(seconds) {
-    return new Promise(resolve => setTimeout(resolve, seconds));
-}
-
-async function fightEnemyUpdate(whoAttack, heroSlot, enemyID, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
+async function fightEnemyUpdate(whoAttack, heroNumber, enemyID, heroSelector, enemySelector, heroLineupCount, enemyLineupCount, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
     const data = await jQuery.ajax({
         url: "ajax.php?do=fightEnemyUpdate",
         method: "post",
         data: {
             attack: whoAttack,
-            hero: heroSlot,
+            hero: heroNumber,
             enemy: enemyID,
+            herosel: heroSelector,
+            enemysel: enemySelector,
+            herocount: heroLineupCount,
+            enemycount: enemyLineupCount,
             attackerl: attackerLevel,
             attackera: attackerAttack,
             defenderl: defenderLevel,
@@ -237,4 +237,8 @@ async function fightEnemyUpdate(whoAttack, heroSlot, enemyID, attackerLevel, att
         return res2['finaldamage'];
 
     }
+}
+
+function delay(seconds) {
+    return new Promise(resolve => setTimeout(resolve, seconds));
 }
