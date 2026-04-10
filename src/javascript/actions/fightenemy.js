@@ -84,16 +84,18 @@ async function fightEnemy(userStage) {
         let heroSelector = 0;
         let enemySelector = 0;
 
-        jQuery(`#herocardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="heronamefightcard"></span></h5><p class="card-text"><span id="herohealthfightcard"></span><br><span id="heroattackfightcard"></span><br><span id="herodefensefightcard"></span><br><span id="heroelementfightcard"></span></p></div></div>');
+        jQuery(`#herocardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="heronamefightcard"></span></h5><h6><span id="heroinslotfightcard"></span></h6><p class="card-text"><span id="herohealthfightcard"></span><br><span id="heroattackfightcard"></span><br><span id="herodefensefightcard"></span><br><span id="heroelementfightcard"></span></p></div></div>');
 
         jQuery(`#heronamefightcard`).text(res['heroname' + heroSelector]);
+        jQuery(`#heroinslotfightcard`).text('slot: ' + res['heroinslot' + heroSelector]);
         jQuery(`#herohealthfightcard`).text('H: ' + res['herohealth' + heroSelector] + ' / ' + res['herohealthmax' + heroSelector]);
         jQuery(`#heroattackfightcard`).text('A: ' + res['heroattack' + heroSelector]);
         jQuery(`#herodefensefightcard`).text('D: ' + res['herodefense' + heroSelector]);
 
-        jQuery(`#enemycardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="enemynamefightcard"></span></h5><p class="card-text"><span id="enemyhealthfightcard"></span><br><span id="enemyattackfightcard"></span><br><span id="enemydefensefightcard"></span><br><span id="enemyelementfightcard"></span></p></div></div>');
+        jQuery(`#enemycardfightcard`).html('<div class="card" style="width: 8rem;"><div class="card-body"><h5 class="card-title"><span id="enemynamefightcard"></span></h5><h6><span id="enemyinslotfightcard"></span></h6><p class="card-text"><span id="enemyhealthfightcard"></span><br><span id="enemyattackfightcard"></span><br><span id="enemydefensefightcard"></span><br><span id="enemyelementfightcard"></span></p></div></div>');
 
         jQuery(`#enemynamefightcard`).text(res['enemyname' + enemySelector]);
+        jQuery(`#enemyinslotfightcard`).text('slot: ' + res['enemyinslot' + enemySelector]);
         jQuery(`#enemyhealthfightcard`).text('H: ' + res['enemyhealth' + enemySelector] + ' / ' + res['enemyhealthmax' + enemySelector]);
         jQuery(`#enemyattackfightcard`).text('A: ' + res['enemyattack' + enemySelector]);
         jQuery(`#enemydefensefightcard`).text('D: ' + res['enemydefense' + enemySelector]);
@@ -102,24 +104,106 @@ async function fightEnemy(userStage) {
 
         jQuery(`#startfight`).text(combatStringArray[0]);
 
-        await delay(3000);
+        const delaytimer = 3000;
 
-        for (let i = 0; i < 10; i++) {
+        await delay(delaytimer);
 
-            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
-            console.log(heroAttacksEnemy);
-            combatStringArray.push(`${heroAttacksEnemy}`);
+        const roundCount = 250;
+        for (let i = 0; i < roundCount; i++) {
+
+            // Hero attacks enemy.
+            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['heroinslot' + heroSelector], res['enemyid' + enemySelector], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
+            combatStringArray.push(`You did ${heroAttacksEnemy} damage!`);
+
+            res['enemyhealth' + enemySelector] -= heroAttacksEnemy;
+            jQuery(`#enemyhealthfightcard`).text('H: ' + res['enemyhealth' + enemySelector] + ' / ' + res['enemyhealthmax' + enemySelector]);
 
             // Bulid the combat outlog.
             let combatString = "";
             for (let i2 = 0; i2 < combatStringArray.length; i2++) {
-                combatString = combatString + "<div>" + combatStringArray[i2] + "</div>";
+                combatString = "<div>" + combatStringArray[i2] + "</div>" + combatString;
             }
             jQuery(`#startfight`).html(combatString);
 
-            await delay(10000);
+            await delay(delaytimer);
+
+            // Enemy has been killed
+            if (res['enemyhealth' + enemySelector] === 0) {
+                combatStringArray.push(`${res['enemyname' + enemySelector]} has been killed!`);
+                combatString = "<div>" + res['enemyname' + enemySelector] + " has been killed!</div>" + combatString;
+                jQuery(`#startfight`).html(combatString);
+                await delay(delaytimer);
+
+                // Award EXP
+                if (res2['levelupmainheroleveldifference']) {
+                    if (res2['levelupmainheroleveldifference'] === 1) {
+                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} level!`);
+                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " level!</div>" + combatString;
+                    }
+                    else {
+                        combatStringArray.push(`${res['heroname' + heroSelector]} has leveled up ${res2['levelupmainheroleveldifference']} levels!`);
+                        combatString = "<div>" + res['heroname' + heroSelector] + " has leveled up " + res2['levelupmainheroleveldifference'] + " levels!</div>" + combatString;
+                    }
+                    jQuery(`#startfight`).html(combatString);
+                    await delay(delaytimer);
+                }
+                if (res2['levelupuserprofileleveldifference']) {
+                    if (res2['levelupuserprofileleveldifference'] === 1) {
+                        combatStringArray.push(`Your profile has leveled up ${res2['levelupuserprofileleveldifference']} level!`);
+                        combatString = "<div>Your profile has leveled up " + res2['levelupuserprofileleveldifference'] + " level!</div>" + combatString;
+                    }
+                    else {
+                        combatStringArray.push(`Your profile has leveled up ${res2['levelupuserprofileleveldifference']} levels!`);
+                        combatString = "<div>Your profile has leveled up " + res2['levelupuserprofileleveldifference'] + " levels!</div>" + combatString;
+                    }
+                    jQuery(`#startfight`).html(combatString);
+                    await delay(delaytimer);
+                }
+
+                // There is another enemy in the lineup alive.
+                if (res['enemyhealth' + (enemySelector + 1)]) {
+                    enemySelector++
+
+                    combatStringArray.push(`${res['enemyname' + enemySelector]} is next to the fight!`);
+                    combatString = "<div>" + res['enemyname' + enemySelector] + " is next to the fight!</div>" + combatString;
+                    jQuery(`#startfight`).html(combatString);
+
+                    jQuery(`#enemynamefightcard`).text(res['enemyname' + enemySelector]);
+                    jQuery(`#enemyinslotfightcard`).text('slot: ' + res['enemyinslot' + enemySelector]);
+                    jQuery(`#enemyhealthfightcard`).text('H: ' + res['enemyhealth' + enemySelector] + ' / ' + res['enemyhealthmax' + enemySelector]);
+                    jQuery(`#enemyattackfightcard`).text('A: ' + res['enemyattack' + enemySelector]);
+                    jQuery(`#enemydefensefightcard`).text('D: ' + res['enemydefense' + enemySelector]);
+
+                    await delay(delaytimer);
+                }
+
+                // No one else is alive in the enemy lineup.
+                else {
+                    i = roundCount;
+
+                    /// Check if the user can advance a stage.
+
+                    combatStringArray.push(`You have beat stage ${userStage}!`);
+                    combatString = `<div>You have beat stage ${userStage}!</div>` + combatString;
+                    jQuery(`#startfight`).html(combatString);
+                    await delay(delaytimer);
+
+                    /// Award item drops here!
+                }
+            }
+
+            // Enemy Attacks
+            if (res['enemyhealth' + enemySelector] > 0) {
+                /// Set up later...
+            }
 
         }
+
+        for(let i = 0; i < res['maxuserstage']; i++) {
+            let button = document.getElementById(`fight${(i + 1)}`);
+            button.disabled = false;
+        }
+        buttonMain.disabled = false;
 
     }
 }
@@ -128,12 +212,14 @@ function delay(seconds) {
     return new Promise(resolve => setTimeout(resolve, seconds));
 }
 
-async function fightEnemyUpdate(whoAttack, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
+async function fightEnemyUpdate(whoAttack, heroSlot, enemyID, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
     const data = await jQuery.ajax({
         url: "ajax.php?do=fightEnemyUpdate",
         method: "post",
         data: {
             attack: whoAttack,
+            hero: heroSlot,
+            enemy: enemyID,
             attackerl: attackerLevel,
             attackera: attackerAttack,
             defenderl: defenderLevel,
@@ -142,13 +228,13 @@ async function fightEnemyUpdate(whoAttack, attackerLevel, attackerAttack, defend
         },
         success: (response) => {
             console.log(response);
-            res = JSON.parse(response);
+            res2 = JSON.parse(response);
         }
     });
 
     if (res['status'] == true) {
 
-        return res['finaldamage'];
+        return res2['finaldamage'];
 
     }
 }

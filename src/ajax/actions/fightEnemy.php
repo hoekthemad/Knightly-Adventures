@@ -46,8 +46,9 @@ if ($resultUserHeroes->num_rows >= 1) {
         if ($resultEnemyInfo->num_rows >= 1) {
             $resultEnemyInfoAssoc = $resultEnemyInfo->fetch_assoc();
 
+            $output['enemyid'.($i)] = $resultEnemyInfoAssoc['EnemyID'];
             $output['enemyname'.($i)] = $resultEnemyInfoAssoc['Name'];
-            $output['enemyinslot'.($i)] = $i;
+            $output['enemyinslot'.($i)] = $i + 1;
             $output['enemyreawaken'.($i)] = $resultEnemyInfoAssoc['Reawaken'];
             $output['enemylevel'.($i)] = $resultEnemyInfoAssoc['Level'];
             $output['enemyelement'.($i)] = $resultEnemyInfoAssoc['Element'];
