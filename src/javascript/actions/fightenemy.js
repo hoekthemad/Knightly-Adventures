@@ -113,7 +113,7 @@ async function fightEnemy(userStage) {
 
             // Hero attacks enemy.
             let heroAttacksEnemy = await fightEnemyUpdate('hero', res['heroinslot' + heroSelector], res['enemyid' + enemySelector], heroSelector, enemySelector, res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
-            combatStringArray.push(`You did ${heroAttacksEnemy} damage!`);
+            combatStringArray.push(`You did ${heroAttacksEnemy} damage to ${res['enemyname' + enemySelector]}!`);
 
             res['enemyhealth' + enemySelector] -= heroAttacksEnemy;
             jQuery(`#enemyhealthfightcard`).text('H: ' + res['enemyhealth' + enemySelector] + ' / ' + res['enemyhealthmax' + enemySelector]);
@@ -232,7 +232,7 @@ async function fightEnemyUpdate(whoAttack, heroNumber, enemyID, heroSelector, en
         }
     });
 
-    if (res['status'] == true) {
+    if (res2['status'] == true) {
 
         return res2['finaldamage'];
 
