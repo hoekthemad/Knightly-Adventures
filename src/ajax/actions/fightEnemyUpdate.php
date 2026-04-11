@@ -1,10 +1,11 @@
 <?php
 
 $whoAttack = !empty($_REQUEST['attack']) ? $_REQUEST['attack'] : false;
+$stageID = !empty($_REQUEST['stage']) ? $_REQUEST['stage'] : false;
 $heroNumber = !empty($_REQUEST['hero']) ? $_REQUEST['hero'] : false;
 $enemyID = !empty($_REQUEST['enemy']) ? $_REQUEST['enemy'] : false;
-$heroSelector = !empty($_REQUEST['herosel']) ? $_REQUEST['herosel'] : false;
-$enemySelector = !empty($_REQUEST['enemysel']) ? $_REQUEST['enemysel'] : false;
+$heroSelector = !empty($_REQUEST['heros']) ? $_REQUEST['heros'] : false;
+$enemySelector = !empty($_REQUEST['enemys']) ? $_REQUEST['enemys'] : false;
 $heroLineupCount = !empty($_REQUEST['herocount']) ? $_REQUEST['herocount'] : false;
 $enemyLineupCount = !empty($_REQUEST['enemycount']) ? $_REQUEST['enemycount'] : false;
 $attackerLevel = !empty($_REQUEST['attackerl']) ? $_REQUEST['attackerl'] : false;
@@ -13,9 +14,6 @@ $defenderLevel = !empty($_REQUEST['defenderl']) ? $_REQUEST['defenderl'] : false
 $defenderHealth = !empty($_REQUEST['defenderh']) ? $_REQUEST['defenderh'] : false;
 $defenderDefense = !empty($_REQUEST['defenderd']) ? $_REQUEST['defenderd'] : false;
 $uid = !empty($_SESSION['uid']) ? $_SESSION['uid'] : false;
-
-$output['heroSelector'] = $heroSelector;
-$output['enemySelector'] = $enemySelector;
 
 $baseMultiplier = 1.23;
 $levelDifferenceModifier = 1 + (($attackerLevel - $defenderLevel) / 32.23);
@@ -161,12 +159,31 @@ if ($whoAttack === 'hero') {
             // Award EXP to other heroes in party.
         }
 
+        // Last enemy was killed.
+        if ($enemySelector === ($enemyLineupCount)) {
 
-        if ($enemySelector === ($enemyLineupCount - 1)) {
+            // Get user max stage.
+            $getUserMaxStage = $connection->prepare("SELECT * FROM user_account WHERE UserID = ?");
+            $getUserMaxStage->bind_param("i", $uid);
+            $getUserMaxStage->execute();
+            $resultUserMaxStage = $getUserMaxStage->get_result();
+            $resultUserMaxStageAssoc = $resultUserMaxStage->fetch_assoc();
 
-            $output['last_enemy'] = true;
+            $output['Adventure_Stage'] = $resultUserMaxStageAssoc['AdventureStage'];
+            $output['Stage_ID'] = $stageID;
+
+            // User is on their max stage.
+            if ($resultUserMaxStageAssoc['AdventureStage'] === intval($stageID)) {
+                $nextStage = intval($stageID) + 1;
+
+                $getUserMaxStage = $connection->prepare("UPDATE user_account SET AdventureStage = ? WHERE UserID = ?");
+                $getUserMaxStage->bind_param("ii", $nextStage, $uid);
+                $getUserMaxStage->execute(); 
+
+            }
 
         }
+
     }
 }
 else if ($whoAttack === 'enemy') {

@@ -112,7 +112,7 @@ async function fightEnemy(userStage) {
         for (let i = 0; i < roundCount; i++) {
 
             // Hero attacks enemy.
-            let heroAttacksEnemy = await fightEnemyUpdate('hero', res['heroinslot' + heroSelector], res['enemyid' + enemySelector], heroSelector, enemySelector, res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
+            let heroAttacksEnemy = await fightEnemyUpdate('hero', userStage, res['heroinslot' + heroSelector], res['enemyid' + enemySelector], (heroSelector + 1), (enemySelector + 1), res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
             combatStringArray.push(`You did ${heroAttacksEnemy} damage to ${res['enemyname' + enemySelector]}!`);
 
             res['enemyhealth' + enemySelector] -= heroAttacksEnemy;
@@ -208,16 +208,17 @@ async function fightEnemy(userStage) {
     }
 }
 
-async function fightEnemyUpdate(whoAttack, heroNumber, enemyID, heroSelector, enemySelector, heroLineupCount, enemyLineupCount, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
+async function fightEnemyUpdate(whoAttack, stageID, heroNumber, enemyID, heroSelector, enemySelector, heroLineupCount, enemyLineupCount, attackerLevel, attackerAttack, defenderLevel, defenderHealth, defenderDefense) {
     const data = await jQuery.ajax({
         url: "ajax.php?do=fightEnemyUpdate",
         method: "post",
         data: {
             attack: whoAttack,
+            stage: stageID,
             hero: heroNumber,
             enemy: enemyID,
-            herosel: heroSelector,
-            enemysel: enemySelector,
+            heros: heroSelector,
+            enemys: enemySelector,
             herocount: heroLineupCount,
             enemycount: enemyLineupCount,
             attackerl: attackerLevel,

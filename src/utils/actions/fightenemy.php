@@ -9,7 +9,7 @@ function getUserStages() {
     $resultUserAccountAssoc = $resultUserAccount->fetch_assoc();
 
     $getStages = $connection->prepare("SELECT * FROM rule_stage_adventure WHERE Stage <= ? ORDER BY Stage DESC");
-    $getStages->bind_param("i", $resultUserAccountAssoc['QuestStage']);
+    $getStages->bind_param("i", $resultUserAccountAssoc['AdventureStage']);
     $getStages->execute();
     $resultStages = $getStages->get_result();
 
