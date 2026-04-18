@@ -31,6 +31,9 @@ $result = mt_rand($min * $scale, $max * $scale) / $scale;
 
 $damageFinal = ($damageFinal * (0.8 + $result * 0.67));
 $damageFinal = round($damageFinal);
+if ($damageFinal < 1) {
+    $damageFinal = 1;
+}
 if ($damageFinal >= $defenderHealth) {
     $damageFinal = $defenderHealth;
 }
@@ -169,17 +172,100 @@ if ($whoAttack === 'hero') {
             $resultUserMaxStage = $getUserMaxStage->get_result();
             $resultUserMaxStageAssoc = $resultUserMaxStage->fetch_assoc();
 
-            $output['Adventure_Stage'] = $resultUserMaxStageAssoc['AdventureStage'];
-            $output['Stage_ID'] = $stageID;
-
             // User is on their max stage.
             if ($resultUserMaxStageAssoc['AdventureStage'] === intval($stageID)) {
                 $nextStage = intval($stageID) + 1;
 
-                $getUserMaxStage = $connection->prepare("UPDATE user_account SET AdventureStage = ? WHERE UserID = ?");
-                $getUserMaxStage->bind_param("ii", $nextStage, $uid);
-                $getUserMaxStage->execute(); 
+                $setUserMaxStage = $connection->prepare("UPDATE user_account SET AdventureStage = ? WHERE UserID = ?");
+                $setUserMaxStage->bind_param("ii", $nextStage, $uid);
+                $setUserMaxStage->execute(); 
 
+                $output['nextstage'] = $nextStage;
+            }
+
+            $getStage = $connection->prepare("SELECT * FROM rule_stage_adventure WHERE Stage = ?");
+            $getStage->bind_param("i", $stageID);
+            $getStage->execute();
+            $resultStage = $getStage->get_result();
+            $resultStageAssoc = $resultStage->fetch_assoc();
+
+            $dropItemID = [];
+            $dropItemAmount = [];
+
+            for ($i = 1; $i < 7; $i++) {
+
+                $getEnemyDrops = $connection->prepare("SELECT * FROM rule_enemy WHERE EnemyID = ?");
+                $getEnemyDrops->bind_param("i", $resultStageAssoc['Enemy'.$i]);
+                $getEnemyDrops->execute();
+                $resultEnemyDrops = $getEnemyDrops->get_result();
+
+                if ($resultEnemyDrops->num_rows >= 1) {
+                    $resultEnemyDropsAssoc = $resultEnemyDrops->fetch_assoc();
+
+                    // Searches Drop1 -> Drop2 slots. Add more slots in database first!
+                    for ($i2 = 1; $i2 < 3; $i2++) {
+
+                        if ($resultEnemyDropsAssoc['Drop'.$i2]) {
+                            $itemChance = mt_rand(1, 100);
+
+                            if ($itemChance <= intval($resultEnemyDropsAssoc['Drop'.$i2.'Percent'])) {
+                                $dropItemID[$resultEnemyDropsAssoc['Drop'.$i2]] = $resultEnemyDropsAssoc['Drop'.$i2];
+                                $dropItemAmount[$resultEnemyDropsAssoc['Drop'.$i2]] += $resultEnemyDropsAssoc['Drop'.$i2.'Amount'];
+                            }
+
+                        }
+
+                    }
+
+                }
+                else {
+                    $i = 7;
+                }
+
+            }
+
+            for ($i = 0; $i < count($dropItemAmount); $i++) {
+
+                $valueID = array_values($dropItemID);
+                $valueAmount = array_values($dropItemAmount);
+
+                $getItemName = $connection->prepare("SELECT * FROM rule_items WHERE ItemID = ?");
+                $getItemName->bind_param("i", $valueID[$i]);
+                $getItemName->execute();
+                $resultItemName = $getItemName->get_result();
+
+                if ($resultItemName->num_rows >= 1) {
+                    $resultItemNameAssoc = $resultItemName->fetch_assoc();
+
+                    $output['itemName'.$i] = $resultItemNameAssoc['ItemName'];
+
+                }
+
+                $getUserItem = $connection->prepare("SELECT * FROM user_items WHERE UserID = ? AND ItemID = ?");
+                $getUserItem->bind_param("ii", $uid, $valueID[$i]);
+                $getUserItem->execute();
+                $resultUserItem = $getUserItem->get_result();
+
+                if ($resultUserItem->num_rows >= 1) {
+                    $resultUserItemAssoc = $resultUserItem->fetch_assoc();
+
+                    $newAmount = $resultUserItemAssoc['Amount'] + $valueAmount[$i];
+                    $newTotal = $resultUserItemAssoc['Total'] + $valueAmount[$i];
+
+                    $giveUserItems = $connection->prepare("UPDATE user_items SET Amount = ?, Total = ? WHERE UserID = ? AND ItemID = ?");
+                    $giveUserItems->bind_param("iiii", $newAmount, $newTotal, $uid, $valueID[$i]);
+                    $giveUserItems->execute();
+
+                }
+                else {
+
+                    $giveUserItem = $connection->prepare("INSERT INTO user_items (UserID, ItemID, Amount, Total) VALUES (?, ?, ?, ?)");
+                    $giveUserItem->bind_param("iiii", $uid, $valueID[$i], $valueAmount[$i], $valueAmount[$i]);
+                    $giveUserItem->execute();
+
+                }
+
+                $output['itemAmount'.$i] = $valueAmount[$i];
             }
 
         }
@@ -188,4 +274,5 @@ if ($whoAttack === 'hero') {
 }
 else if ($whoAttack === 'enemy') {
     // Enemy is attacking. Update hero database for health.
+    $output['ENEMY_BITCHES'] = true;
 }

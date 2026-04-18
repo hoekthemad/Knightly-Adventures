@@ -112,7 +112,7 @@ async function fightEnemy(userStage) {
         for (let i = 0; i < roundCount; i++) {
 
             // Hero attacks enemy.
-            let heroAttacksEnemy = await fightEnemyUpdate('hero', userStage, res['heroinslot' + heroSelector], res['enemyid' + enemySelector], (heroSelector + 1), (enemySelector + 1), res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + heroSelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
+            let heroAttacksEnemy = await fightEnemyUpdate('hero', userStage, res['heroinslot' + heroSelector], res['enemyid' + enemySelector], (heroSelector + 1), (enemySelector + 1), res['herocount'], res['enemycount'], res['herolevel' + heroSelector], res['heroattack' + heroSelector], res['enemylevel' + enemySelector], res['enemyhealth' + enemySelector], res['enemydefense' + enemySelector]);
             combatStringArray.push(`You did ${heroAttacksEnemy} damage to ${res['enemyname' + enemySelector]}!`);
 
             res['enemyhealth' + enemySelector] -= heroAttacksEnemy;
@@ -129,6 +129,7 @@ async function fightEnemy(userStage) {
 
             // Enemy has been killed
             if (res['enemyhealth' + enemySelector] === 0) {
+
                 combatStringArray.push(`${res['enemyname' + enemySelector]} has been killed!`);
                 combatString = "<div>" + res['enemyname' + enemySelector] + " has been killed!</div>" + combatString;
                 jQuery(`#startfight`).html(combatString);
@@ -181,21 +182,65 @@ async function fightEnemy(userStage) {
                 else {
                     i = roundCount;
 
-                    /// Check if the user can advance a stage.
-
                     combatStringArray.push(`You have beat stage ${userStage}!`);
                     combatString = `<div>You have beat stage ${userStage}!</div>` + combatString;
                     jQuery(`#startfight`).html(combatString);
                     await delay(delaytimer);
 
-                    /// Award item drops here!
+                    for (let i2 = 0; i2 < 100; i2++) {
+                        if (res2['itemAmount' + i2]) {
+                            combatStringArray.push(`You have gained ${res2['itemAmount' + i2]} ${res2['itemName' + i2]}!`);
+                            combatString = `<div>You have gained ${res2['itemAmount' + i2]} ${res2['itemName' + i2]}!</div>` + combatString;
+                            jQuery(`#startfight`).html(combatString);
+                            await delay(delaytimer);
+                        }
+                        else {
+                            i2 = 100;
+                        }
+                    }
+
+                    if (res2['nextstage'] > 1) {
+                        combatStringArray.push(`You can now fight stage ${res2['nextstage']}!`);
+                        combatString = `<div>You can now fight stage ${res2['nextstage']}!</div>` + combatString;
+                        jQuery(`#startfight`).html(combatString);
+                        await delay(delaytimer);
+                    }
                 }
             }
 
+
+
+            console.log('For i 2: ' + i);
+/*
+
+
             // Enemy Attacks
             if (res['enemyhealth' + enemySelector] > 0) {
-                /// Set up later...
+
+                let enemyAttacksHero = await fightEnemyUpdate('enemy', userStage, res['heroinslot' + heroSelector], res['enemyid' + enemySelector], (heroSelector + 1), (enemySelector + 1), res['herocount'], res['enemycount'], res['enemylevel' + enemySelector], res['enemyattack' + enemySelector], res['herolevel' + heroSelector], res['herohealth' + heroSelector], res['herodefense' + heroSelector]);
+
+                combatStringArray.push(`${res['enemyname' + enemySelector]} did ${enemyAttacksHero} damage to you!`);
+                combatString = `<div>${res['enemyname' + enemySelector]} did ${enemyAttacksHero} damage to you!</div>` + combatString;
+
+                jQuery(`#startfight`).html(combatString);
+                res['herohealth' + heroSelector] -= enemyAttacksHero;
+                jQuery(`#herohealthfightcard`).text('H: ' + res['herohealth' + heroSelector] + ' / ' + res['herohealthmax' + heroSelector]);
+
+                await delay(delaytimer);
+
+                if (res['herohealth' + heroSelector] === 0) {
+
+                    // Hero has died.
+
+                }
+
             }
+
+            if (i = (roundCount - 1)) {
+                // Final turn before battle ends.
+            }
+*/
+            console.log('For i 3: ' + i);
 
         }
 

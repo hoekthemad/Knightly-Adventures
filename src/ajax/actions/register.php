@@ -37,18 +37,18 @@ if ($uname && $email && $pword) {
         $timestamp = strtotime(date("u"));
 
         $stmt_insertUserAccount = $connection->prepare("INSERT INTO `user_account` (UserID, Username, CreationTimestamp, InActionTimestamp) VALUES (?, ?, ?, ?)");
-        $stmt_insertUserAccount->bind_param("sssss", $uid, $uname, $timestamp, $timestamp);
+        $stmt_insertUserAccount->bind_param("isss", $uid, $uname, $timestamp, $timestamp);
         $stmt_insertUserAccount->execute();
 
         $stmt_insertUserVillage = $connection->prepare("INSERT INTO `user_village` (UserID, lastgoldclaim, lastgemclaim) VALUES (?, ?, ?)");
-        $stmt_insertUserVillage->bind_param("sss", $uid, $timestamp, $timestamp);
+        $stmt_insertUserVillage->bind_param("iss", $uid, $timestamp, $timestamp);
         $stmt_insertUserVillage->execute();
 
         $heroslot = 1;
         $heroelement = "Normal";
 
         $stmt_insertUserHeroes = $connection->prepare("INSERT INTO `user_heroes` (UserID, Name, CreationTimestamp, HealingTimestamp, HeroNumber, InSlot, Element) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt_insertUserHeroes->bind_param("sssssss", $uid, $uname, $timestamp, $timestamp, $heroslot, $heroslot, $heroelement);
+        $stmt_insertUserHeroes->bind_param("isssiis", $uid, $uname, $timestamp, $timestamp, $heroslot, $heroslot, $heroelement);
         $stmt_insertUserHeroes->execute();
         $output['status'] = true;
     }

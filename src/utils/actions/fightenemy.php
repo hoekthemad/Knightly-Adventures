@@ -13,10 +13,6 @@ function getUserStages() {
     $getStages->execute();
     $resultStages = $getStages->get_result();
 
-
-
-
-
     if ($resultStages->num_rows >= 1) {
         ?>        
         <table class="table table-striped table-hover" id="fightenemytable">
